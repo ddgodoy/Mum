@@ -5,7 +5,7 @@ namespace AppBundle\Services;
 use OAuth2\OAuth2;
 use Symfony\Component\HttpFoundation\Request;
 
-class MUMAuthServer extends OAuth2
+class MUMOAuthServer extends OAuth2
 {
 
     /**

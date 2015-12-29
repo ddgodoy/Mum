@@ -7,7 +7,7 @@ AppBundle\Entity\AuthCode:
             type: string
             length: 255
     manyToOne:
-        user:
+        customer:
             targetEntity: Customer
             joinColumn:
                 name: costumer_id
