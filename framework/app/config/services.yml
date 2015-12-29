@@ -23,10 +23,25 @@ services:
 
     mum.rest.security.authentication.provider:
         class: AppBundle\Security\Authentication\Provider\RestProvider
-        arguments: [""]
+        arguments:
+          - ""
         public: false
 
     mum.rest.security.authentication.listener:
         class: AppBundle\Security\Firewall\RestListener
-        arguments: ["@security.token_storage", "@security.authentication.manager"]
+        arguments:
+          - "@security.token_storage"
+          - "@security.authentication.manager"
         public: false
+
+    mum.twilio:
+        class: AppBundle\Services\Twilio
+        arguments:
+          - "@twilio.api"
+          - "%twilio_send_number%"
+
+    mum.handler.customer.registration:
+        class: AppBundle\Services\CustomerRegistration
+        arguments:
+          - "@mum.twilio"
+          - "@doctrine.orm.entity_manager"

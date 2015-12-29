@@ -1,7 +1,8 @@
 <?php
 
-namespace spec\Customer\Entity;
+namespace spec\Customer\Customer;
 
+use Customer\Registration\RegistrationAttempt;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -9,7 +10,7 @@ class CustomerSpec extends ObjectBehavior
 {
     public function it_is_initializable()
     {
-        $this->shouldHaveType('Customer\Entity\Customer');
+        $this->shouldHaveType('Customer\Customer\Customer');
     }
 
     public function it_is_fosuserbundle_entity()
@@ -27,5 +28,13 @@ class CustomerSpec extends ObjectBehavior
         $id = uniqid();
         $this->beConstructedWith($id);
         $this->getId()->shouldBeLike($id);
+    }
+
+    public function it_should_add_new_registration_attempt()
+    {
+        $registrationAttempt = new RegistrationAttempt();
+        $this->addRegistrationAttempt($registrationAttempt);
+        $this->getRegistrationAttempts()->shouldHaveCount(1);
+        $this->getRegistrationAttempts()[0]->shouldBeLike($registrationAttempt);
     }
 }

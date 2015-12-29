@@ -10,4 +10,30 @@ AppBundle\Entity\Client:
         name:
             type: string
             lenght: 255
+        created:
+            type: date
+            gedmo:
+                timestampable:
+                    on: create
+        updated:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: update
+        deletedAt:
+            type: date
+            nullable: true
+    oneToMany:
+        accessTokens:
+            targetEntity: AccessToken
+            mappedBy: client
+            cascade: ["persist", "merge"]
+        authCodes:
+            targetEntity: AuthCode
+            mappedBy: client
+            cascade: ["persist", "merge"]
+        refreshTokens:
+            targetEntity: RefreshToken
+            mappedBy: client
+            cascade: ["persist", "merge"]
     lifecycleCallbacks: {  }

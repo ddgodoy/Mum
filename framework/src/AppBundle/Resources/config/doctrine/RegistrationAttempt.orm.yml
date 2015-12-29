@@ -1,12 +1,20 @@
-AppBundle\Entity\RefreshToken:
+AppBundle\Entity\RegistrationAttempt:
     type: entity
-    table: refresh_token
+    table: registration_attempt
     id:
         id:
             id: true
             type: string
             length: 255
     fields:
+        status:
+            type: integer
+        token:
+            type: string
+            length: 255
+        smsId:
+            type: string
+            length: 255
         created:
             type: date
             gedmo:
@@ -26,13 +34,9 @@ AppBundle\Entity\RefreshToken:
             joinColumn:
                 name: costumer_id
                 referencedColumnName: id
-            inversedBy: refreshTokens
+            inversedBy: registrationAttempts
             cascade: ["persist", "merge"]
-        client:
-            targetEntity: Client
-            joinColumn:
-                name: client_id
-                referencedColumnName: id
-            inversedBy: refreshTokens
-            cascade: ["persist", "merge"]
-    lifecycleCallbacks: {  }
+    lifecycleCallbacks:
+        prePersist: [ convertStatusToInteger ]
+        postPersist: [ convertStatusFromInteger ]
+        postLoad: [ convertStatusFromInteger ]

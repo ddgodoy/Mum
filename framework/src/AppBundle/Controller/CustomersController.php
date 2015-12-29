@@ -93,10 +93,12 @@ class CustomersController extends FOSRestController implements ClassResourceInte
         $customerForm->handleRequest($request);
 
         if ($customerForm->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($customer);
-            $em->flush();
-            return $customer;
+            $registrationHandler = $this->get('mum.handler.customer.registration');
+            $attempt = $registrationHandler->handle($customer);
+            return [
+                'customer' => $attempt->getCustomer()->getId(),
+                'attempt' => $attempt->getId()
+            ];
         }
 
         return $customerForm->getErrors();

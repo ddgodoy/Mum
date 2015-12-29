@@ -1,6 +1,6 @@
 <?php
 
-namespace Customer\Entity;
+namespace Customer\OAuth;
 
 /**
  * Interface OAuthClientInterface

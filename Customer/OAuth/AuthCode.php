@@ -1,12 +1,14 @@
 <?php
 
-namespace Customer\Entity;
+namespace Customer\OAuth;
+
+use Customer\Customer\CustomerInterface;
 
 /**
- * Class RefreshToken
+ * Class AuthCode
  * @package Customer\Entity
  */
-class RefreshToken implements OAuthTokenInterface
+class AuthCode implements OAuthTokenInterface
 {
     /**
      * @var string
@@ -14,27 +16,27 @@ class RefreshToken implements OAuthTokenInterface
     protected $id;
 
     /**
-     * @var Client
+     * @var OAuthClientInterface
      */
     protected $client;
 
     /**
-     * @var Customer
+     * @var CustomerInterface
      */
     protected $customer;
 
     /**
-     * RefreshToken constructor.
+     * AuthCode constructor.
      * @param null $id
-     * @param Client|null $client
-     * @param Customer|null $customer
+     * @param OAuthClientInterface|null $client
+     * @param CustomerInterface|null $customer
      */
-    public function __construct($id = null, Client $client = null, Customer $customer = null)
+    public function __construct($id = null, OAuthClientInterface $client = null, CustomerInterface $customer = null)
     {
         if ($id) {
             $this->id = $id;
         } else {
-            $this->id = uniqid('mum');
+            $this->id = uniqid();
         }
 
         if ($client) {
@@ -47,7 +49,7 @@ class RefreshToken implements OAuthTokenInterface
     }
 
     /**
-     * @return string
+     * @inheritdoc
      */
     public function getId()
     {
@@ -55,7 +57,7 @@ class RefreshToken implements OAuthTokenInterface
     }
 
     /**
-     * @return Client|null
+     * @inheritdoc
      */
     public function getClient()
     {
@@ -63,7 +65,7 @@ class RefreshToken implements OAuthTokenInterface
     }
 
     /**
-     * @return Customer
+     * @inheritdoc
      */
     public function getCustomer()
     {

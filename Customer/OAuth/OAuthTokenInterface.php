@@ -1,6 +1,8 @@
 <?php
 
-namespace Customer\Entity;
+namespace Customer\OAuth;
+
+use Customer\Customer\CustomerInterface;
 
 /**
  * Interface OAuthTokenInterface
@@ -14,12 +16,12 @@ interface OAuthTokenInterface
     public function getId();
 
     /**
-     * @return Client
+     * @return OAuthClientInterface
      */
     public function getClient();
 
     /**
-     * @return Customer
+     * @return CustomerInterface
      */
     public function getCustomer();
 }

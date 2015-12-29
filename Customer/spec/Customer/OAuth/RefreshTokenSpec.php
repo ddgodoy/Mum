@@ -1,22 +1,22 @@
 <?php
 
-namespace spec\Customer\Entity;
+namespace spec\Customer\OAuth;
 
-use Customer\Entity\Client;
-use Customer\Entity\Customer;
+use Customer\Customer\Customer;
+use Customer\OAuth\Client;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
-class AuthCodeSpec extends ObjectBehavior
+class RefreshTokenSpec extends ObjectBehavior
 {
-    public function it_is_initializable()
+    function it_is_initializable()
     {
-        $this->shouldHaveType('Customer\Entity\AuthCode');
+        $this->shouldHaveType('Customer\OAuth\RefreshToken');
     }
 
     public function it_implement_oauth_token_interface()
     {
-        $this->shouldHaveType('Customer\Entity\OAuthTokenInterface');
+        $this->shouldHaveType('Customer\OAuth\OAuthTokenInterface');
     }
 
     public function it_construct_with_uniqid_and_client()
@@ -25,7 +25,7 @@ class AuthCodeSpec extends ObjectBehavior
         $client = new Client();
         $this->beConstructedWith($id, $client);
         $this->getId()->shouldBeLike($id);
-        $this->getClient()->shouldHaveType('Customer\Entity\Client');
+        $this->getClient()->shouldHaveType('Customer\OAuth\Client');
         $this->getClient()->shouldBeLike($client);
     }
 
@@ -36,9 +36,9 @@ class AuthCodeSpec extends ObjectBehavior
         $customer = new Customer();
         $this->beConstructedWith($id, $client, $customer);
         $this->getId()->shouldBeLike($id);
-        $this->getClient()->shouldHaveType('Customer\Entity\Client');
+        $this->getClient()->shouldHaveType('Customer\OAuth\Client');
         $this->getClient()->shouldBeLike($client);
-        $this->getCustomer()->shouldHaveType('Customer\Entity\Customer');
+        $this->getCustomer()->shouldHaveType('Customer\Customer\Customer');
         $this->getCustomer()->shouldBeLike($customer);
     }
 }

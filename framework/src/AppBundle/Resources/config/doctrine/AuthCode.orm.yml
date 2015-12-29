@@ -6,15 +6,33 @@ AppBundle\Entity\AuthCode:
             id: true
             type: string
             length: 255
+    fields:
+        created:
+            type: date
+            gedmo:
+                timestampable:
+                    on: create
+        updated:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: update
+        deletedAt:
+            type: date
+            nullable: true
     manyToOne:
         customer:
             targetEntity: Customer
             joinColumn:
                 name: costumer_id
                 referencedColumnName: id
+            inversedBy: authCodes
+            cascade: ["persist", "merge"]
         client:
             targetEntity: Client
             joinColumn:
                 name: client_id
                 referencedColumnName: id
+            inversedBy: authCodes
+            cascade: ["persist", "merge"]
     lifecycleCallbacks: {  }

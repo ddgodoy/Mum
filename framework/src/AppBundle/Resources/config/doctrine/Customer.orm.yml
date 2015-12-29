@@ -7,4 +7,35 @@ AppBundle\Entity\Customer:
             id: true
             type: string
             length: 255
+    fields:
+        created:
+            type: date
+            gedmo:
+                timestampable:
+                    on: create
+        updated:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: update
+        deletedAt:
+            type: date
+            nullable: true
+    oneToMany:
+        registrationAttempts:
+            targetEntity: RegistrationAttempt
+            mappedBy: customer
+            cascade: ["persist", "merge"]
+        accessTokens:
+            targetEntity: AccessToken
+            mappedBy: customer
+            cascade: ["persist", "merge"]
+        authCodes:
+            targetEntity: AuthCode
+            mappedBy: customer
+            cascade: ["persist", "merge"]
+        refreshTokens:
+            targetEntity: RefreshToken
+            mappedBy: customer
+            cascade: ["persist", "merge"]
     lifecycleCallbacks: {  }

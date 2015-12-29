@@ -1,6 +1,8 @@
 <?php
 
-namespace Customer\Entity;
+namespace Customer\OAuth;
+
+use Customer\Customer\CustomerInterface;
 
 /**
  * Class AccessToken
@@ -14,22 +16,22 @@ class AccessToken implements OAuthTokenInterface
     protected $id;
 
     /**
-     * @var Client
+     * @var OAuthClientInterface
      */
     protected $client;
 
     /**
-     * @var Customer
+     * @var CustomerInterface
      */
     protected $customer;
 
     /**
      * AccessToken constructor.
      * @param null $id
-     * @param Client|null $client
-     * @param Customer|null $customer
+     * @param OAuthClientInterface|null $client
+     * @param CustomerInterface|null $customer
      */
-    public function __construct($id = null, Client $client = null, Customer $customer = null)
+    public function __construct($id = null, OAuthClientInterface $client = null, CustomerInterface $customer = null)
     {
         if ($id) {
             $this->id = $id;
@@ -47,7 +49,7 @@ class AccessToken implements OAuthTokenInterface
     }
 
     /**
-     * @return string
+     * @inheritdoc
      */
     public function getId()
     {
@@ -55,7 +57,7 @@ class AccessToken implements OAuthTokenInterface
     }
 
     /**
-     * @return Client|null
+     * @inheritdoc
      */
     public function getClient()
     {
@@ -63,7 +65,7 @@ class AccessToken implements OAuthTokenInterface
     }
 
     /**
-     * @return Customer
+     * @inheritdoc
      */
     public function getCustomer()
     {

@@ -22,6 +22,8 @@ class AppKernel extends Kernel
             new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
             new Bazinga\Bundle\HateoasBundle\BazingaHateoasBundle(),
             new FOS\OAuthServerBundle\FOSOAuthServerBundle(),
+            new Vresh\TwilioBundle\VreshTwilioBundle(),
+            new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
 
             new AppBundle\AppBundle(),
         );
