@@ -1,0 +1,13 @@
+AppBundle\Entity\Client:
+    type: entity
+    table: client
+    id:
+        id:
+            id: true
+            type: string
+            length: 255
+    fields:
+        name:
+            type: string
+            lenght: 255
+    lifecycleCallbacks: {  }

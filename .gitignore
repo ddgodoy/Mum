@@ -1,16 +1,19 @@
-/app/config/parameters.yml
-/build/
-/phpunit.xml
-/var/*
-!/var/cache
-/var/cache/*
-!var/cache/.gitkeep
-!/var/logs
-/var/logs/*
-!var/logs/.gitkeep
-!/var/sessions
-/var/sessions/*
-!var/sessions/.gitkeep
-!var/SymfonyRequirements.php
-/vendor/
-/web/bundles/
+# Cache and logs (Symfony3)
+/framework/var/cache/*
+/framework/var/logs/*
+!framework/framework/var/cache/.gitkeep
+!framework/framework/var/logs/.gitkeep
+
+# Parameters
+/framework/app/config/parameters.yml
+
+# Managed by Composer
+/framework/var/bootstrap.php.cache
+/framework/bin/*
+!framework/bin/console
+!framework/bin/symfony_requirements
+/framework/vendor/
+
+# Assets and user uploads
+/framework/web/bundles/
+/framework/web/uploads/
