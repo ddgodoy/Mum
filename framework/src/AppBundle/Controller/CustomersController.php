@@ -6,15 +6,16 @@ use AppBundle\Entity\Customer;
 use AppBundle\Entity\RegistrationAttempt;
 use AppBundle\Form\CustomerType;
 use AppBundle\ResponseObjects\Customer as ResponseCustomer;
+use AppBundle\ResponseObjects\CustomerAuth;
 use Customer\Registration\RegistrationAttemptStatusSent;
 use FOS\RestBundle\Controller\Annotations as FOSRestBundleAnnotations;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Routing\ClassResourceInterface;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Class CustomersController
@@ -155,9 +156,6 @@ class CustomersController extends FOSRestController implements ClassResourceInte
         $registrationHandler = $this->get('mum.handler.customer.registration');
         $registrationHandler->confirm($customer, $registrationAttempt);
 
-        return [
-            'username' => $customer->getUsername(),
-            'password' => $customer->getPassword()
-        ];
+        return new CustomerAuth($customer);
     }
 }
