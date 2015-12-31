@@ -14,6 +14,7 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Class CustomersController
@@ -30,6 +31,8 @@ class CustomersController extends FOSRestController implements ClassResourceInte
      *
      * @param Customer $customer
      * @return Customer
+     *
+     * @Security("has_role('ROLE_USER')")
      *
      * @ApiDoc(
      *  section="Customer",
