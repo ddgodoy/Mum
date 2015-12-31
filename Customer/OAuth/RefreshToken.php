@@ -3,12 +3,14 @@
 namespace Customer\OAuth;
 
 use Customer\Customer\CustomerInterface;
+use FOS\OAuthServerBundle\Entity\RefreshToken as BaseRefreshToken;
 
 /**
  * Class RefreshToken
+ *
  * @package Customer\Entity
  */
-class RefreshToken implements OAuthTokenInterface
+class RefreshToken extends BaseRefreshToken implements OAuthTokenInterface
 {
     /**
      * @var string

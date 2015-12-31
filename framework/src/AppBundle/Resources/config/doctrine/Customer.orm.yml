@@ -28,14 +28,19 @@ AppBundle\Entity\Customer:
             cascade: ["persist", "merge"]
         accessTokens:
             targetEntity: AccessToken
-            mappedBy: customer
+            mappedBy: user
             cascade: ["persist", "merge"]
         authCodes:
             targetEntity: AuthCode
-            mappedBy: customer
+            mappedBy: user
             cascade: ["persist", "merge"]
         refreshTokens:
             targetEntity: RefreshToken
+            mappedBy: user
+            cascade: ["persist", "merge"]
+    oneToOne:
+        profile:
+            targetEntity: CustomerProfile
             mappedBy: customer
             cascade: ["persist", "merge"]
     lifecycleCallbacks: {  }

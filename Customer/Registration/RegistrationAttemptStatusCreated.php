@@ -2,6 +2,11 @@
 
 namespace Customer\Registration;
 
+/**
+ * Class RegistrationAttemptStatusCreated
+ *
+ * @package Customer\Registration
+ */
 class RegistrationAttemptStatusCreated implements RegistrationAttemptStatusInterface
 {
     /**

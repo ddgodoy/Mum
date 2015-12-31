@@ -4,6 +4,7 @@ namespace Customer\OAuth;
 
 /**
  * Interface RefreshTokenAwareInterface
+ *
  * @package Customer\OAuth
  */
 interface RefreshTokenAwareInterface

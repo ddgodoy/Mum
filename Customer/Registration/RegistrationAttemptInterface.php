@@ -4,6 +4,11 @@ namespace Customer\Registration;
 
 use Customer\Customer\CustomerInterface;
 
+/**
+ * Interface RegistrationAttemptInterface
+ *
+ * @package Customer\Registration
+ */
 interface RegistrationAttemptInterface
 {
     /**

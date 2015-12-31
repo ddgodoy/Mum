@@ -9,17 +9,40 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Http\Firewall\ListenerInterface;
 
+/**
+ * Class RestListener
+ *
+ * @package AppBundle\Security\Firewall
+ */
 class RestListener implements ListenerInterface
 {
+    /**
+     * @var TokenStorageInterface
+     */
     protected $tokenStorage;
+
+    /**
+     * @var AuthenticationManagerInterface
+     */
     protected $authenticationManager;
 
+    /**
+     * RestListener constructor.
+     *
+     * @param TokenStorageInterface $tokenStorage
+     * @param AuthenticationManagerInterface $authenticationManager
+     */
     public function __construct(TokenStorageInterface $tokenStorage, AuthenticationManagerInterface $authenticationManager)
     {
         $this->tokenStorage = $tokenStorage;
         $this->authenticationManager = $authenticationManager;
     }
 
+    /**
+     * Handle authentication attempt
+     *
+     * @param GetResponseEvent $event
+     */
     public function handle(GetResponseEvent $event)
     {
         $request = $event->getRequest();

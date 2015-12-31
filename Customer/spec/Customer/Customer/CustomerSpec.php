@@ -2,6 +2,7 @@
 
 namespace spec\Customer\Customer;
 
+use Customer\Customer\CustomerProfile;
 use Customer\Registration\RegistrationAttempt;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
@@ -27,7 +28,7 @@ class CustomerSpec extends ObjectBehavior
     {
         $id = uniqid();
         $this->beConstructedWith($id);
-        $this->getId()->shouldBeLike($id);
+        $this->getId()->shouldBe($id);
     }
 
     public function it_should_add_new_registration_attempt()
@@ -35,6 +36,15 @@ class CustomerSpec extends ObjectBehavior
         $registrationAttempt = new RegistrationAttempt();
         $this->addRegistrationAttempt($registrationAttempt);
         $this->getRegistrationAttempts()->shouldHaveCount(1);
-        $this->getRegistrationAttempts()[0]->shouldBeLike($registrationAttempt);
+        $this->getRegistrationAttempts()[0]->shouldBe($registrationAttempt);
+    }
+
+    public function it_should_store_a_profile()
+    {
+        $profile = new CustomerProfile();
+        $profile->setAvatarURL('www.avatar.com');
+        $profile->setDisplayName('Display Name');
+        $this->setProfile($profile);
+        $this->getProfile()->shouldBe($profile);
     }
 }

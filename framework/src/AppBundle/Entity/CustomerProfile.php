@@ -2,14 +2,14 @@
 
 namespace AppBundle\Entity;
 
-use Customer\OAuth\Client as BaseClient;
+use Customer\Customer\CustomerProfile as CustomerProfileBase;
 
 /**
- * Class Client
+ * Class CustomerProfile
  *
  * @package AppBundle\Entity
  */
-class Client extends BaseClient
+class CustomerProfile extends CustomerProfileBase
 {
     /**
      * @var \DateTime
@@ -27,14 +27,6 @@ class Client extends BaseClient
     protected $deletedAt;
 
     /**
-     * @return \DateTime
-     */
-    public function getCreated()
-    {
-        return $this->created;
-    }
-
-    /**
      * @param \DateTime $created
      */
     public function setCreated($created)
@@ -45,9 +37,9 @@ class Client extends BaseClient
     /**
      * @return \DateTime
      */
-    public function getUpdated()
+    public function getCreated()
     {
-        return $this->updated;
+        return $this->created;
     }
 
     /**
@@ -61,9 +53,9 @@ class Client extends BaseClient
     /**
      * @return \DateTime
      */
-    public function getDeletedAt()
+    public function getUpdated()
     {
-        return $this->deletedAt;
+        return $this->updated;
     }
 
     /**
@@ -72,5 +64,13 @@ class Client extends BaseClient
     public function setDeletedAt($deletedAt)
     {
         $this->deletedAt = $deletedAt;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getDeletedAt()
+    {
+        return $this->deletedAt;
     }
 }

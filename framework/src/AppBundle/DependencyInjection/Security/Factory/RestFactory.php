@@ -8,8 +8,23 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\DefinitionDecorator;
 use Symfony\Component\DependencyInjection\Reference;
 
+/**
+ * Class RestFactory
+ *
+ * @package AppBundle\DependencyInjection\Security\Factory
+ */
 class RestFactory implements SecurityFactoryInterface
 {
+    /**
+     * Inject the REST authenticator
+     *
+     * @param ContainerBuilder $container
+     * @param $id
+     * @param $config
+     * @param $userProvider
+     * @param $defaultEntryPoint
+     * @return array
+     */
     public function create(ContainerBuilder $container, $id, $config, $userProvider, $defaultEntryPoint)
     {
         $providerId = 'security.authentication.provider.rest.' . $id;
@@ -23,16 +38,25 @@ class RestFactory implements SecurityFactoryInterface
         return array($providerId, $listenerId, $defaultEntryPoint);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getPosition()
     {
         return 'pre_auth';
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getKey()
     {
         return 'rest';
     }
 
+    /**
+     * @inheritdoc
+     */
     public function addConfiguration(NodeDefinition $node)
     {
     }

@@ -22,7 +22,7 @@ class ClientSpec extends ObjectBehavior
         $id = uniqid();
         $name = 'Test Client';
         $this->beConstructedWith($id, $name);
-        $this->getId()->shouldBeLike($id);
-        $this->getName()->shouldBeLike($name);
+        $this->getId()->shouldBe($id);
+        $this->getName()->shouldBe($name);
     }
 }

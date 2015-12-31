@@ -34,7 +34,6 @@ class CreateOAuthClientCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $container = $this->getContainer();
-        $oauthServer = $container->get('fos_oauth_server.server');
 
         $name = $input->getArgument('name');
         $redirectUri = $input->getArgument('redirectUri');
@@ -47,25 +46,10 @@ class CreateOAuthClientCommand extends ContainerAwareCommand
         $client->setAllowedGrantTypes([$grantType]);
         $clientManager->updateClient($client);
 
-        $output->writeln(sprintf("<info>The client <comment>%s</comment> was created with <comment>%s</comment> as public id and <comment>%s</comment> as secret</info>",
+        $text = "<info>The client <comment>%s</comment> was created with <comment>%s</comment> as public id and <comment>%s</comment> as secret</info>";
+        $output->writeln(sprintf($text,
             $client->getName(),
             $client->getPublicId(),
             $client->getSecret()));
-
-        $customers = $container->get('doctrine')->getRepository('AppBundle:Customer')->findAll();
-
-        foreach ($customers as $customer) {
-            $queryData = [];
-            $queryData['client_id'] = $client->getPublicId();
-            $queryData['redirect_uri'] = $client->getRedirectUris()[0];
-            $queryData['response_type'] = 'code';
-            $authRequest = new Request($queryData);
-
-            $oauthServer->finishClientAuthorization(true, $customer, $authRequest, $grantType);
-
-            $output->writeln(sprintf("<info>Customer <comment>%s</comment> linked to client <comment>%s</comment></info>",
-                $customer->getId(),
-                $client->getName()));
-        }
     }
 }

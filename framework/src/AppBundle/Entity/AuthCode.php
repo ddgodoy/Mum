@@ -4,6 +4,11 @@ namespace AppBundle\Entity;
 
 use Customer\OAuth\AuthCode as BaseAuthCode;
 
+/**
+ * Class AuthCode
+ *
+ * @package AppBundle\Entity
+ */
 class AuthCode extends BaseAuthCode
 {
     /**

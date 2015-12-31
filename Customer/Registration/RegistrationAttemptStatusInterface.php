@@ -2,6 +2,11 @@
 
 namespace Customer\Registration;
 
+/**
+ * Interface RegistrationAttemptStatusInterface
+ *
+ * @package Customer\Registration
+ */
 interface RegistrationAttemptStatusInterface
 {
     /**

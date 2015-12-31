@@ -4,6 +4,7 @@ namespace Customer\OAuth;
 
 /**
  * Interface OAuthClientInterface
+ *
  * @package Customer\Entity
  */
 interface OAuthClientInterface

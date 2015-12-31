@@ -4,6 +4,11 @@ namespace AppBundle\Entity;
 
 use Customer\OAuth\RefreshToken as BaseRefreshToken;
 
+/**
+ * Class RefreshToken
+ *
+ * @package AppBundle\Entity
+ */
 class RefreshToken extends BaseRefreshToken
 {
     /**

@@ -22,7 +22,7 @@ class RegistrationAttemptSpec extends ObjectBehavior
     {
         $id = uniqid();
         $this->beConstructedWith($id);
-        $this->getId()->shouldBeLike($id);
+        $this->getId()->shouldBe($id);
     }
 
     public function it_should_have_an_integer_as_token()
@@ -37,24 +37,24 @@ class RegistrationAttemptSpec extends ObjectBehavior
 
     public function it_should_flow_the_status()
     {
-        $this->getStatus()->shouldBeLike(1);
+        $this->getStatus()->shouldBe(1);
         $this->nextStatus();
-        $this->getStatus()->shouldBeLike(2);
+        $this->getStatus()->shouldBe(2);
         $this->nextStatus();
-        $this->getStatus()->shouldBeLike(3);
+        $this->getStatus()->shouldBe(3);
     }
 
     public function it_should_set_sms_id()
     {
         $this->setSMSId('1234567890');
-        $this->getSMSId()->shouldBeLike('1234567890');
+        $this->getSMSId()->shouldBe('1234567890');
     }
 
     public function it_should_set_customer()
     {
         $customer = new Customer();
         $this->setCustomer($customer);
-        $this->getCustomer()->shouldBeLike($customer);
+        $this->getCustomer()->shouldBe($customer);
     }
 
     public function getMatchers()

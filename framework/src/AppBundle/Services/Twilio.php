@@ -6,7 +6,8 @@ use Vresh\TwilioBundle\Service\TwilioWrapper;
 
 /**
  * Class Twilio
- * @package framework\src\AppBundle\Services
+ *
+ * @package AppBundle\Services
  */
 class Twilio
 {

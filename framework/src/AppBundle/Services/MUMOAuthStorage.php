@@ -7,8 +7,21 @@ use FOS\OAuthServerBundle\Storage\OAuthStorage as OAuthStorageBase;
 use OAuth2\Model\IOAuth2Client;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
+/**
+ * Class MUMOAuthStorage
+ *
+ * @package AppBundle\Services
+ */
 class MUMOAuthStorage extends OAuthStorageBase
 {
+    /**
+     * Check if credentials are valid
+     *
+     * @param IOAuth2Client $client
+     * @param string $username
+     * @param string $password
+     * @return array|bool
+     */
     public function checkUserCredentials(IOAuth2Client $client, $username, $password)
     {
         if (!$client instanceof ClientInterface) {

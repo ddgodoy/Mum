@@ -3,12 +3,14 @@
 namespace Customer\OAuth;
 
 use Customer\Customer\CustomerInterface;
+use FOS\OAuthServerBundle\Entity\AccessToken as BaseAccessToken;
 
 /**
  * Class AccessToken
+ *
  * @package Customer\Entity
  */
-class AccessToken implements OAuthTokenInterface
+class AccessToken extends BaseAccessToken implements OAuthTokenInterface
 {
     /**
      * @var string

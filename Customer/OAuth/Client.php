@@ -2,11 +2,15 @@
 
 namespace Customer\OAuth;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use FOS\OAuthServerBundle\Entity\Client as BaseClient;
+
 /**
  * Class Client
+ *
  * @package Customer\Entity
  */
-class Client implements OAuthClientInterface
+class Client extends BaseClient implements OAuthClientInterface
 {
     /**
      * @var string
@@ -51,6 +55,7 @@ class Client implements OAuthClientInterface
         $this->accessTokens = new ArrayCollection();
         $this->authCodes = new ArrayCollection();
         $this->refreshTokens = new ArrayCollection();
+        parent::__construct();
     }
 
     /**

@@ -1,18 +1,16 @@
-AppBundle\Entity\RegistrationAttempt:
+AppBundle\Entity\CustomerProfile:
     type: entity
-    table: registration_attempt
+    table: customer_profile
     id:
         id:
             id: true
             type: string
             length: 255
     fields:
-        status:
-            type: integer
-        token:
+        avatarURL:
             type: string
             length: 255
-        smsId:
+        displayName:
             type: string
             length: 255
         created:
@@ -28,17 +26,11 @@ AppBundle\Entity\RegistrationAttempt:
         deletedAt:
             type: date
             nullable: true
-    manyToOne:
+    oneToOne:
         customer:
             targetEntity: Customer
             joinColumn:
                 name: costumer_id
                 referencedColumnName: id
-            inversedBy: registrationAttempts
+            inversedBy: profile
             cascade: ["persist", "merge"]
-    lifecycleCallbacks:
-        prePersist: [ convertStatusToInteger ]
-        postPersist: [ convertStatusFromInteger ]
-        postLoad: [ convertStatusFromInteger ]
-        preUpdate: [ convertStatusToInteger ]
-        postUpdate: [ convertStatusFromInteger ]

@@ -3,12 +3,14 @@
 namespace Customer\OAuth;
 
 use Customer\Customer\CustomerInterface;
+use FOS\OAuthServerBundle\Entity\AuthCode as BaseAuthCode;
 
 /**
  * Class AuthCode
+ *
  * @package Customer\Entity
  */
-class AuthCode implements OAuthTokenInterface
+class AuthCode extends BaseAuthCode implements OAuthTokenInterface
 {
     /**
      * @var string

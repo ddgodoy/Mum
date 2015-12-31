@@ -24,9 +24,9 @@ class AccessTokenSpec extends ObjectBehavior
         $id = uniqid();
         $client = new Client();
         $this->beConstructedWith($id, $client);
-        $this->getId()->shouldBeLike($id);
+        $this->getId()->shouldBe($id);
         $this->getClient()->shouldHaveType('Customer\OAuth\Client');
-        $this->getClient()->shouldBeLike($client);
+        $this->getClient()->shouldBe($client);
     }
 
     public function it_construct_with_uniqid_client_and_customer()
@@ -35,10 +35,10 @@ class AccessTokenSpec extends ObjectBehavior
         $client = new Client();
         $customer = new Customer();
         $this->beConstructedWith($id, $client, $customer);
-        $this->getId()->shouldBeLike($id);
+        $this->getId()->shouldBe($id);
         $this->getClient()->shouldHaveType('Customer\OAuth\Client');
-        $this->getClient()->shouldBeLike($client);
+        $this->getClient()->shouldBe($client);
         $this->getCustomer()->shouldHaveType('Customer\Customer\Customer');
-        $this->getCustomer()->shouldBeLike($customer);
+        $this->getCustomer()->shouldBe($customer);
     }
 }

@@ -14,6 +14,7 @@ use FOS\UserBundle\Model\User as BaseUser;
 
 /**
  * Class Customer
+ *
  * @package Customer\Entity
  */
 class Customer extends BaseUser implements CustomerInterface,
@@ -46,6 +47,11 @@ class Customer extends BaseUser implements CustomerInterface,
      * @var array
      */
     protected $refreshTokens;
+
+    /**
+     * @var CustomerProfile
+     */
+    protected $profile;
 
     /**
      * Customer constructor.
@@ -134,5 +140,25 @@ class Customer extends BaseUser implements CustomerInterface,
     public function getRefreshTokens()
     {
         return $this->refreshTokens;
+    }
+
+    /**
+     * Set the profile
+     *
+     * @param CustomerProfile $customerProfile
+     */
+    public function setProfile(CustomerProfile $customerProfile)
+    {
+        $this->profile = $customerProfile;
+    }
+
+    /**
+     * Get the profile
+     *
+     * @return CustomerProfile
+     */
+    public function getProfile()
+    {
+        return $this->profile;
     }
 }

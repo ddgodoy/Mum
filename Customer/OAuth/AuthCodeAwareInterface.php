@@ -4,6 +4,7 @@ namespace Customer\OAuth;
 
 /**
  * Interface AuthCodeAwareInterface
+ *
  * @package Customer\OAuth
  */
 interface AuthCodeAwareInterface

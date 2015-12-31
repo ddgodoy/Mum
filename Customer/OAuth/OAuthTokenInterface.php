@@ -6,6 +6,7 @@ use Customer\Customer\CustomerInterface;
 
 /**
  * Interface OAuthTokenInterface
+ *
  * @package Customer\Entity
  */
 interface OAuthTokenInterface

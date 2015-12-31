@@ -21,7 +21,7 @@ AppBundle\Entity\AuthCode:
             type: date
             nullable: true
     manyToOne:
-        customer:
+        user:
             targetEntity: Customer
             joinColumn:
                 name: costumer_id

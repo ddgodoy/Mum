@@ -6,12 +6,11 @@ use Customer\Registration\RegistrationAttempt as BaseRegistrationAttempt;
 use Customer\Registration\RegistrationAttemptStatusConfirmed;
 use Customer\Registration\RegistrationAttemptStatusCreated;
 use Customer\Registration\RegistrationAttemptStatusSent;
-use JMS\Serializer\Annotation as Serializer;
 
 /**
- * Registration Attempt ORM Entity
+ * Class RegistrationAttempt
  *
- * @Serializer\XmlRoot("registration_attempt")
+ * @package AppBundle\Entity
  */
 class RegistrationAttempt extends BaseRegistrationAttempt
 {
@@ -79,7 +78,7 @@ class RegistrationAttempt extends BaseRegistrationAttempt
     }
 
     /**
-     * PrePersist convert the status object to integer
+     * PrePersist and PreUpdate convert the status object to integer
      */
     public function convertStatusToInteger()
     {
@@ -87,7 +86,7 @@ class RegistrationAttempt extends BaseRegistrationAttempt
     }
 
     /**
-     * PostPersist and PostLoad convert the status from integer
+     * PostPersist, PostUpdate and PostLoad convert the status from integer
      */
     public function convertStatusFromInteger()
     {

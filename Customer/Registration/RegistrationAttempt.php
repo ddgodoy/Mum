@@ -4,6 +4,11 @@ namespace Customer\Registration;
 
 use Customer\Customer\CustomerInterface;
 
+/**
+ * Class RegistrationAttempt
+ *
+ * @package Customer\Registration
+ */
 class RegistrationAttempt implements RegistrationAttemptInterface
 {
     /**
@@ -82,14 +87,6 @@ class RegistrationAttempt implements RegistrationAttemptInterface
     /**
      * @inheritdoc
      */
-    public function setSMSId($id)
-    {
-        $this->smsId = $id;
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function getSMSId()
     {
         return $this->smsId;
@@ -98,9 +95,9 @@ class RegistrationAttempt implements RegistrationAttemptInterface
     /**
      * @inheritdoc
      */
-    public function setCustomer(CustomerInterface $customer)
+    public function setSMSId($id)
     {
-        $this->customer = $customer;
+        $this->smsId = $id;
     }
 
     /**
@@ -109,5 +106,13 @@ class RegistrationAttempt implements RegistrationAttemptInterface
     public function getCustomer()
     {
         return $this->customer;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setCustomer(CustomerInterface $customer)
+    {
+        $this->customer = $customer;
     }
 }

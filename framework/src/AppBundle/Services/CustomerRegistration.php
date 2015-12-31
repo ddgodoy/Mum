@@ -4,11 +4,14 @@ namespace AppBundle\Services;
 
 use AppBundle\Entity\Customer;
 use AppBundle\Entity\RegistrationAttempt;
+use Customer\Customer\CustomerInterface;
+use Customer\Registration\RegistrationAttemptInterface;
 use Customer\Registration\RegistrationHandler;
 use Doctrine\ORM\EntityManager;
 
 /**
  * Class CustomerRegistration
+ *
  * @package framework\src\AppBundle\Services
  */
 class CustomerRegistration
@@ -32,17 +35,17 @@ class CustomerRegistration
     }
 
     /**
-     * Handler the registration attempt
+     * Register new customer
      *
-     * @param Customer $customer
+     * @param CustomerInterface $customer
      * @return Customer
      */
-    public function handle(Customer $customer)
+    public function register(CustomerInterface $customer)
     {
         // perform business registration
         $registrationAttempt = new RegistrationAttempt();
         $handler = new RegistrationHandler();
-        $handler->handle($customer, $registrationAttempt);
+        $handler->register($customer, $registrationAttempt);
 
         // send confirmation token by sms
         $attempts = $customer->getRegistrationAttempts();
@@ -52,6 +55,7 @@ class CustomerRegistration
         $messageId = $this->twilio->sendToNumber($message, $to);
         $attempt->setSMSId($messageId);
         $attempt->setCustomer($customer);
+        $registrationAttempt->nextStatus();
 
         // store
         $customers = $this->em->getRepository('AppBundle:Customer')->findByUsername($customer->getUsername());
@@ -68,5 +72,27 @@ class CustomerRegistration
         }
 
         return $attempt;
+    }
+
+    /**
+     * Confirm the customer by its attempt
+     *
+     * @param CustomerInterface $customer
+     * @param RegistrationAttemptInterface $registrationAttempt
+     * @return mixed|false
+     */
+    public function confirm(CustomerInterface $customer, RegistrationAttemptInterface $registrationAttempt)
+    {
+        $handler = new RegistrationHandler();
+        $response = $handler->confirm($customer, $registrationAttempt);
+        if (!is_array($response) && $response === false) {
+            return $response;
+        } else {
+            $customer = $response;
+
+            $this->em->flush();
+
+            return $customer;
+        }
     }
 }
