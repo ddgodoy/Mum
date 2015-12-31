@@ -7,6 +7,7 @@ use AppBundle\Entity\RegistrationAttempt;
 use AppBundle\Form\CustomerType;
 use AppBundle\ResponseObjects\Customer as ResponseCustomer;
 use AppBundle\ResponseObjects\CustomerAuth;
+use AppBundle\ResponseObjects\CustomerRegistration;
 use Customer\Registration\RegistrationAttemptStatusSent;
 use FOS\RestBundle\Controller\Annotations as FOSRestBundleAnnotations;
 use FOS\RestBundle\Controller\FOSRestController;
@@ -90,10 +91,7 @@ class CustomersController extends FOSRestController implements ClassResourceInte
         if ($customerForm->isValid()) {
             $registrationHandler = $this->get('mum.handler.customer.registration');
             $attempt = $registrationHandler->register($customer);
-            return [
-                'customer' => $attempt->getCustomer()->getId(),
-                'attempt' => $attempt->getId()
-            ];
+            return new CustomerRegistration($customer, $attempt);
         }
 
         return $customerForm->getErrors();
