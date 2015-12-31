@@ -17,6 +17,12 @@ parameters:
 
     # A secret key that's used to generate certain security-related tokens
     secret:                 ThisTokenIsNotSoSecretChangeIt
+
+    # twilio integration
     twilio_sid:             AC89d69f404ca2df019946c87b6aeb3b00
     twilio_token:           861b30ce16b3510dd8cbc661ead99049
     twilio_send_number:     "+15714140112"
+
+    # avatar file store
+    customer_avatar_base_path: uploads/customer/avatar/
+    customer_avatar_base_url: http://127.0.0.1/

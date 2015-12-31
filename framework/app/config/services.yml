@@ -45,3 +45,10 @@ services:
         arguments:
           - "@mum.twilio"
           - "@doctrine.orm.entity_manager"
+
+    mum.handler.customer.profile:
+        class: AppBundle\Services\CustomerProfile
+        arguments:
+          - "%customer_avatar_base_path%"
+          - "%customer_avatar_base_url%"
+          - "@doctrine.orm.entity_manager"
