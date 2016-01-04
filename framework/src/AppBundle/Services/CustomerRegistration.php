@@ -42,6 +42,13 @@ class CustomerRegistration
      */
     public function register(CustomerInterface $customer)
     {
+        // try to find an already registered customer
+        $customers = $this->em->getRepository('AppBundle:Customer')->findByUsername($customer->getUsername());
+        // if the user is already registered use it
+        if (count($customers)) {
+            $customer = $customers[0];
+        }
+
         // perform business registration
         $registrationAttempt = new RegistrationAttempt();
         $handler = new RegistrationHandler();
@@ -58,20 +65,15 @@ class CustomerRegistration
         $registrationAttempt->nextStatus();
 
         // store
-        $customers = $this->em->getRepository('AppBundle:Customer')->findByUsername($customer->getUsername());
-        // if the user is already registered just register the attempt
-        if (count($customers)) {
-            $customer = $customers[0];
-            $attempt->setCustomer($customer);
-            $this->em->persist($attempt);
-            $this->em->flush();
-        } // otherwise register the whole customer attempt relation
-        else {
-            $this->em->persist($customer);
-            $this->em->flush();
-        }
+        $this->em->persist($customer);
+        $attempt->setCustomer($customer);
+        $this->em->persist($attempt);
+        $this->em->flush();
 
-        return $attempt;
+        return [
+            'customer' => $customer,
+            'attempt' => $attempt
+        ];
     }
 
     /**

@@ -59,8 +59,8 @@ class CustomersController extends FOSRestController implements ClassResourceInte
 
         if ($customerForm->isValid()) {
             $registrationHandler = $this->get('mum.handler.customer.registration');
-            $attempt = $registrationHandler->register($customer);
-            return new CustomerRegistration($customer, $attempt);
+            $response = $registrationHandler->register($customer);
+            return new CustomerRegistration($response['customer'], $response['attempt']);
         }
 
         return $customerForm->getErrors();
