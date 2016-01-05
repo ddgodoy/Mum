@@ -52,24 +52,26 @@ class CustomerProfile
      * @param string $mimeType
      * @return bool
      */
-    public function update(CustomerInterface $customer, CustomerProfileInterface $customerProfile, $avatarData, $mimeType)
+    public function update(CustomerInterface $customer, CustomerProfileInterface $customerProfile, $avatarData = null, $mimeType = 'jpeg')
     {
-        $fileName = uniqid(sprintf('customer%sAvatar', $customer->getId()));
-        $fileFullName = sprintf('%s.%s', $fileName, $mimeType);
-        // if the profile already has an avatar use the same file and replace it
-        $currentName = $customerProfile->getAvatarURL();
-        if ($currentName) {
-            $base = sprintf('%s%s', $this->avatarBaseURL, $this->avatarBasePath);
-            $startPos = strpos($currentName, $base) + strlen($base);
-            $fileFullName = substr($currentName, $startPos);
-        }
-        $fileFullPath = sprintf('%s%s', $this->avatarBasePath, $fileFullName);
-        if (!file_put_contents($fileFullPath, base64_decode($avatarData))) {
-            return false;
-        }
+        if ($avatarData) {
+            $fileName = uniqid(sprintf('customer%sAvatar', $customer->getId()));
+            $fileFullName = sprintf('%s.%s', $fileName, $mimeType);
+            // if the profile already has an avatar use the same file and replace it
+            $currentName = $customerProfile->getAvatarURL();
+            if ($currentName) {
+                $base = sprintf('%s%s', $this->avatarBaseURL, $this->avatarBasePath);
+                $startPos = strpos($currentName, $base) + strlen($base);
+                $fileFullName = substr($currentName, $startPos);
+            }
+            $fileFullPath = sprintf('%s%s', $this->avatarBasePath, $fileFullName);
+            if (!file_put_contents($fileFullPath, base64_decode($avatarData))) {
+                return false;
+            }
 
-        $fileFullURL = sprintf('%s%s', $this->avatarBaseURL, $fileFullPath);
-        $customerProfile->setAvatarURL($fileFullURL);
+            $fileFullURL = sprintf('%s%s', $this->avatarBaseURL, $fileFullPath);
+            $customerProfile->setAvatarURL($fileFullURL);
+        }
 
         $customerProfile->setCustomer($customer);
         $customer->setProfile($customerProfile);

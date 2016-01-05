@@ -216,11 +216,15 @@ class CustomersController extends FOSRestController implements ClassResourceInte
 
         if ($customerProfileForm->isValid()) {
             $profileHandler = $this->get('mum.handler.customer.profile');
-            $profileHandler->update($customer,
-                $customerProfile,
-                $customerProfileForm->get('avatarData')->getData(),
-                $customerProfileForm->get('avatarMimeType')->getData());
-            return new CustomerProfileResponse($customerProfile);
+            $avatarData = $customerProfileForm->get('avatarData')->getData();
+            $avatarMimeType = $customerProfileForm->get('avatarMimeType')->getData();
+
+            try {
+                $profileHandler->update($customer, $customerProfile, $avatarData, $avatarMimeType);
+                return new CustomerProfileResponse($customerProfile);
+            } catch (\Exception $exception) {
+                throw new HttpException(500, 'Profile was not update');
+            }
         }
 
         return $customerProfileForm->getErrors();

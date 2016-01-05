@@ -10,9 +10,11 @@ AppBundle\Entity\CustomerProfile:
         avatarURL:
             type: string
             length: 255
+            nullable: true
         displayName:
             type: string
             length: 255
+            nullable: true
         created:
             type: date
             gedmo:
