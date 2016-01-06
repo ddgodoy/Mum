@@ -6,6 +6,8 @@ AppBundle\Entity\RegistrationAttempt:
             id: true
             type: string
             length: 255
+        customer:
+            associationKey: true
     fields:
         status:
             type: integer

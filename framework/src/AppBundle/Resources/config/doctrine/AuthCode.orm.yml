@@ -6,6 +6,8 @@ AppBundle\Entity\AuthCode:
             id: true
             type: string
             length: 255
+        user:
+            associationKey: true
     fields:
         created:
             type: date

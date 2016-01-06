@@ -2,6 +2,7 @@
 namespace AppBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -25,8 +26,8 @@ class CreateOAuthClientCommand extends ContainerAwareCommand
                 'Redirect URI?'
             )
             ->addArgument(
-                'grantType',
-                InputArgument::REQUIRED,
+                'grantTypes',
+                InputArgument::IS_ARRAY | InputArgument::REQUIRED,
                 'Grant Type?'
             );
     }
@@ -37,16 +38,19 @@ class CreateOAuthClientCommand extends ContainerAwareCommand
 
         $name = $input->getArgument('name');
         $redirectUri = $input->getArgument('redirectUri');
-        $grantType = $input->getArgument('grantType');
+        $grantTypes = $input->getArgument('grantTypes');
 
         $clientManager = $container->get('fos_oauth_server.client_manager.default');
         $client = $clientManager->createClient();
         $client->setName($name);
         $client->setRedirectUris([$redirectUri]);
-        $client->setAllowedGrantTypes([$grantType]);
+        $client->setAllowedGrantTypes($grantTypes);
         $clientManager->updateClient($client);
 
-        $text = "<info>The client <comment>%s</comment> was created with <comment>%s</comment> as public id and <comment>%s</comment> as secret</info>";
+        // styling output
+        $style = new OutputFormatterStyle('black', 'blue', array('bold'));
+        $output->getFormatter()->setStyle('important', $style);
+        $text = "<info>The client <important>%s</important> was created with <important>%s</important> as public id and <important>%s</important> as secret</info>";
         $output->writeln(sprintf($text,
             $client->getName(),
             $client->getPublicId(),
