@@ -38,7 +38,7 @@ class RegistrationAttempt implements RegistrationAttemptInterface
 
     /**
      * RegistrationAttempt constructor.
-     * @param null $id
+     * @param string|null $id
      */
     public function __construct($id = null)
     {

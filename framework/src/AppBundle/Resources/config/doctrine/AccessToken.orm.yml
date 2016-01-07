@@ -10,7 +10,7 @@ AppBundle\Entity\AccessToken:
             associationKey: true
     fields:
         created:
-            type: date
+            type: datetime
             gedmo:
                 timestampable:
                     on: create
@@ -20,20 +20,20 @@ AppBundle\Entity\AccessToken:
                 timestampable:
                     on: update
         deletedAt:
-            type: date
+            type: datetime
             nullable: true
     manyToOne:
         user:
             targetEntity: Customer
             joinColumn:
-                name: costumer_id
+                name: costumer
                 referencedColumnName: id
             inversedBy: accessTokens
             cascade: ["persist", "merge"]
         client:
             targetEntity: Client
             joinColumn:
-                name: client_id
+                name: client
                 referencedColumnName: id
             inversedBy: accessTokens
             cascade: ["persist", "merge"]

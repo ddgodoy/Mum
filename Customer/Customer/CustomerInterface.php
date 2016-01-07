@@ -12,7 +12,7 @@ use Customer\Registration\RegistrationAttemptInterface;
 interface CustomerInterface
 {
     /**
-     * Get id
+     * Get Customer id
      *
      * @return string
      */

@@ -9,7 +9,7 @@ AppBundle\Entity\Customer:
             length: 255
     fields:
         created:
-            type: date
+            type: datetime
             gedmo:
                 timestampable:
                     on: create
@@ -19,7 +19,7 @@ AppBundle\Entity\Customer:
                 timestampable:
                     on: update
         deletedAt:
-            type: date
+            type: datetime
             nullable: true
     oneToMany:
         registrationAttempts:

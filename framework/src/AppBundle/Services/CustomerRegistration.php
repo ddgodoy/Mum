@@ -12,7 +12,7 @@ use Doctrine\ORM\EntityManager;
 /**
  * Class CustomerRegistration
  *
- * @package framework\src\AppBundle\Services
+ * @package AppBundle\Services
  */
 class CustomerRegistration
 {
@@ -21,6 +21,9 @@ class CustomerRegistration
      */
     public $twilio;
 
+    /**
+     * @var EntityManager
+     */
     public $em;
 
     /**

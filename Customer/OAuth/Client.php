@@ -39,8 +39,8 @@ class Client extends BaseClient implements OAuthClientInterface
 
     /**
      * Client constructor.
-     * @param null $id
-     * @param null $name
+     * @param string|null $id
+     * @param string|null $name
      */
     public function __construct($id = null, $name = null)
     {

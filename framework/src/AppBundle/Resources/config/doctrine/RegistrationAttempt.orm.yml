@@ -18,7 +18,7 @@ AppBundle\Entity\RegistrationAttempt:
             type: string
             length: 255
         created:
-            type: date
+            type: datetime
             gedmo:
                 timestampable:
                     on: create
@@ -28,13 +28,13 @@ AppBundle\Entity\RegistrationAttempt:
                 timestampable:
                     on: update
         deletedAt:
-            type: date
+            type: datetime
             nullable: true
     manyToOne:
         customer:
             targetEntity: Customer
             joinColumn:
-                name: costumer_id
+                name: costumer
                 referencedColumnName: id
             inversedBy: registrationAttempts
             cascade: ["persist", "merge"]

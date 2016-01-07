@@ -55,7 +55,7 @@ class Customer extends BaseUser implements CustomerInterface,
 
     /**
      * Customer constructor.
-     * @param null $id
+     * @param string|null $id
      */
     public function __construct($id = null)
     {

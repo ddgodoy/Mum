@@ -58,7 +58,7 @@ class CustomersController extends FOSRestController implements ClassResourceInte
         $customerForm->handleRequest($request);
 
         if ($customerForm->isValid()) {
-            $registrationHandler = $this->get('mum.handler.customer.registration');
+            $registrationHandler = $this->get('mum.customer.registration');
             $response = $registrationHandler->register($customer);
             return new CustomerRegistration($response['customer'], $response['attempt']);
         }
@@ -121,7 +121,7 @@ class CustomersController extends FOSRestController implements ClassResourceInte
             throw new HttpException(500, 'Confirmation code not valid');
         }
 
-        $registrationHandler = $this->get('mum.handler.customer.registration');
+        $registrationHandler = $this->get('mum.customer.registration');
         $registrationHandler->confirm($customer, $registrationAttempt);
 
         return new CustomerAuth($customer);
@@ -215,7 +215,7 @@ class CustomersController extends FOSRestController implements ClassResourceInte
         $customerProfileForm->handleRequest($request);
 
         if ($customerProfileForm->isValid()) {
-            $profileHandler = $this->get('mum.handler.customer.profile');
+            $profileHandler = $this->get('mum.customer.profile');
             $avatarData = $customerProfileForm->get('avatarData')->getData();
             $avatarMimeType = $customerProfileForm->get('avatarMimeType')->getData();
 

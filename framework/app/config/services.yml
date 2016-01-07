@@ -40,15 +40,20 @@ services:
           - "@twilio.api"
           - "%twilio_send_number%"
 
-    mum.handler.customer.registration:
+    mum.customer.registration:
         class: AppBundle\Services\CustomerRegistration
         arguments:
           - "@mum.twilio"
           - "@doctrine.orm.entity_manager"
 
-    mum.handler.customer.profile:
+    mum.customer.profile:
         class: AppBundle\Services\CustomerProfile
         arguments:
           - "%customer_avatar_base_path%"
           - "%customer_avatar_base_url%"
+          - "@doctrine.orm.entity_manager"
+
+    mum.message.store:
+        class: AppBundle\Services\MessageStore
+        arguments:
           - "@doctrine.orm.entity_manager"

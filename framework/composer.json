@@ -1,11 +1,12 @@
 {
-  "name": "root/framework",
+  "name": "mum",
   "license": "proprietary",
   "type": "project",
   "autoload": {
     "psr-4": {
       "": "src/",
-      "Customer\\": "../Customer/"
+      "Customer\\": "../Customer/",
+      "Message\\": "../Message/"
     },
     "classmap": [
       "app/AppKernel.php",

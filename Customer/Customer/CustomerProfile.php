@@ -33,7 +33,7 @@ class CustomerProfile implements CustomerProfileInterface
     /**
      * Customer constructor.
      *
-     * @param null $id
+     * @param string|null $id
      */
     public function __construct($id = null)
     {

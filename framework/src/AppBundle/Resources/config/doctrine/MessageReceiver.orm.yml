@@ -1,0 +1,42 @@
+AppBundle\Entity\MessageReceiver:
+    type: entity
+    table: message_receiver
+    id:
+        id:
+            id: true
+            type: string
+            length: 255
+        customer:
+            associationKey: true
+        message:
+            associationKey: true
+    fields:
+        receivers:
+            type: json_array
+        created:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updated:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: update
+        deletedAt:
+            type: datetime
+            nullable: true
+    manyToOne:
+        customer:
+            targetEntity: Customer
+            joinColumn:
+                name: costumer
+                referencedColumnName: id
+            cascade: ["persist", "merge"]
+        message:
+            targetEntity: Message
+            joinColumn:
+                name: message
+                referencedColumnName: id
+            cascade: ["persist", "merge"]
+    lifecycleCallbacks: {  }

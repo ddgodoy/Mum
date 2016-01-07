@@ -1,0 +1,45 @@
+AppBundle\Entity\ScheduledMessage:
+    type: entity
+    table: scheduled_message
+    id:
+        customer:
+            associationKey: true
+        message:
+            associationKey: true
+    fields:
+        at:
+            type: datetime
+        status:
+            type: integer
+        created:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updated:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: update
+        deletedAt:
+            type: datetime
+            nullable: true
+    manyToOne:
+        customer:
+            targetEntity: Customer
+            joinColumn:
+                name: costumer
+                referencedColumnName: id
+            cascade: ["persist", "merge"]
+        message:
+            targetEntity: Message
+            joinColumn:
+                name: message
+                referencedColumnName: id
+            cascade: ["persist", "merge"]
+    lifecycleCallbacks:
+        prePersist: [ convertStatusToInteger ]
+        postPersist: [ convertStatusFromInteger ]
+        postLoad: [ convertStatusFromInteger ]
+        preUpdate: [ convertStatusToInteger ]
+        postUpdate: [ convertStatusFromInteger ]

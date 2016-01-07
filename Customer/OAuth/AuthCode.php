@@ -29,7 +29,7 @@ class AuthCode extends BaseAuthCode implements OAuthTokenInterface
 
     /**
      * AuthCode constructor.
-     * @param null $id
+     * @param string|null $id
      * @param OAuthClientInterface|null $client
      * @param CustomerInterface|null $customer
      */

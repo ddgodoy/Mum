@@ -18,7 +18,7 @@ AppBundle\Entity\CustomerProfile:
             length: 255
             nullable: true
         created:
-            type: date
+            type: datetime
             gedmo:
                 timestampable:
                     on: create
@@ -28,13 +28,13 @@ AppBundle\Entity\CustomerProfile:
                 timestampable:
                     on: update
         deletedAt:
-            type: date
+            type: datetime
             nullable: true
     oneToOne:
         customer:
             targetEntity: Customer
             joinColumn:
-                name: costumer_id
+                name: costumer
                 referencedColumnName: id
             inversedBy: profile
             cascade: ["persist", "merge"]

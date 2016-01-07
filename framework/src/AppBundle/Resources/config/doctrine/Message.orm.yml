@@ -1,0 +1,32 @@
+AppBundle\Entity\Message:
+    type: entity
+    table: message
+    id:
+        id:
+            id: true
+            type: string
+            length: 255
+    fields:
+        body:
+            type: text
+        created:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updated:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: update
+        deletedAt:
+            type: datetime
+            nullable: true
+    manyToOne:
+        customer:
+            targetEntity: Customer
+            joinColumn:
+                name: costumer
+                referencedColumnName: id
+            cascade: ["persist", "merge"]
+    lifecycleCallbacks: {  }

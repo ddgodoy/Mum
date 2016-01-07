@@ -11,7 +11,7 @@ AppBundle\Entity\Client:
             type: string
             lenght: 255
         created:
-            type: date
+            type: datetime
             gedmo:
                 timestampable:
                     on: create
@@ -21,7 +21,7 @@ AppBundle\Entity\Client:
                 timestampable:
                     on: update
         deletedAt:
-            type: date
+            type: datetime
             nullable: true
     oneToMany:
         accessTokens:

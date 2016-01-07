@@ -29,7 +29,7 @@ class RefreshToken extends BaseRefreshToken implements OAuthTokenInterface
 
     /**
      * RefreshToken constructor.
-     * @param null $id
+     * @param string|null $id
      * @param OAuthClientInterface|null $client
      * @param CustomerInterface|null $customer
      */
