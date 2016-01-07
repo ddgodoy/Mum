@@ -53,7 +53,13 @@ services:
           - "%customer_avatar_base_url%"
           - "@doctrine.orm.entity_manager"
 
-    mum.message.store:
-        class: AppBundle\Services\MessageStore
+    mum.message.dispatcher:
+        class: AppBundle\Services\MessageDispatcher
         arguments:
-          - "@doctrine.orm.entity_manager"
+          - "@service_container"
+
+    mum.message.handler.email:
+            class: AppBundle\Services\EmailMessageHandler
+            arguments:
+              - "@mailer"
+              - "@doctrine.orm.entity_manager"

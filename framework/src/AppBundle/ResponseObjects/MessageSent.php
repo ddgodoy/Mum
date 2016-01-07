@@ -1,6 +1,7 @@
 <?php
 
 namespace AppBundle\ResponseObjects;
+
 use Message\Message\MessageInterface;
 
 /**
@@ -16,12 +17,19 @@ class MessageSent
     public $message;
 
     /**
+     * @var boolean
+     */
+    public $delivered;
+
+    /**
      * MessageSent constructor.
      *
      * @param MessageInterface $message
+     * @param boolean $delivered
      */
-    public function __construct(MessageInterface $message)
+    public function __construct(MessageInterface $message, $delivered)
     {
         $this->message = $message->getId();
+        $this->delivered = $delivered;
     }
 }

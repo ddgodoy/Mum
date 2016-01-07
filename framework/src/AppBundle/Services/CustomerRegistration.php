@@ -19,12 +19,12 @@ class CustomerRegistration
     /**
      * @var Twilio
      */
-    public $twilio;
+    private $twilio;
 
     /**
      * @var EntityManager
      */
-    public $em;
+    private $em;
 
     /**
      * CustomerRegistration constructor.

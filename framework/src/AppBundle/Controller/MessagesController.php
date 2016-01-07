@@ -53,6 +53,20 @@ class MessagesController extends FOSRestController implements ClassResourceInter
     }
 
     /**
+     * Handle the message
+     *
+     * @param array $data
+     * @param string $serviceHandlerName
+     * @return MessageSent
+     */
+    private function handleMessage(Array $data, $serviceHandlerName)
+    {
+        $messageDispatcher = $this->get('mum.message.dispatcher');
+        $response = $messageDispatcher->handleMessage($this->getUser(), $data, $serviceHandlerName);
+        return new MessageSent($response['message'], $response['delivered']);
+    }
+
+    /**
      * Send a new email message
      *
      * @param Request $request
@@ -83,15 +97,7 @@ class MessagesController extends FOSRestController implements ClassResourceInter
 
         if ($emailMessageForm->isValid()) {
             $data = $this->collectEmailMessageDataFromForm($emailMessageForm);
-            $messageStore = $this->get('mum.message.store');
-            $response = $messageStore->storeEmailMessage(
-                $this->getUser(),
-                $data['message']['body'],
-                $data['message']['at'],
-                $data['message']['receivers'],
-                $data['about'],
-                $data['from']);
-            return new MessageSent($response);
+            return $this->handleMessage($data, 'email');
         }
 
         return $emailMessageForm->getErrors();
