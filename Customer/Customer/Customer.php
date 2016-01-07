@@ -2,12 +2,6 @@
 
 namespace Customer\Customer;
 
-use Customer\OAuth\AccessToken;
-use Customer\OAuth\AccessTokenAwareInterface;
-use Customer\OAuth\AuthCode;
-use Customer\OAuth\AuthCodeAwareInterface;
-use Customer\OAuth\RefreshToken;
-use Customer\OAuth\RefreshTokenAwareInterface;
 use Customer\Registration\RegistrationAttemptInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use FOS\UserBundle\Model\User as BaseUser;
@@ -17,10 +11,7 @@ use FOS\UserBundle\Model\User as BaseUser;
  *
  * @package Customer\Entity
  */
-class Customer extends BaseUser implements CustomerInterface,
-    AccessTokenAwareInterface,
-    AuthCodeAwareInterface,
-    RefreshTokenAwareInterface
+class Customer extends BaseUser implements CustomerInterface
 {
 
     /**
@@ -92,54 +83,6 @@ class Customer extends BaseUser implements CustomerInterface,
     public function getRegistrationAttempts()
     {
         return $this->registrationAttempts;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function setAccessToken(AccessToken $token)
-    {
-        $this->accessTokens[] = $token;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getAccessTokens()
-    {
-        return $this->accessTokens;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function setAuthCode(AuthCode $authCode)
-    {
-        $this->authCodes[] = $authCode;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getAuthCodes()
-    {
-        return $this->authCodes;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function setRefreshToken(RefreshToken $token)
-    {
-        $this->refreshTokens[] = $token;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getRefreshTokens()
-    {
-        return $this->refreshTokens;
     }
 
     /**

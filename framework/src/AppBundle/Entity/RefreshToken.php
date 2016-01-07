@@ -2,7 +2,8 @@
 
 namespace AppBundle\Entity;
 
-use Customer\OAuth\RefreshToken as BaseRefreshToken;
+use Customer\Customer\CustomerInterface;
+use FOS\OAuthServerBundle\Entity\RefreshToken as BaseRefreshToken;
 
 /**
  * Class RefreshToken
@@ -11,6 +12,21 @@ use Customer\OAuth\RefreshToken as BaseRefreshToken;
  */
 class RefreshToken extends BaseRefreshToken
 {
+    /**
+     * @var string
+     */
+    protected $id;
+
+    /**
+     * @var Client
+     */
+    protected $client;
+
+    /**
+     * @var CustomerInterface
+     */
+    protected $customer;
+
     /**
      * @var \DateTime
      */
@@ -25,6 +41,53 @@ class RefreshToken extends BaseRefreshToken
      * @var \DateTime
      */
     protected $deletedAt;
+
+    /**
+     * RefreshToken constructor.
+     * @param string|null $id
+     * @param Client|null $client
+     * @param CustomerInterface|null $customer
+     */
+    public function __construct($id = null, Client $client = null, CustomerInterface $customer = null)
+    {
+        if ($id) {
+            $this->id = $id;
+        } else {
+            $this->id = uniqid('mum');
+        }
+
+        if ($client) {
+            $this->client = $client;
+        }
+
+        if ($customer) {
+            $this->customer = $customer;
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return Client|OAuthClientInterface|null
+     */
+    public function getClient()
+    {
+        return $this->client;
+    }
+
+    /**
+     * @return CustomerInterface|null
+     */
+    public function getCustomer()
+    {
+        return $this->customer;
+    }
 
     /**
      * @return \DateTime
