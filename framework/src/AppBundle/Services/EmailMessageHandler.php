@@ -61,6 +61,20 @@ class EmailMessageHandler extends BaseEmailMessageHandler
                             MessageDependantInterface $messageDependant,
                             ScheduledMessageInterface $scheduledMessage = null)
     {
-        return true;
+        $swiftMessage = \Swift_Message::newInstance()
+            ->setSubject($messageDependant->getAbout())
+            ->setFrom($messageDependant->getFromAddress())
+            ->setSender($messageDependant->getFromAddress())
+            ->setReplyTo($messageDependant->getFromAddress())
+            ->setBody($message->getBody(), 'text/html')
+            ->setBody($message->getBody(), 'text/plain');
+
+        foreach ($messageReceiver->getReceivers() as $receiver) {
+            $swiftMessage->addTo($receiver);
+        }
+
+        $response = $this->mailer->send($swiftMessage);
+
+        return $response !== 0;
     }
 }
