@@ -166,7 +166,7 @@ class MessageDispatcher extends BaseMessageDispatcher
                 }
             }
         }
-//        $this->em->flush();
+        $this->em->flush();
         return $stats;
     }
 }
