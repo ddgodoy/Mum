@@ -1,11 +1,11 @@
 <?php
 
-namespace Message\Message;
+namespace Scheduler\Scheduler;
 
 /**
  * Interface ScheduledMessageStatusInterface
  *
- * @package Message\Message
+ * @package Scheduler\Scheduler
  */
 interface ScheduledMessageStatusInterface
 {

@@ -2,7 +2,7 @@
 
 namespace AppBundle\Entity;
 
-use Message\Message\InstantMessage as BaseInstantMessage;
+use Message\Instant\InstantMessage as BaseInstantMessage;
 
 /**
  * Class InstantMessage

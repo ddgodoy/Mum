@@ -1,7 +1,6 @@
 <?php
 
-namespace Message\Message;
-use Customer\Customer\CustomerInterface;
+namespace Customer\Customer;
 
 /**
  * Interface CustomerDependantInterface

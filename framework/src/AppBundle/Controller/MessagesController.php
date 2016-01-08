@@ -30,6 +30,11 @@ class MessagesController extends FOSRestController implements ClassResourceInter
      */
     private function collectMessageDataFromForm(Form $form)
     {
+        $at = $form->get('message')->get('at')->getData();
+        if ($at && $at < new \DateTime()) {
+            throw new HttpException(500, 'Scheduled Message need to be some where in the future');
+        }
+
         return [
             'body' => $form->get('message')->get('body')->getData(),
             'at' => $form->get('message')->get('at')->getData(),
@@ -71,6 +76,7 @@ class MessagesController extends FOSRestController implements ClassResourceInter
      *
      * @param Request $request
      * @return MessageSent|\Symfony\Component\Form\FormErrorIterator
+     * @throws HttpException
      *
      * @FOSRestBundleAnnotations\Route("/messages/email")
      *
@@ -81,7 +87,8 @@ class MessagesController extends FOSRestController implements ClassResourceInter
      *  description="Send a new email message",
      *  input="AppBundle\Form\EmailMessageType",
      *  statusCodes={
-     *         200="Returned when successful"
+     *         200="Returned when successful",
+     *         500="Returned on scheduled message not valid trigger"
      *  },
      *  tags={
      *   "stable" = "#4A7023",

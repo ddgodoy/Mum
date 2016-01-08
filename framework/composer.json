@@ -6,7 +6,8 @@
     "psr-4": {
       "": "src/",
       "Customer\\": "../Customer/",
-      "Message\\": "../Message/"
+      "Message\\": "../Message/",
+      "Scheduler\\": "../Scheduler/"
     },
     "classmap": [
       "app/AppKernel.php",

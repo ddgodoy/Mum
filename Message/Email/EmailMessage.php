@@ -1,13 +1,16 @@
 <?php
 
-namespace Message\Message;
+namespace Message\Email;
 
+use Customer\Customer\CustomerDependantInterface;
 use Customer\Customer\CustomerInterface;
+use Message\Message\MessageDependantInterface;
+use Message\Message\MessageInterface;
 
 /**
  * Class EmailMessage
  *
- * @package Message\Message
+ * @package Message\Email
  */
 class EmailMessage implements CustomerDependantInterface,
     MessageDependantInterface,

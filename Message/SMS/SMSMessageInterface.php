@@ -1,11 +1,13 @@
 <?php
 
-namespace Message\Message;
+namespace Message\SMS;
+
+use Message\Message\MessageDependantInterface;
 
 /**
  * Interface SMSMessageInterface
  *
- * @package Message\Message
+ * @package Message\SMS
  */
 interface SMSMessageInterface extends MessageDependantInterface
 {

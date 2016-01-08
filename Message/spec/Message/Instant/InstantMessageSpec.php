@@ -1,22 +1,22 @@
 <?php
 
-namespace spec\Message\Message;
+namespace spec\Message\Instant;
 
 use Customer\Customer\Customer;
 use Message\Message\Message;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
-class SMSMessageSpec extends ObjectBehavior
+class InstantMessageSpec extends ObjectBehavior
 {
     public function it_is_initializable()
     {
-        $this->shouldHaveType('Message\Message\SMSMessage');
+        $this->shouldHaveType('Message\Instant\InstantMessage');
     }
 
     public function it_implement_email_message_interface()
     {
-        $this->shouldHaveType('Message\Message\SMSMessageInterface');
+        $this->shouldHaveType('Message\Instant\InstantMessageInterface');
     }
 
     public function it_should_get_given_customer()

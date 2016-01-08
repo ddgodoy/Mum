@@ -6,8 +6,8 @@ use AppBundle\Entity\Message;
 use AppBundle\Entity\MessageReceiver;
 use AppBundle\Entity\ScheduledMessage;
 use Customer\Customer\CustomerInterface;
-use Message\Message\MessageDispatcher as BaseMessageDispatcher;
 use Message\Message\MessageHandlerInterface;
+use Scheduler\Scheduler\MessageDispatcher as BaseMessageDispatcher;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -94,8 +94,10 @@ class MessageDispatcher extends BaseMessageDispatcher
         // save all changes
         $em->persist($objects['message']);
         $em->persist($objects['messageReceivers']);
-        $em->persist($objects['scheduledMessage']);
         $em->persist($objects['messageDependant']);
+        if ($objects['scheduledMessage']) {
+            $em->persist($objects['scheduledMessage']);
+        }
         $em->flush();
         return [
             'message' => $objects['message'],

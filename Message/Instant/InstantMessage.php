@@ -1,16 +1,20 @@
 <?php
 
-namespace Message\Message;
+namespace Message\Instant;
+
+use Customer\Customer\CustomerDependantInterface;
 use Customer\Customer\CustomerInterface;
+use Message\Message\MessageDependantInterface;
+use Message\Message\MessageInterface;
 
 /**
- * Class SMSMessage
+ * Class InstantMessage
  *
- * @package Message\Message
+ * @package Message\Instant
  */
-class SMSMessage implements CustomerDependantInterface,
+class InstantMessage implements CustomerDependantInterface,
     MessageDependantInterface,
-    SMSMessageInterface
+    InstantMessageInterface
 {
     /**
      * @var CustomerInterface

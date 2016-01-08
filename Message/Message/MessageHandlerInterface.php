@@ -3,6 +3,7 @@
 namespace Message\Message;
 
 use Customer\Customer\CustomerInterface;
+use Scheduler\Scheduler\ScheduledMessageInterface;
 
 interface MessageHandlerInterface
 {
@@ -27,7 +28,7 @@ interface MessageHandlerInterface
     public function preDeliver(MessageInterface $message,
                                MessageReceiverInterface $messageReceiver,
                                MessageDependantInterface $messageDependant,
-                               ScheduledMessageInterface $scheduledMessage);
+                               ScheduledMessageInterface $scheduledMessage = null);
 
     /**
      * Deliver the Message
@@ -41,7 +42,7 @@ interface MessageHandlerInterface
     public function deliver(MessageInterface $message,
                             MessageReceiverInterface $messageReceiver,
                             MessageDependantInterface $messageDependant,
-                            ScheduledMessageInterface $scheduledMessage);
+                            ScheduledMessageInterface $scheduledMessage = null);
 
     /**
      * Post Deliver the Message
@@ -54,5 +55,5 @@ interface MessageHandlerInterface
     public function postDeliver(MessageInterface $message,
                                 MessageReceiverInterface $messageReceiver,
                                 MessageDependantInterface $messageDependant,
-                                ScheduledMessageInterface $scheduledMessage);
+                                ScheduledMessageInterface $scheduledMessage = null);
 }

@@ -22,7 +22,11 @@ class MessageType extends AbstractType
         $builder
             ->add('body', 'text')
             ->add('receivers', 'text')
-            ->add('at', 'datetime', ['widget' => 'single_text', 'format' => 'dd-MM-yyyy H:m:s']);
+            ->add('at', 'datetime', [
+                'widget' => 'single_text',
+                'format' => 'dd-MM-yyyy H:m:s',
+                'required' => false
+            ]);
     }
 
     /**

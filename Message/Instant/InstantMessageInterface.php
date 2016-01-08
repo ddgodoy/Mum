@@ -1,11 +1,13 @@
 <?php
 
-namespace Message\Message;
+namespace Message\Instant;
+
+use Message\Message\MessageDependantInterface;
 
 /**
  * Interface InstantMessageInterface
  *
- * @package Message\Message
+ * @package Message\Instant
  */
 interface InstantMessageInterface extends MessageDependantInterface
 {

@@ -2,7 +2,7 @@
 
 namespace AppBundle\Entity;
 
-use Message\Message\EmailMessage as BaseEmailMessage;
+use Message\Email\EmailMessage as BaseEmailMessage;
 
 /**
  * Class EmailMessage

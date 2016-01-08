@@ -1,11 +1,16 @@
 <?php
 
-namespace Message\Message;
+namespace Scheduler\Scheduler;
+
+use Message\Message\MessageDependantInterface;
+use Message\Message\MessageHandlerInterface;
+use Message\Message\MessageInterface;
+use Message\Message\MessageReceiverInterface;
 
 /**
  * Class MessageDispatcher
  *
- * @package Message\Message
+ * @package Scheduler\Scheduler
  */
 class MessageDispatcher
 {
@@ -15,11 +20,11 @@ class MessageDispatcher
      * @param ScheduledMessageInterface $scheduledMessage
      * @return bool
      */
-    private function needsToBeDeliver(ScheduledMessageInterface $scheduledMessage)
+    private function needsToBeDeliver(ScheduledMessageInterface $scheduledMessage = null)
     {
-        return $scheduledMessage &&
-        $scheduledMessage->getStatus() === (new ScheduledMessageStatusCreated())->getId() &&
-        $scheduledMessage->getAt() < new \DateTime();
+        return !$scheduledMessage || ($scheduledMessage &&
+            $scheduledMessage->getStatus() === (new ScheduledMessageStatusCreated())->getId() &&
+            $scheduledMessage->getAt() < new \DateTime());
     }
 
     /**
@@ -35,7 +40,7 @@ class MessageDispatcher
     protected function deliver(MessageInterface $message,
                                MessageReceiverInterface $messageReceiver,
                                MessageDependantInterface $messageDependant,
-                               ScheduledMessageInterface $scheduledMessage,
+                               ScheduledMessageInterface $scheduledMessage = null,
                                MessageHandlerInterface $messageHandler)
     {
         if ($this->needsToBeDeliver($scheduledMessage)) {

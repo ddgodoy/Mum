@@ -5,11 +5,11 @@ namespace AppBundle\Services;
 use AppBundle\Entity\EmailMessage;
 use Customer\Customer\CustomerInterface;
 use Doctrine\ORM\EntityManager;
-use Message\Message\EmailMessageHandler as BaseEmailMessageHandler;
+use Message\Email\EmailMessageHandler as BaseEmailMessageHandler;
 use Message\Message\MessageDependantInterface;
 use Message\Message\MessageInterface;
 use Message\Message\MessageReceiverInterface;
-use Message\Message\ScheduledMessageInterface;
+use Scheduler\Scheduler\ScheduledMessageInterface;
 
 /**
  * Class EmailMessageHandler
@@ -59,7 +59,7 @@ class EmailMessageHandler extends BaseEmailMessageHandler
     public function deliver(MessageInterface $message,
                             MessageReceiverInterface $messageReceiver,
                             MessageDependantInterface $messageDependant,
-                            ScheduledMessageInterface $scheduledMessage)
+                            ScheduledMessageInterface $scheduledMessage = null)
     {
         return true;
     }

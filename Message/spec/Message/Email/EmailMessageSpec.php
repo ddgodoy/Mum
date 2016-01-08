@@ -1,6 +1,6 @@
 <?php
 
-namespace spec\Message\Message;
+namespace spec\Message\Email;
 
 use Customer\Customer\Customer;
 use Message\Message\Message;
@@ -11,12 +11,12 @@ class EmailMessageSpec extends ObjectBehavior
 {
     public function it_is_initializable()
     {
-        $this->shouldHaveType('Message\Message\EmailMessage');
+        $this->shouldHaveType('Message\Email\EmailMessage');
     }
 
     public function it_implement_email_message_interface()
     {
-        $this->shouldHaveType('Message\Message\EmailMessageInterface');
+        $this->shouldHaveType('Message\Email\EmailMessageInterface');
     }
 
     public function it_should_get_given_customer()

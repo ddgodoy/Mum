@@ -1,13 +1,14 @@
 <?php
 
-namespace Message\Message;
+namespace Scheduler\Scheduler;
 
 use Customer\Customer\CustomerInterface;
+use Message\Message\MessageInterface;
 
 /**
  * Class ScheduledMessage
  *
- * @package Message\Message
+ * @package Scheduler\Scheduler
  */
 class ScheduledMessage implements ScheduledMessageInterface
 {

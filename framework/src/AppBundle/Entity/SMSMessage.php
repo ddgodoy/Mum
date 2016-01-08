@@ -2,7 +2,7 @@
 
 namespace AppBundle\Entity;
 
-use Message\Message\SMSMessage as BaseSMSMessage;
+use Message\SMS\SMSMessage as BaseSMSMessage;
 
 /**
  * Class SMSMessage

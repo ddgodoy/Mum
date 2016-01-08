@@ -1,11 +1,11 @@
 <?php
 
-namespace Message\Message;
+namespace Message\Email;
 
 /**
  * Interface EmailMessageInterface
  *
- * @package Message\Message
+ * @package Message\Email
  */
 interface EmailMessageInterface
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace spec\Message\Message;
+namespace spec\Scheduler\Scheduler;
 
 use Customer\Customer\Customer;
 use Message\Message\Message;
@@ -11,12 +11,12 @@ class ScheduledMessageSpec extends ObjectBehavior
 {
     public function it_is_initializable()
     {
-        $this->shouldHaveType('Message\Message\ScheduledMessage');
+        $this->shouldHaveType('Scheduler\Scheduler\ScheduledMessage');
     }
 
     public function it_implement_message_receiver_interface()
     {
-        $this->shouldHaveType('Message\Message\ScheduledMessageInterface');
+        $this->shouldHaveType('Scheduler\Scheduler\ScheduledMessageInterface');
     }
 
     public function it_should_get_given_message()

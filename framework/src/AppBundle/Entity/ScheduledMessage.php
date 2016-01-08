@@ -2,10 +2,10 @@
 
 namespace AppBundle\Entity;
 
-use Message\Message\ScheduledMessage as BaseScheduledMessage;
-use Message\Message\ScheduledMessageStatusCreated;
-use Message\Message\ScheduledMessageStatusProcessing;
-use Message\Message\ScheduledMessageStatusSent;
+use Message\Scheduled\ScheduledMessage as BaseScheduledMessage;
+use Message\Scheduled\ScheduledMessageStatusCreated;
+use Message\Scheduled\ScheduledMessageStatusProcessing;
+use Message\Scheduled\ScheduledMessageStatusSent;
 
 /**
  * Class ScheduledMessage
