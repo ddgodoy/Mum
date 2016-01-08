@@ -1,6 +1,7 @@
 AppBundle\Entity\ScheduledMessage:
     type: entity
     table: scheduled_message
+    repositoryClass: AppBundle\EntityRepository\ScheduledMessageRepository
     id:
         customer:
             associationKey: true

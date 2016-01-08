@@ -56,6 +56,7 @@ services:
     mum.message.dispatcher:
         class: AppBundle\Services\MessageDispatcher
         arguments:
+          - ["Email"]
           - "@service_container"
 
     mum.message.handler.email:

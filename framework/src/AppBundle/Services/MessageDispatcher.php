@@ -6,6 +6,7 @@ use AppBundle\Entity\Message;
 use AppBundle\Entity\MessageReceiver;
 use AppBundle\Entity\ScheduledMessage;
 use Customer\Customer\CustomerInterface;
+use Doctrine\ORM\EntityManager;
 use Message\Message\MessageHandlerInterface;
 use Scheduler\Scheduler\MessageDispatcher as BaseMessageDispatcher;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -19,18 +20,31 @@ class MessageDispatcher extends BaseMessageDispatcher
 {
 
     /**
+     * @var Array
+     */
+    private $messageTypes;
+
+    /**
      * @var ContainerInterface
      */
     private $serviceContainer;
 
     /**
+     * @var EntityManager
+     */
+    private $em;
+
+    /**
      * MessageDispatcher constructor.
      *
+     * @param array messageTypes
      * @param ContainerInterface $serviceContainer
      */
-    public function __construct(ContainerInterface $serviceContainer)
+    public function __construct(Array $messageTypes, ContainerInterface $serviceContainer)
     {
+        $this->messageTypes = $messageTypes;
         $this->serviceContainer = $serviceContainer;
+        $this->em = $this->serviceContainer->get('doctrine.orm.entity_manager');
     }
 
     /**
@@ -72,19 +86,35 @@ class MessageDispatcher extends BaseMessageDispatcher
     }
 
     /**
+     * Get the Specific Message Handler
+     *
+     * @param $serviceHandlerName
+     * @return object
+     */
+    private function getMessageHandler($serviceHandlerName)
+    {
+        return $this->serviceContainer->get('mum.message.handler.' . strtolower($serviceHandlerName));
+    }
+
+    /**
      * Handle new Message
      *
      * @param CustomerInterface $customer
      * @param array $data
      * @param string $serviceHandlerName
      * @return array
+     * @throws \Exception
      */
     public function handleMessage(CustomerInterface $customer, Array $data, $serviceHandlerName)
     {
+        if (!in_array($serviceHandlerName, $this->messageTypes)) {
+            throw new \Exception('Message Type not available');
+        }
+
+        // get the specific message handler
+        $messageDependantHandler = $this->getMessageHandler($serviceHandlerName);
         // store the message
-        $messageDependantHandler = $this->serviceContainer->get('mum.message.handler.' . $serviceHandlerName);
         $objects = $this->store($customer, $messageDependantHandler, $data);
-        $em = $this->serviceContainer->get('doctrine.orm.entity_manager');
         // deliver the message
         $delivered = $this->deliver($objects['message'],
             $objects['messageReceivers'],
@@ -92,16 +122,51 @@ class MessageDispatcher extends BaseMessageDispatcher
             $objects['scheduledMessage'],
             $messageDependantHandler);
         // save all changes
-        $em->persist($objects['message']);
-        $em->persist($objects['messageReceivers']);
-        $em->persist($objects['messageDependant']);
+        $this->em->persist($objects['message']);
+        $this->em->persist($objects['messageReceivers']);
+        $this->em->persist($objects['messageDependant']);
         if ($objects['scheduledMessage']) {
-            $em->persist($objects['scheduledMessage']);
+            $this->em->persist($objects['scheduledMessage']);
         }
-        $em->flush();
+        $this->em->flush();
         return [
             'message' => $objects['message'],
             'delivered' => $delivered
         ];
+    }
+
+    /**
+     * Dispatch all messages that pass the deadline
+     *
+     * @return array
+     */
+    public function dispatch()
+    {
+        $stats = [];
+        foreach ($this->messageTypes as $messageType) {
+            $stats[$messageType] = 0;
+            // get the specific message handler
+            $messageDependantHandler = $this->getMessageHandler($messageType);
+
+            // compute the query and get results
+            $messageDependantRepository = $this->em->getRepository('AppBundle:' . $messageType . 'Message');
+            $from = $messageDependantRepository->getFrom();
+            $where = $messageDependantRepository->getWhere();
+            $scheduledMessages = $this->em->getRepository('AppBundle:ScheduledMessage')->findDeliveryReady($from, $where);
+
+            for ($i = 0; $i < count($scheduledMessages); $i += 4) {
+                // deliver the message
+                $delivered = $this->deliver($scheduledMessages[$i + 1],
+                    $scheduledMessages[$i + 2],
+                    $scheduledMessages[$i + 3],
+                    $scheduledMessages[$i],
+                    $messageDependantHandler);
+                if ($delivered) {
+                    $stats[$messageType] += 1;
+                }
+            }
+        }
+//        $this->em->flush();
+        return $stats;
     }
 }

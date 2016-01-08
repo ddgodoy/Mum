@@ -8,8 +8,16 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * Class CreateOAuthClientCommand
+ *
+ * @package AppBundle\Command
+ */
 class CreateOAuthClientCommand extends ContainerAwareCommand
 {
+    /**
+     * Configure the command
+     */
     protected function configure()
     {
         $this
@@ -32,6 +40,13 @@ class CreateOAuthClientCommand extends ContainerAwareCommand
             );
     }
 
+    /**
+     * Execute the command
+     *
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return mixed
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $container = $this->getContainer();

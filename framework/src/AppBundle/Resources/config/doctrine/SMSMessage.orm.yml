@@ -1,6 +1,7 @@
 AppBundle\Entity\SMSMessage:
     type: entity
     table: sms_message
+    repositoryClass: AppBundle\EntityRepository\SMSMessageRepository
     id:
         customer:
             associationKey: true

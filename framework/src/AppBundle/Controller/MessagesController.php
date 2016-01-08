@@ -104,7 +104,7 @@ class MessagesController extends FOSRestController implements ClassResourceInter
 
         if ($emailMessageForm->isValid()) {
             $data = $this->collectEmailMessageDataFromForm($emailMessageForm);
-            return $this->handleMessage($data, 'email');
+            return $this->handleMessage($data, 'Email');
         }
 
         return $emailMessageForm->getErrors();

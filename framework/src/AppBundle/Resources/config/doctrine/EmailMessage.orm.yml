@@ -1,6 +1,7 @@
 AppBundle\Entity\EmailMessage:
     type: entity
     table: email_message
+    repositoryClass: AppBundle\EntityRepository\EmailMessageRepository
     id:
         customer:
             associationKey: true

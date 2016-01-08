@@ -1,6 +1,7 @@
 AppBundle\Entity\InstantMessage:
     type: entity
     table: instant_message
+    repositoryClass: AppBundle\EntityRepository\InstantMessageRepository
     id:
         customer:
             associationKey: true
