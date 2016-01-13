@@ -1,6 +1,6 @@
 <?php
 
-namespace Message\Email;
+namespace Message\Message;
 
 use Customer\Customer\CustomerInterface;
 use Message\Message\MessageDependantInterface;
@@ -10,11 +10,11 @@ use Message\Message\MessageReceiverInterface;
 use Scheduler\Scheduler\ScheduledMessageInterface;
 
 /**
- * Class EmailMessageHandler
+ * Class MessageHandler
  *
- * @package Message\Email
+ * @package Message\Message
  */
-class EmailMessageHandler implements MessageHandlerInterface
+class MessageHandler implements MessageHandlerInterface
 {
 
     /**

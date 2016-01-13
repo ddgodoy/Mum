@@ -5,8 +5,8 @@ namespace AppBundle\Services;
 use AppBundle\Entity\EmailMessage;
 use Customer\Customer\CustomerInterface;
 use Doctrine\ORM\EntityManager;
-use Message\Email\EmailMessageHandler as BaseEmailMessageHandler;
 use Message\Message\MessageDependantInterface;
+use Message\Message\MessageHandler;
 use Message\Message\MessageInterface;
 use Message\Message\MessageReceiverInterface;
 use Scheduler\Scheduler\ScheduledMessageInterface;
@@ -14,9 +14,9 @@ use Scheduler\Scheduler\ScheduledMessageInterface;
 /**
  * Class EmailMessageHandler
  *
- * @package framework\src\AppBundle\Services
+ * @package AppBundle\Services
  */
-class EmailMessageHandler extends BaseEmailMessageHandler
+class EmailMessageHandler extends MessageHandler
 {
     /**
      * @var \Swift_Mailer

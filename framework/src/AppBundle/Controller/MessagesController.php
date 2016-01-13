@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Form\EmailMessageType;
+use AppBundle\Form\SMSMessageType;
 use AppBundle\ResponseObjects\MessageSent;
 use FOS\RestBundle\Controller\Annotations as FOSRestBundleAnnotations;
 use FOS\RestBundle\Controller\FOSRestController;
@@ -58,6 +59,19 @@ class MessagesController extends FOSRestController implements ClassResourceInter
     }
 
     /**
+     * Extract the sms message data from form
+     *
+     * @param Form $form
+     * @return array
+     */
+    private function collectSMSMessageDataFromForm(Form $form)
+    {
+        return [
+            'message' => $this->collectMessageDataFromForm($form)
+        ];
+    }
+
+    /**
      * Handle the message
      *
      * @param array $data
@@ -108,5 +122,44 @@ class MessagesController extends FOSRestController implements ClassResourceInter
         }
 
         return $emailMessageForm->getErrors();
+    }
+
+    /**
+     * Send a new sms message
+     *
+     * @param Request $request
+     * @return MessageSent|\Symfony\Component\Form\FormErrorIterator
+     * @throws HttpException
+     *
+     * @FOSRestBundleAnnotations\Route("/messages/sms")
+     *
+     * @Security("has_role('ROLE_USER')")
+     *
+     * @ApiDoc(
+     *  section="Message",
+     *  description="Send a new sms message",
+     *  input="AppBundle\Form\SMSMessageType",
+     *  statusCodes={
+     *         200="Returned when successful",
+     *         500="Returned on scheduled message not valid trigger"
+     *  },
+     *  tags={
+     *   "stable" = "#4A7023",
+     *   "v1" = "#ff0000"
+     *  }
+     * )
+     */
+    public function postSMSAction(Request $request)
+    {
+        $smsMessageForm = $this->createForm(new SMSMessageType());
+
+        $smsMessageForm->handleRequest($request);
+
+        if ($smsMessageForm->isValid()) {
+            $data = $this->collectSMSMessageDataFromForm($smsMessageForm);
+            return $this->handleMessage($data, 'SMS');
+        }
+
+        return $smsMessageForm->getErrors();
     }
 }
