@@ -19,6 +19,13 @@ class InstantMessageSpec extends ObjectBehavior
         $this->shouldHaveType('Message\Instant\InstantMessageInterface');
     }
 
+    public function it_construct_with_uniqid()
+    {
+        $room = uniqid();
+        $this->beConstructedWith($room);
+        $this->getRoom()->shouldBe($room);
+    }
+
     public function it_should_get_given_customer()
     {
         $customer = new Customer();

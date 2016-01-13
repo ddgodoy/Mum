@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Form\EmailMessageType;
+use AppBundle\Form\InstantMessageType;
 use AppBundle\Form\SMSMessageType;
 use AppBundle\ResponseObjects\MessageSent;
 use FOS\RestBundle\Controller\Annotations as FOSRestBundleAnnotations;
@@ -65,6 +66,19 @@ class MessagesController extends FOSRestController implements ClassResourceInter
      * @return array
      */
     private function collectSMSMessageDataFromForm(Form $form)
+    {
+        return [
+            'message' => $this->collectMessageDataFromForm($form)
+        ];
+    }
+
+    /**
+     * Extract the instant message data from form
+     *
+     * @param Form $form
+     * @return array
+     */
+    private function collectInstantMessageDataFromForm(Form $form)
     {
         return [
             'message' => $this->collectMessageDataFromForm($form)
@@ -161,5 +175,44 @@ class MessagesController extends FOSRestController implements ClassResourceInter
         }
 
         return $smsMessageForm->getErrors();
+    }
+
+    /**
+     * Send a new instant message
+     *
+     * @param Request $request
+     * @return MessageSent|\Symfony\Component\Form\FormErrorIterator
+     * @throws HttpException
+     *
+     * @FOSRestBundleAnnotations\Route("/messages/instant")
+     *
+     * @Security("has_role('ROLE_USER')")
+     *
+     * @ApiDoc(
+     *  section="Message",
+     *  description="Send a new instant message",
+     *  input="AppBundle\Form\InstantMessageType",
+     *  statusCodes={
+     *         200="Returned when successful",
+     *         500="Returned on scheduled message not valid trigger"
+     *  },
+     *  tags={
+     *   "stable" = "#4A7023",
+     *   "v1" = "#ff0000"
+     *  }
+     * )
+     */
+    public function postInstantAction(Request $request)
+    {
+        $instantMessageForm = $this->createForm(new InstantMessageType());
+
+        $instantMessageForm->handleRequest($request);
+
+        if ($instantMessageForm->isValid()) {
+            $data = $this->collectInstantMessageDataFromForm($instantMessageForm);
+            return $this->handleMessage($data, 'Instant');
+        }
+
+        return $instantMessageForm->getErrors();
     }
 }

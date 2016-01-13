@@ -3,6 +3,10 @@ AppBundle\Entity\InstantMessage:
     table: instant_message
     repositoryClass: AppBundle\EntityRepository\InstantMessageRepository
     id:
+        room:
+            id: true
+            type: string
+            length: 255
         customer:
             associationKey: true
         message:

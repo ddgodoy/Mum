@@ -17,6 +17,11 @@ class InstantMessage implements CustomerDependantInterface,
     InstantMessageInterface
 {
     /**
+     * @var string
+     */
+    protected $room;
+
+    /**
      * @var CustomerInterface
      */
     protected $customer;
@@ -25,6 +30,27 @@ class InstantMessage implements CustomerDependantInterface,
      * @var MessageInterface
      */
     protected $message;
+
+    /**
+     * InstantMessage constructor.
+     *
+     * @param string|null $room
+     */
+    public function __construct($room = null)
+    {
+        $this->room = $room;
+        if (!$this->room) {
+            $this->room = uniqid();
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getRoom()
+    {
+        return $this->room;
+    }
 
     /**
      * @inheritdoc

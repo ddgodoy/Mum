@@ -56,7 +56,7 @@ services:
     mum.message.dispatcher:
         class: AppBundle\Services\MessageDispatcher
         arguments:
-          - ["Email", "SMS"]
+          - ["Email", "SMS", "Instant"]
           - "@service_container"
 
     mum.message.handler.email:
@@ -67,6 +67,12 @@ services:
 
     mum.message.handler.sms:
         class: AppBundle\Services\SMSMessageHandler
+        arguments:
+          - "1"
+          - "@doctrine.orm.entity_manager"
+
+    mum.message.handler.instant:
+        class: AppBundle\Services\InstantMessageHandler
         arguments:
           - "1"
           - "@doctrine.orm.entity_manager"

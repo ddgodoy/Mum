@@ -11,4 +11,10 @@ use Message\Message\MessageDependantInterface;
  */
 interface InstantMessageInterface extends MessageDependantInterface
 {
+    /**
+     * Gets the instant chat room id
+     *
+     * @return mixed
+     */
+    public function getRoom();
 }
