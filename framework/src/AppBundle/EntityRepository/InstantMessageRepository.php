@@ -11,5 +11,13 @@ use Doctrine\ORM\EntityRepository;
  */
 class InstantMessageRepository extends EntityRepository
 {
+    public function getFrom()
+    {
+        return ' AppBundle:InstantMessage messageDependant';
+    }
 
+    public function getWhere()
+    {
+        return ' AND schedule.message = messageDependant.message';
+    }
 }
