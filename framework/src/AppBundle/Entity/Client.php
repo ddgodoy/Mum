@@ -59,6 +59,8 @@ class Client extends BaseClient
      */
     public function __construct($id = null, $name = null)
     {
+        parent::__construct();
+
         if ($id) {
             $this->id = $id;
         } else {
