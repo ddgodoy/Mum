@@ -36,11 +36,15 @@ class MessagesController extends FOSRestController implements ClassResourceInter
         if ($at && $at < new \DateTime()) {
             throw new HttpException(500, 'Scheduled Message need to be some where in the future');
         }
+        $receivers = json_decode($form->get('message')->get('receivers')->getData(), true);
+        if (!is_array($receivers)) {
+            throw new HttpException(500, 'Receivers are wrong formatted');
+        }
 
         return [
             'body' => $form->get('message')->get('body')->getData(),
             'at' => $form->get('message')->get('at')->getData(),
-            'receivers' => json_decode($form->get('message')->get('receivers')->getData(), true)
+            'receivers' => $receivers
         ];
     }
 
