@@ -26,7 +26,7 @@ AppBundle\Entity\RefreshToken:
         user:
             targetEntity: Customer
             joinColumn:
-                name: costumer
+                name: customer
                 referencedColumnName: id
             inversedBy: refreshTokens
             cascade: ["persist", "merge"]
@@ -38,3 +38,7 @@ AppBundle\Entity\RefreshToken:
             inversedBy: refreshTokens
             cascade: ["persist", "merge"]
     lifecycleCallbacks: {  }
+    gedmo:
+        soft_deleteable:
+          field_name: deletedAt
+          time_aware: false

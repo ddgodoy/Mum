@@ -34,7 +34,7 @@ AppBundle\Entity\RegistrationAttempt:
         customer:
             targetEntity: Customer
             joinColumn:
-                name: costumer
+                name: customer
                 referencedColumnName: id
             inversedBy: registrationAttempts
             cascade: ["persist", "merge"]
@@ -44,3 +44,7 @@ AppBundle\Entity\RegistrationAttempt:
         postLoad: [ convertStatusFromInteger ]
         preUpdate: [ convertStatusToInteger ]
         postUpdate: [ convertStatusFromInteger ]
+    gedmo:
+        soft_deleteable:
+          field_name: deletedAt
+          time_aware: false

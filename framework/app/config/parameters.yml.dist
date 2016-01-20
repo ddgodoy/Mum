@@ -26,3 +26,10 @@ parameters:
     # avatar file store
     customer_avatar_base_path: uploads/customer/avatar/
     customer_avatar_base_url: http://127.0.0.1/
+
+    # push notifications
+    gcm_token: AIzaSyAeBa17dIWP2Vks_SUXBPbxcN7ChXgRU6g
+    apn_app_id: mum
+    apn_pem_path: app/config/push-certificate.pem
+    apn_sandbox: 1
+    apn_pass_phrase: mum

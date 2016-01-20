@@ -37,9 +37,17 @@ AppBundle\Entity\Customer:
             targetEntity: RefreshToken
             mappedBy: user
             cascade: ["persist", "merge"]
+        devices:
+            targetEntity: Device
+            mappedBy: customer
+            cascade: ["persist", "merge"]
     oneToOne:
         profile:
             targetEntity: CustomerProfile
             mappedBy: customer
             cascade: ["persist", "merge"]
     lifecycleCallbacks: {  }
+    gedmo:
+        soft_deleteable:
+          field_name: deletedAt
+          time_aware: false

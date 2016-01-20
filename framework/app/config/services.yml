@@ -4,6 +4,12 @@ parameters:
 #    parameter_name: value
 
 services:
+    fos_oauth_server.server:
+        class: AppBundle\Services\MUMOAuthServer
+        arguments:
+            - "@mum.oauth.storage"
+            - "%fos_oauth_server.server.options%"
+
     mum.oauth.storage:
         class: AppBundle\Services\MUMOAuthStorage
         arguments:
@@ -14,12 +20,6 @@ services:
             - "@fos_oauth_server.user_provider"
             - "@security.encoder_factory"
         public: false
-
-    fos_oauth_server.server:
-        class: AppBundle\Services\MUMOAuthServer
-        arguments:
-            - "@mum.oauth.storage"
-            - "%fos_oauth_server.server.options%"
 
     mum.rest.security.authentication.provider:
         class: AppBundle\Security\Authentication\Provider\RestProvider
@@ -46,12 +46,25 @@ services:
           - "@mum.twilio"
           - "@doctrine.orm.entity_manager"
 
+    mum.device.registration:
+        class: AppBundle\Services\DeviceRegistration
+        arguments:
+          - "@doctrine.orm.entity_manager"
+
     mum.customer.profile:
         class: AppBundle\Services\CustomerProfile
         arguments:
           - "%customer_avatar_base_path%"
           - "%customer_avatar_base_url%"
           - "@doctrine.orm.entity_manager"
+
+    mum.push_notification.gcm:
+        class: AppBundle\Services\GCM
+        arguments: [%gcm_token%]
+
+    mum.push_notification.apn:
+        class: AppBundle\Services\APN
+        arguments: [%apn_app_id%, %apn_pem_path%, %apn_sandbox%, %apn_pass_phrase%]
 
     mum.message.dispatcher:
         class: AppBundle\Services\MessageDispatcher

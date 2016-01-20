@@ -3,7 +3,6 @@
 namespace Customer\Customer;
 
 use Customer\Registration\RegistrationAttemptInterface;
-use Doctrine\Common\Collections\ArrayCollection;
 use FOS\UserBundle\Model\User as BaseUser;
 
 /**
@@ -25,21 +24,6 @@ class Customer extends BaseUser implements CustomerInterface
     protected $registrationAttempts;
 
     /**
-     * @var array
-     */
-    protected $accessTokens;
-
-    /**
-     * @var array
-     */
-    protected $authCodes;
-
-    /**
-     * @var array
-     */
-    protected $refreshTokens;
-
-    /**
      * @var CustomerProfile
      */
     protected $profile;
@@ -50,15 +34,12 @@ class Customer extends BaseUser implements CustomerInterface
      */
     public function __construct($id = null)
     {
+        parent::__construct();
+
         $this->id = $id;
         if (!$this->id) {
             $this->id = uniqid();
         }
-        $this->registrationAttempts = new ArrayCollection();
-        $this->accessTokens = new ArrayCollection();
-        $this->authCodes = new ArrayCollection();
-        $this->refreshTokens = new ArrayCollection();
-        parent::__construct();
     }
 
     /**

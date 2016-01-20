@@ -25,7 +25,7 @@ AppBundle\Entity\SMSMessage:
         customer:
             targetEntity: Customer
             joinColumn:
-                name: costumer
+                name: customer
                 referencedColumnName: id
             cascade: ["persist", "merge"]
         message:
@@ -35,3 +35,7 @@ AppBundle\Entity\SMSMessage:
                 referencedColumnName: id
             cascade: ["persist", "merge"]
     lifecycleCallbacks: {  }
+    gedmo:
+        soft_deleteable:
+          field_name: deletedAt
+          time_aware: false

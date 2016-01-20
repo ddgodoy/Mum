@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Customer\Customer\Customer as CustomerBase;
+use Doctrine\Common\Collections\ArrayCollection;
 use Hateoas\Configuration\Annotation as Hateoas;
 
 /**
@@ -15,6 +16,26 @@ use Hateoas\Configuration\Annotation as Hateoas;
  */
 class Customer extends CustomerBase
 {
+    /**
+     * @var array
+     */
+    protected $accessTokens;
+
+    /**
+     * @var array
+     */
+    protected $authCodes;
+
+    /**
+     * @var array
+     */
+    protected $refreshTokens;
+
+    /**
+     * @var array
+     */
+    protected $devices;
+
     /**
      * @var \DateTime
      */
@@ -29,6 +50,17 @@ class Customer extends CustomerBase
      * @var \DateTime
      */
     protected $deletedAt;
+
+    public function __construct($id = null)
+    {
+        parent::__construct($id);
+
+        $this->registrationAttempts = new ArrayCollection();
+        $this->accessTokens = new ArrayCollection();
+        $this->authCodes = new ArrayCollection();
+        $this->refreshTokens = new ArrayCollection();
+        $this->devices = new ArrayCollection();
+    }
 
     /**
      * @param \DateTime $created

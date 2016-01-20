@@ -30,7 +30,7 @@ AppBundle\Entity\MessageReceiver:
         customer:
             targetEntity: Customer
             joinColumn:
-                name: costumer
+                name: customer
                 referencedColumnName: id
             cascade: ["persist", "merge"]
         message:
@@ -40,3 +40,7 @@ AppBundle\Entity\MessageReceiver:
                 referencedColumnName: id
             cascade: ["persist", "merge"]
     lifecycleCallbacks: {  }
+    gedmo:
+        soft_deleteable:
+          field_name: deletedAt
+          time_aware: false

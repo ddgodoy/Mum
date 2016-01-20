@@ -1,19 +1,15 @@
-AppBundle\Entity\EmailMessage:
+AppBundle\Entity\Device:
     type: entity
-    table: email_message
-    repositoryClass: AppBundle\EntityRepository\EmailMessageRepository
+    table: device
     id:
-        customer:
-            associationKey: true
-        message:
-            associationKey: true
+        id:
+            id: true
+            type: string
+            length: 255
     fields:
-        about:
+        os:
             type: string
-            length: 255
-        fromAddress:
-            type: string
-            length: 255
+            length: 50
         created:
             type: datetime
             gedmo:
@@ -33,13 +29,11 @@ AppBundle\Entity\EmailMessage:
             joinColumn:
                 name: customer
                 referencedColumnName: id
+            inversedBy: devices
             cascade: ["persist", "merge"]
-        message:
-            targetEntity: Message
-            joinColumn:
-                name: message
-                referencedColumnName: id
-            cascade: ["persist", "merge"]
+    uniqueConstraints:
+        device_x_customer:
+          columns: [ id, customer ]
     lifecycleCallbacks: {  }
     gedmo:
         soft_deleteable:
