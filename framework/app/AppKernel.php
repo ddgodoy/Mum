@@ -25,6 +25,8 @@ class AppKernel extends Kernel
             new Vresh\TwilioBundle\VreshTwilioBundle(),
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             new Nelmio\CorsBundle\NelmioCorsBundle(),
+            new Gos\Bundle\WebSocketBundle\GosWebSocketBundle(),
+            new Gos\Bundle\PubSubRouterBundle\GosPubSubRouterBundle(),
 
             new AppBundle\AppBundle(),
         );
