@@ -33,9 +33,11 @@ class MessagesController extends FOSRestController implements ClassResourceInter
     private function collectMessageDataFromForm(Form $form)
     {
         $at = $form->get('message')->get('at')->getData();
-        if ($at && $at < new \DateTime()) {
+        $now = new \DateTime('now');
+        if ($at && $at < $now) {
             throw new HttpException(500, 'Scheduled Message need to be some where in the future');
         }
+
         $receivers = json_decode($form->get('message')->get('receivers')->getData(), true);
         if (!is_array($receivers)) {
             throw new HttpException(500, 'Receivers are wrong formatted');
