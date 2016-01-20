@@ -20,6 +20,11 @@ class SMSMessageHandler extends MessageHandler
 {
 
     /**
+     * @var array
+     */
+    private $pushNotificationServices = array();
+
+    /**
      * @var EntityManager
      */
     private $em;
@@ -27,11 +32,12 @@ class SMSMessageHandler extends MessageHandler
     /**
      * EmailMessageHandler constructor.
      *
-     * @param $dummy
+     * @param array $pushNotificationServices
      * @param EntityManager $em
      */
-    public function __construct($dummy, EntityManager $em)
+    public function __construct(array $pushNotificationServices, EntityManager $em)
     {
+        $this->pushNotificationServices = $pushNotificationServices;
         $this->em = $em;
     }
 
@@ -54,6 +60,13 @@ class SMSMessageHandler extends MessageHandler
                             MessageDependantInterface $messageDependant,
                             ScheduledMessageInterface $scheduledMessage = null)
     {
-        return true;
+        $device = $this->em->getRepository('AppBundle:Device')
+            ->findOneBy(['customer' => $message->getCustomer()->getId()]);
+        if ($device && array_key_exists($device->getOS(), $this->pushNotificationServices)) {
+//            $this->pushNotificationServices[$device->getOS()]->sendNotification();
+            return true;
+        }
+
+        return false;
     }
 }

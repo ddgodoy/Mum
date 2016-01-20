@@ -67,7 +67,7 @@ class Device
      * @return $this
      * @throws \Exception
      */
-    public function setOs($os)
+    public function setOS($os)
     {
         if (!in_array($os, Device::$availableOS)) {
             $exceptionMessage = sprintf('%s OS its not available, choose one of %s', $os, implode(', ', Device::$availableOS));
@@ -84,7 +84,7 @@ class Device
      *
      * @return integer
      */
-    public function getOs()
+    public function getOS()
     {
         return $this->os;
     }

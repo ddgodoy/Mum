@@ -33,7 +33,7 @@ AppBundle\Entity\Device:
             cascade: ["persist", "merge"]
     uniqueConstraints:
         device_x_customer:
-          columns: [ id, customer ]
+          columns: [ customer ]
     lifecycleCallbacks: {  }
     gedmo:
         soft_deleteable:
