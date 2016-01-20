@@ -16,6 +16,11 @@ class Device
      */
     private $os;
 
+    private static $availableOS = [
+        "Android",
+        "IOS"
+    ];
+
     /**
      * @var CustomerInterface
      */
@@ -56,13 +61,19 @@ class Device
     }
 
     /**
-     * Set os
+     * Set OS
      *
-     * @param integer $os
-     * @return Device
+     * @param $os
+     * @return $this
+     * @throws \Exception
      */
     public function setOs($os)
     {
+        if (!in_array($os, Device::$availableOS)) {
+            $exceptionMessage = sprintf('%s OS its not available, choose one of %s', $os, implode(', ', Device::$availableOS));
+            throw new \Exception($exceptionMessage);
+        }
+
         $this->os = $os;
 
         return $this;
