@@ -62,10 +62,6 @@ services:
         class: AppBundle\Services\GCM
         arguments: [%gcm_token%]
 
-    mum.push_notification.apn:
-        class: AppBundle\Services\APN
-        arguments: [%apn_app_id%, %apn_pem_path%, %apn_sandbox%, %apn_pass_phrase%]
-
     mum.message.dispatcher:
         class: AppBundle\Services\MessageDispatcher
         arguments:
