@@ -34,11 +34,11 @@ class GCM
             $message->setRegistrationIds($chunk);
 
             // optional fields
-            $message->setData(array(
-                'title' => $title,
-                'message' => $text,
-                'data' => $data
-            ));
+            $base = ['title' => $title,
+                'message' => $text];
+            $messageData = array_merge_recursive($base, $data);
+            print_r($messageData);
+            $message->setData($messageData);
             $message->setCollapseKey($collapseKey);
             $message->setRestrictedPackageName($this->packageName);
             $message->setDelayWhileIdle($delay);
