@@ -63,12 +63,18 @@ class SMSMessageHandler extends MessageHandler
         $device = $this->em->getRepository('AppBundle:Device')
             ->findOneBy(['customer' => $message->getCustomer()->getId()]);
         if ($device && array_key_exists($device->getOS(), $this->pushNotificationServices)) {
+
+            $extra = ['type' => 1];
+            $extra["message"] = $message->getBody();
+            $extra["receivers"] = $messageReceiver->getReceivers();
+
             $stats = $this->pushNotificationServices[$device->getOS()]->sendNotification(
                 [$device->getId()],
-                'SMS',
-                'Message',
-                ['something' => 'extra'],
+                null,
+                null,
+                $extra,
                 null);
+
             return $stats['successful'] > 0;
         }
 

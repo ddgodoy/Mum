@@ -24,39 +24,39 @@ services:
     mum.rest.security.authentication.provider:
         class: AppBundle\Security\Authentication\Provider\RestProvider
         arguments:
-          - ""
+            - ""
         public: false
 
     mum.rest.security.authentication.listener:
         class: AppBundle\Security\Firewall\RestListener
         arguments:
-          - "@security.token_storage"
-          - "@security.authentication.manager"
+            - "@security.token_storage"
+            - "@security.authentication.manager"
         public: false
 
     mum.twilio:
         class: AppBundle\Services\Twilio
         arguments:
-          - "@twilio.api"
-          - "%twilio_send_number%"
+            - "@twilio.api"
+            - "%twilio_send_number%"
 
     mum.customer.registration:
         class: AppBundle\Services\CustomerRegistration
         arguments:
-          - "@mum.twilio"
-          - "@doctrine.orm.entity_manager"
+            - "@mum.twilio"
+            - "@doctrine.orm.entity_manager"
 
     mum.device.registration:
         class: AppBundle\Services\DeviceRegistration
         arguments:
-          - "@doctrine.orm.entity_manager"
+            - "@doctrine.orm.entity_manager"
 
     mum.customer.profile:
         class: AppBundle\Services\CustomerProfile
         arguments:
-          - "%customer_avatar_base_path%"
-          - "%customer_avatar_base_url%"
-          - "@doctrine.orm.entity_manager"
+            - "%customer_avatar_base_path%"
+            - "%customer_avatar_base_url%"
+            - "@doctrine.orm.entity_manager"
 
     mum.push_notification.gcm:
         class: AppBundle\Services\GCM
@@ -65,24 +65,25 @@ services:
     mum.message.dispatcher:
         class: AppBundle\Services\MessageDispatcher
         arguments:
-          - ["Email", "SMS", "Instant"]
-          - "@service_container"
+            - ["Email", "SMS", "Instant"]
+            - "@service_container"
 
     mum.message.handler.email:
         class: AppBundle\Services\EmailMessageHandler
         arguments:
-          - "@mailer"
-          - "@doctrine.orm.entity_manager"
+            - "@mailer"
+            - "@doctrine.orm.entity_manager"
 
     mum.message.handler.sms:
         class: AppBundle\Services\SMSMessageHandler
         arguments:
-          "pushNotificationServices":
-            "Android": "@mum.push_notification.gcm"
-          "em": "@doctrine.orm.entity_manager"
+            "pushNotificationServices":
+                "Android": "@mum.push_notification.gcm"
+            "em": "@doctrine.orm.entity_manager"
 
     mum.message.handler.instant:
         class: AppBundle\Services\InstantMessageHandler
         arguments:
-          - "1"
-          - "@doctrine.orm.entity_manager"
+            "pushNotificationServices":
+                "Android": "@mum.push_notification.gcm"
+            "em": "@doctrine.orm.entity_manager"

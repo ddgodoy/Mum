@@ -20,6 +20,11 @@ class InstantMessageHandler extends MessageHandler
 {
 
     /**
+     * @var array
+     */
+    private $pushNotificationServices = array();
+
+    /**
      * @var EntityManager
      */
     private $em;
@@ -27,11 +32,12 @@ class InstantMessageHandler extends MessageHandler
     /**
      * EmailMessageHandler constructor.
      *
-     * @param $dummy
+     * @param array $pushNotificationServices
      * @param EntityManager $em
      */
-    public function __construct($dummy, EntityManager $em)
+    public function __construct(array $pushNotificationServices, EntityManager $em)
     {
+        $this->pushNotificationServices = $pushNotificationServices;
         $this->em = $em;
     }
 
@@ -54,6 +60,23 @@ class InstantMessageHandler extends MessageHandler
                             MessageDependantInterface $messageDependant,
                             ScheduledMessageInterface $scheduledMessage = null)
     {
-        return true;
+        $device = $this->em->getRepository('AppBundle:Device')
+            ->findOneBy(['customer' => $message->getCustomer()->getId()]);
+        if ($device && array_key_exists($device->getOS(), $this->pushNotificationServices)) {
+
+            $extra = ['type' => 2];
+            $extra["receivers"] = $messageReceiver->getReceivers();
+
+            $stats = $this->pushNotificationServices[$device->getOS()]->sendNotification(
+                [$device->getId()],
+                sprintf('New Mum from %s', $message->getCustomer()->getUsername()),
+                $message->getBody(),
+                $extra,
+                null);
+
+            return $stats['successful'] > 0;
+        }
+
+        return false;
     }
 }
