@@ -8,9 +8,11 @@ use ZendService\Google\Gcm\Message;
 class GCM
 {
     private $client;
+    private $packageName;
 
-    public function __construct($token)
+    public function __construct($token, $packageName)
     {
+        $this->packageName = $packageName;
         $this->client = new Client();
         $this->client->setApiKey($token);
 
@@ -21,7 +23,7 @@ class GCM
         $this->client->setHttpClient($httpClient);
     }
 
-    public function sendNotification($tokens, $title, $text, $collapseKey, $packageName, $delay, $ttl, $dry)
+    public function sendNotification($tokens, $title, $text, $data, $collapseKey, $delay = false, $ttl = 600, $dry = false)
     {
         $stats = ["total" => count($tokens), "successful" => 0, "failed" => 0];
         // up to 100 registration ids can be sent to at once
@@ -34,10 +36,11 @@ class GCM
             // optional fields
             $message->setData(array(
                 'title' => $title,
-                'message' => $text
+                'message' => $text,
+                'data' => $data
             ));
             $message->setCollapseKey($collapseKey);
-            $message->setRestrictedPackageName($packageName);
+            $message->setRestrictedPackageName($this->packageName);
             $message->setDelayWhileIdle($delay);
             $message->setTimeToLive($ttl);
             $message->setDryRun($dry);

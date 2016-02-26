@@ -60,7 +60,7 @@ services:
 
     mum.push_notification.gcm:
         class: AppBundle\Services\GCM
-        arguments: [%gcm_token%]
+        arguments: [%gcm_token%, %gcm_package_name%]
 
     mum.message.dispatcher:
         class: AppBundle\Services\MessageDispatcher

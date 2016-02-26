@@ -29,3 +29,4 @@ parameters:
 
     # push notifications
     gcm_token: AIzaSyAYMBe-aISN1Jvbi_Q4cAY-YkUxR-hMgqg
+    gcm_package_name: 'com.thinkandcloud.mum'

@@ -63,16 +63,13 @@ class SMSMessageHandler extends MessageHandler
         $device = $this->em->getRepository('AppBundle:Device')
             ->findOneBy(['customer' => $message->getCustomer()->getId()]);
         if ($device && array_key_exists($device->getOS(), $this->pushNotificationServices)) {
-            $this->pushNotificationServices[$device->getOS()]->sendNotification(
+            $stats = $this->pushNotificationServices[$device->getOS()]->sendNotification(
                 [$device->getId()],
                 'SMS',
                 'Message',
-                'sms',
-                'com.thinkandcloud.mum',
-                false,
-                600,
-                false);
-            return true;
+                ['something' => 'extra'],
+                null);
+            return $stats['successful'] > 0;
         }
 
         return false;
