@@ -28,4 +28,4 @@ parameters:
     customer_avatar_base_url: http://127.0.0.1/
 
     # push notifications
-    gcm_token: AIzaSyAeBa17dIWP2Vks_SUXBPbxcN7ChXgRU6g
+    gcm_token: AIzaSyAYMBe-aISN1Jvbi_Q4cAY-YkUxR-hMgqg
