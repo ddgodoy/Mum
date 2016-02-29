@@ -46,6 +46,17 @@ AppBundle\Entity\Customer:
             targetEntity: CustomerProfile
             mappedBy: customer
             cascade: ["persist", "merge"]
+    manyToMany:
+        contacts:
+            targetEntity: Customer
+            joinTable:
+                name: customer_contacts
+                joinColumns:
+                    customer_id:
+                        referencedColumnName: id
+                inverseJoinColumns:
+                    contact_id:
+                        referencedColumnName: id
     lifecycleCallbacks: {  }
     gedmo:
         soft_deleteable:
