@@ -7,7 +7,7 @@ use Customer\Registration\RegistrationAttemptInterface;
 /**
  * Interface Customer
  *
- * @package Customer\Entity
+ * @package Customer\Customer
  */
 interface CustomerInterface
 {

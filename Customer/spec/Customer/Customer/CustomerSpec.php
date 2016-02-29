@@ -2,8 +2,10 @@
 
 namespace spec\Customer\Customer;
 
+use Customer\Customer\Customer;
 use Customer\Customer\CustomerProfile;
 use Customer\Registration\RegistrationAttempt;
+use Doctrine\Common\Collections\ArrayCollection;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -46,5 +48,18 @@ class CustomerSpec extends ObjectBehavior
         $profile->setDisplayName('Display Name');
         $this->setProfile($profile);
         $this->getProfile()->shouldBe($profile);
+    }
+
+    public function it_should_store_contacts()
+    {
+        $contact = new Customer();
+        $contacts = new ArrayCollection();
+        $contacts->add($contact);
+        $this->setContacts($contacts);
+        $this->getContacts()->shouldBe($contacts);
+        $contact2 = new Customer();
+        $contacts->add($contact2);
+        $this->addContact($contact2);
+        $this->getContacts()->shouldBe($contacts);
     }
 }

@@ -5,7 +5,7 @@ namespace Customer\Customer;
 /**
  * Interface CustomerDependantInterface
  *
- * @package Message\Message
+ * @package Customer\Customer
  */
 interface CustomerDependantInterface
 {

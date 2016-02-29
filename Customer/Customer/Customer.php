@@ -3,12 +3,13 @@
 namespace Customer\Customer;
 
 use Customer\Registration\RegistrationAttemptInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 use FOS\UserBundle\Model\User as BaseUser;
 
 /**
  * Class Customer
  *
- * @package Customer\Entity
+ * @package Customer\Customer
  */
 class Customer extends BaseUser implements CustomerInterface
 {
@@ -24,9 +25,14 @@ class Customer extends BaseUser implements CustomerInterface
     protected $registrationAttempts;
 
     /**
-     * @var CustomerProfile
+     * @var CustomerProfileInterface
      */
     protected $profile;
+
+    /**
+     * @var ArrayCollection
+     */
+    protected $contacts;
 
     /**
      * Customer constructor.
@@ -40,6 +46,7 @@ class Customer extends BaseUser implements CustomerInterface
         if (!$this->id) {
             $this->id = uniqid();
         }
+        $this->contacts = new ArrayCollection();
     }
 
     /**
@@ -69,9 +76,9 @@ class Customer extends BaseUser implements CustomerInterface
     /**
      * Set the profile
      *
-     * @param CustomerProfile $customerProfile
+     * @param CustomerProfileInterface $customerProfile
      */
-    public function setProfile(CustomerProfile $customerProfile)
+    public function setProfile(CustomerProfileInterface $customerProfile)
     {
         $this->profile = $customerProfile;
     }
@@ -84,5 +91,35 @@ class Customer extends BaseUser implements CustomerInterface
     public function getProfile()
     {
         return $this->profile;
+    }
+
+    /**
+     * Set contacts
+     *
+     * @param ArrayCollection $contacts
+     */
+    public function setContacts(ArrayCollection $contacts)
+    {
+        $this->contacts = $contacts;
+    }
+
+    /**
+     * Add new contact
+     *
+     * @param CustomerInterface $contact
+     */
+    public function addContact(CustomerInterface $contact)
+    {
+        $this->contacts->add($contact);
+    }
+
+    /**
+     * Get contacts
+     *
+     * @return ArrayCollection
+     */
+    public function getContacts()
+    {
+        return $this->contacts;
     }
 }
