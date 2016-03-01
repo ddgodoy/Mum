@@ -4,8 +4,8 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Customer;
 use AppBundle\Form\CustomerContactsType;
+use AppBundle\ResponseObjects\CustomerContacts;
 use AppBundle\ResponseObjects\CustomerContactsUpdateStats;
-use AppBundle\ResponseObjects\CustomerRegistration;
 use FOS\RestBundle\Controller\Annotations as FOSRestBundleAnnotations;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Routing\ClassResourceInterface;
@@ -28,7 +28,7 @@ class ContactsController extends FOSRestController implements ClassResourceInter
      *
      * @param Customer $customer
      * @param Request $request
-     * @return CustomerRegistration|\Symfony\Component\Form\FormErrorIterator
+     * @return CustomerContactsUpdateStats|\Symfony\Component\Form\FormErrorIterator
      * @throws HttpException
      *
      * @Security("has_role('ROLE_USER')")
@@ -80,5 +80,46 @@ class ContactsController extends FOSRestController implements ClassResourceInter
         }
 
         return $customerContactsForm->getErrors();
+    }
+
+    /**
+     * Response with the customer contacts that has {customer} for id
+     *
+     * @param Customer $customer
+     * @return CustomerContacts
+     * @throws HttpException
+     *
+     * @Security("has_role('ROLE_USER')")
+     *
+     * @FOSRestBundleAnnotations\Route("/customers/{customer}/contacts")
+     *
+     * @ApiDoc(
+     *  section="Contacts",
+     *  description="Get a customer contacts",
+     *  requirements={
+     *      {
+     *          "name"="customer",
+     *          "dataType"="string",
+     *          "requirement"="*",
+     *          "description"="customer id"
+     *      }
+     *  },
+     *  statusCodes={
+     *         200="Returned when successful",
+     *         500="Returned on not found customer"
+     *  },
+     *  tags={
+     *   "stable" = "#4A7023",
+     *   "v1" = "#ff0000"
+     *  }
+     * )
+     */
+    public function cgetAction(Customer $customer = null)
+    {
+        if (!$customer) {
+            throw new HttpException(500, 'Customer not found');
+        }
+
+        return new CustomerContacts($customer->getContacts()->getValues());
     }
 }

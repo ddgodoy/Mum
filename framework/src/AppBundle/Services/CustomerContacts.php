@@ -52,14 +52,20 @@ class CustomerContacts
         // remove non present on new contacts from db and unmodified from new contacts leaving only new contacts on it
         foreach ($dbContacts as $contact) {
             if (in_array($contact->getUsername(), $contacts)) {
-                $unmodified[] = $contact->getUsername();
+                $unmodified[] = [
+                    'id' => $contact->getId(),
+                    'username' => $contact->getUsername()
+                ];
                 $index = array_search($contact->getUsername(), $contacts);
                 if ($index !== false) {
                     unset($contacts[$index]);
                 }
             } else {
                 $customer->removeContact($contact);
-                $deleted[] = $contact->getUsername();
+                $deleted[] = [
+                    'id' => $contact->getId(),
+                    'username' => $contact->getUsername()
+                ];
             }
         }
 
@@ -67,7 +73,10 @@ class CustomerContacts
         $dbContacts = $this->em->getRepository('AppBundle:Customer')->getByIds($contacts);
         foreach ($dbContacts as $contact) {
             $customer->addContact($contact);
-            $created[] = $contact->getUsername();
+            $created[] = [
+                'id' => $contact->getId(),
+                'username' => $contact->getUsername()
+            ];
         }
         $this->em->flush();
 
