@@ -22,6 +22,7 @@ class DeviceRegistration
 
     /**
      * CustomerRegistration constructor.
+     *
      * @param EntityManager $em
      */
     public function __construct(EntityManager $em)

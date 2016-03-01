@@ -28,6 +28,7 @@ class CustomerRegistration
 
     /**
      * CustomerRegistration constructor.
+     *
      * @param Twilio $twilio
      * @param EntityManager $em
      */
@@ -41,7 +42,7 @@ class CustomerRegistration
      * Register new customer
      *
      * @param CustomerInterface $customer
-     * @return Customer
+     * @return mixed
      */
     public function register(CustomerInterface $customer)
     {

@@ -9,7 +9,7 @@ use Doctrine\ORM\EntityRepository;
  *
  * @package AppBundle\EntityRepository
  */
-class EmailMessageRepository extends EntityRepository
+class EmailMessageRepository extends EntityRepository implements MessageRepositoryInterface
 {
     public function getFrom()
     {

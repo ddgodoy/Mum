@@ -114,6 +114,16 @@ class Customer extends BaseUser implements CustomerInterface
     }
 
     /**
+     * Remove contact
+     *
+     * @param CustomerInterface $contact
+     */
+    public function removeContact(CustomerInterface $contact)
+    {
+        $this->contacts->removeElement($contact);
+    }
+
+    /**
      * Get contacts
      *
      * @return ArrayCollection

@@ -48,6 +48,8 @@ class MessageDispatcher extends BaseMessageDispatcher
     }
 
     /**
+     * Store the message
+     *
      * @param CustomerInterface $customer
      * @param MessageHandlerInterface $messageDependantHandler
      * @param array $data

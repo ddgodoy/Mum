@@ -1,6 +1,7 @@
 AppBundle\Entity\Customer:
     type: entity
     table: customer
+    repositoryClass: AppBundle\EntityRepository\CustomerRepository
     id:
         id:
             id: true

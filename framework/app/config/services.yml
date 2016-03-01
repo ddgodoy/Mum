@@ -46,6 +46,11 @@ services:
             - "@mum.twilio"
             - "@doctrine.orm.entity_manager"
 
+    mum.customer.contacts:
+        class: AppBundle\Services\CustomerContacts
+        arguments:
+            - "@doctrine.orm.entity_manager"
+
     mum.device.registration:
         class: AppBundle\Services\DeviceRegistration
         arguments:

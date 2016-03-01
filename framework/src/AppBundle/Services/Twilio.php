@@ -23,6 +23,7 @@ class Twilio
 
     /**
      * Twilio constructor.
+     *
      * @param TwilioWrapper $twilio
      * @param string $sendNumber
      */

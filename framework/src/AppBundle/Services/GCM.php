@@ -5,11 +5,29 @@ namespace AppBundle\Services;
 use ZendService\Google\Gcm\Client;
 use ZendService\Google\Gcm\Message;
 
+/**
+ * Class GCM
+ *
+ * @package AppBundle\Services
+ */
 class GCM
 {
+    /**
+     * @var Client
+     */
     private $client;
+
+    /**
+     * @var string
+     */
     private $packageName;
 
+    /**
+     * GCM constructor.
+     *
+     * @param string $token
+     * @param string $packageName
+     */
     public function __construct($token, $packageName)
     {
         $this->packageName = $packageName;
@@ -23,6 +41,19 @@ class GCM
         $this->client->setHttpClient($httpClient);
     }
 
+    /**
+     * Send push notification
+     *
+     * @param $tokens
+     * @param $title
+     * @param $text
+     * @param $data
+     * @param $collapseKey
+     * @param bool $delay
+     * @param int $ttl
+     * @param bool $dry
+     * @return array
+     */
     public function sendNotification($tokens, $title, $text, $data, $collapseKey, $delay = false, $ttl = 600, $dry = false)
     {
         $stats = ["total" => count($tokens), "successful" => 0, "failed" => 0];

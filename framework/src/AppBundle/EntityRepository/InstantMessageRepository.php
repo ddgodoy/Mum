@@ -9,7 +9,7 @@ use Doctrine\ORM\EntityRepository;
  *
  * @package AppBundle\EntityRepository
  */
-class InstantMessageRepository extends EntityRepository
+class InstantMessageRepository extends EntityRepository implements MessageRepositoryInterface
 {
     public function getFrom()
     {

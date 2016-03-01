@@ -57,9 +57,20 @@ class CustomerSpec extends ObjectBehavior
         $contacts->add($contact);
         $this->setContacts($contacts);
         $this->getContacts()->shouldBe($contacts);
+        $this->getContacts()->count()->shouldBe(1);
         $contact2 = new Customer();
-        $contacts->add($contact2);
         $this->addContact($contact2);
-        $this->getContacts()->shouldBe($contacts);
+        $this->getContacts()->count()->shouldBe(2);
+    }
+
+    public function it_should_remove_contact()
+    {
+        $contact = new Customer();
+        $contacts = new ArrayCollection();
+        $contacts->add($contact);
+        $this->setContacts($contacts);
+        $this->getContacts()->count()->shouldBe(1);
+        $this->removeContact($contact);
+        $this->getContacts()->count()->shouldBe(0);
     }
 }
