@@ -10,22 +10,22 @@ namespace AppBundle\ResponseObjects;
 class CustomerContactsUpdateStats
 {
     /**
-     * @var integer
+     * @var array
      */
     public $created;
 
     /**
-     * @var integer
+     * @var array
      */
     public $deleted;
 
     /**
-     * @var integer
+     * @var array
      */
     public $unmodified;
 
     /**
-     * @var integer
+     * @var array
      */
     public $nonPresent;
 
@@ -37,7 +37,7 @@ class CustomerContactsUpdateStats
      * @param $unmodified
      * @param $nonPresent
      */
-    public function __construct($created, $deleted, $unmodified, $nonPresent)
+    public function __construct(Array $created, Array $deleted, Array $unmodified, Array $nonPresent)
     {
         $this->created = $created;
         $this->deleted = $deleted;

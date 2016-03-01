@@ -36,9 +36,9 @@ class CustomerContacts
      */
     public function update(CustomerInterface $customer, Array $contacts)
     {
-        $created = 0;
-        $deleted = 0;
-        $unmodified = 0;
+        $created = [];
+        $deleted = [];
+        $unmodified = [];
 
         // remove himself if it exist in its contacts
         $index = array_search($customer->getUsername(), $contacts);
@@ -52,25 +52,27 @@ class CustomerContacts
         // remove non present on new contacts from db and unmodified from new contacts leaving only new contacts on it
         foreach ($dbContacts as $contact) {
             if (in_array($contact->getUsername(), $contacts)) {
-                $unmodified++;
+                $unmodified[] = $contact->getUsername();
                 $index = array_search($contact->getUsername(), $contacts);
                 if ($index !== false) {
                     unset($contacts[$index]);
                 }
             } else {
                 $customer->removeContact($contact);
-                $deleted++;
+                $deleted[] = $contact->getUsername();
             }
         }
 
         // loop through new contacts and save them
         $dbContacts = $this->em->getRepository('AppBundle:Customer')->getByIds($contacts);
-        $nonPresent = count($contacts) - count($dbContacts);
         foreach ($dbContacts as $contact) {
             $customer->addContact($contact);
-            $created++;
+            $created[] = $contact->getUsername();
         }
         $this->em->flush();
+
+        // compute non presents
+        $nonPresent = array_values(array_diff($contacts, array_merge($created, $deleted, $unmodified)));
 
         return [
             'created' => $created,
