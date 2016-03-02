@@ -114,7 +114,7 @@ class ContactsController extends FOSRestController implements ClassResourceInter
      *  }
      * )
      */
-    public function cgetAction(Customer $customer = null)
+    public function getAction(Customer $customer = null)
     {
         if (!$customer) {
             throw new HttpException(500, 'Customer not found');
