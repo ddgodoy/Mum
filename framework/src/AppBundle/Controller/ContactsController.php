@@ -2,7 +2,6 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\Customer;
 use AppBundle\Form\CustomerContactsType;
 use AppBundle\ResponseObjects\CustomerContacts;
 use AppBundle\ResponseObjects\CustomerContactsUpdateStats;
@@ -26,30 +25,19 @@ class ContactsController extends FOSRestController implements ClassResourceInter
     /**
      * Update customer contacts
      *
-     * @param Customer $customer
      * @param Request $request
      * @return CustomerContactsUpdateStats|\Symfony\Component\Form\FormErrorIterator
-     * @throws HttpException
      *
      * @Security("has_role('ROLE_USER')")
      *
-     * @FOSRestBundleAnnotations\Route("/customers/{customer}/contacts")
+     * @FOSRestBundleAnnotations\Route("/customers/me/contacts")
      *
      * @ApiDoc(
      *  section="Contacts",
      *  description="Update customer contacts",
      *  input="AppBundle\Form\CustomerContactsType",
-     *  requirements={
-     *      {
-     *          "name"="customer",
-     *          "dataType"="string",
-     *          "requirement"="*",
-     *          "description"="customer id"
-     *      }
-     *  },
      *  statusCodes={
-     *         200="Returned when successful",
-     *         500="Returned on not found customer"
+     *         200="Returned when successful"
      *  },
      *  tags={
      *   "stable" = "#4A7023",
@@ -57,18 +45,16 @@ class ContactsController extends FOSRestController implements ClassResourceInter
      *  }
      * )
      */
-    public function postAction(Customer $customer = null, Request $request)
+    public function postAction(Request $request)
     {
-        if (!$customer) {
-            throw new HttpException(500, 'Customer not found');
-        }
+        $customer = $this->getUser();
 
         $customerContactsForm = $this->createForm(new CustomerContactsType());
 
         $customerContactsForm->handleRequest($request);
 
         if ($customerContactsForm->isValid()) {
-            $contacts = json_decode($customerContactsForm->get('contacts')->getData());
+            $contacts = $customerContactsForm->get('contacts')->getData();
 
             $contactsHandler = $this->get('mum.customer.contacts');
             $response = $contactsHandler->update($customer, $contacts);
@@ -85,28 +71,17 @@ class ContactsController extends FOSRestController implements ClassResourceInter
     /**
      * Response with the customer contacts that has {customer} for id
      *
-     * @param Customer $customer
      * @return CustomerContacts
-     * @throws HttpException
      *
      * @Security("has_role('ROLE_USER')")
      *
-     * @FOSRestBundleAnnotations\Route("/customers/{customer}/contacts")
+     * @FOSRestBundleAnnotations\Route("/customers/me/contacts")
      *
      * @ApiDoc(
      *  section="Contacts",
      *  description="Get a customer contacts",
-     *  requirements={
-     *      {
-     *          "name"="customer",
-     *          "dataType"="string",
-     *          "requirement"="*",
-     *          "description"="customer id"
-     *      }
-     *  },
      *  statusCodes={
-     *         200="Returned when successful",
-     *         500="Returned on not found customer"
+     *         200="Returned when successful"
      *  },
      *  tags={
      *   "stable" = "#4A7023",
@@ -114,12 +89,9 @@ class ContactsController extends FOSRestController implements ClassResourceInter
      *  }
      * )
      */
-    public function getAction(Customer $customer = null)
+    public function getAction()
     {
-        if (!$customer) {
-            throw new HttpException(500, 'Customer not found');
-        }
-
+        $customer = $this->getUser();
         return new CustomerContacts($customer->getContacts()->getValues());
     }
 }
