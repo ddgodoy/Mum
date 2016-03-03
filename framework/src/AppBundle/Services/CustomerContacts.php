@@ -3,6 +3,8 @@
 namespace AppBundle\Services;
 
 use Customer\Customer\CustomerInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManager;
 
 /**
@@ -28,36 +30,27 @@ class CustomerContacts
     }
 
     /**
-     * Update customer contacts
+     * Remove non present on new contacts from db and unmodified from new contacts leaving only new contacts on it
      *
-     * @param CustomerInterface $customer
+     * @param Collection $dbContacts
      * @param array $contacts
-     * @return mixed
+     * @param CustomerInterface $customer
+     * @return array
      */
-    public function update(CustomerInterface $customer, Array $contacts)
+    private function removeContacts(Collection $dbContacts, Array $contacts, CustomerInterface $customer)
     {
-        $created = [];
         $deleted = [];
         $unmodified = [];
+        $unmodifiedContactInfo = [];
 
-        // remove himself if it exist in its contacts
-        $index = array_search($customer->getUsername(), $contacts);
-        if ($index !== false) {
-            unset($contacts[$index]);
-        }
-
-        // retrieve all contacts for this customer
-        $dbContacts = $customer->getContacts();
-
-        // remove non present on new contacts from db and unmodified from new contacts leaving only new contacts on it
         foreach ($dbContacts as $contact) {
             if (in_array($contact->getUsername(), $contacts)) {
-                $unmodified[] = [
+                $unmodified[] = $contact->getUsername();
+                $unmodifiedContactInfo[] = [
                     'id' => $contact->getId(),
                     'username' => $contact->getUsername()
                 ];
-                $index = array_search($contact->getUsername(), $contacts);
-                if ($index !== false) {
+                while ($index = array_search($contact->getUsername(), $contacts)) {
                     unset($contacts[$index]);
                 }
             } else {
@@ -69,8 +62,64 @@ class CustomerContacts
             }
         }
 
-        // loop through new contacts and save them
-        $dbContacts = $this->em->getRepository('AppBundle:Customer')->getByIds($contacts);
+        return [
+            "deleted" => $deleted,
+            "unmodified" => $unmodified,
+            "unmodifiedContactInfo" => $unmodifiedContactInfo,
+            "contacts" => $contacts
+        ];
+    }
+
+    /**
+     * Format phone numbers to prepare for db match
+     *
+     * @param array $contacts
+     * @param CustomerInterface $customer
+     * @return array
+     */
+    private function sanitizeContacts(Array $contacts, CustomerInterface $customer)
+    {
+        foreach ($contacts as &$contact) {
+            // if the phone number don't starts with (+) or (00) elsewhere is international
+            if (substr($contact, 0, 1) !== '+' && substr($contact, 0, 2) !== '00') {
+                // if ti has (0) as first digit remove it
+                if (substr($contact, 0, 1) === '0') {
+                    $contact = substr($contact, 1);
+                }
+
+                // add customer international code to it
+                $contact = sprintf("%s%s", $customer->getCountryCode(), $contact);
+            } else {
+                if (substr($contact, 0, 1) === '+') {
+                    $contact = substr($contact, 1);
+                }
+
+                if (substr($contact, 0, 2) === '00') {
+                    $contact = substr($contact, 2);
+                }
+            }
+
+            $chars = [' ', '-', '+', '(', ')'];
+            foreach ($chars as $char) {
+                $contact = str_replace($char, '', $contact);
+            }
+        }
+
+        return $contacts;
+    }
+
+    /**
+     * Save new contacts
+     *
+     * @param array $contacts
+     * @param CustomerInterface $customer
+     * @return array
+     */
+    private function createContacts(Array $contacts, CustomerInterface $customer)
+    {
+        $dbContacts = $this->em->getRepository('AppBundle:Customer')->getListByUsername($contacts);
+
+        $created = [];
         foreach ($dbContacts as $contact) {
             $customer->addContact($contact);
             $created[] = [
@@ -78,7 +127,44 @@ class CustomerContacts
                 'username' => $contact->getUsername()
             ];
         }
+
         $this->em->flush();
+
+        return [
+            "created" => $created,
+            "contacts" => $contacts
+        ];
+    }
+
+    /**
+     * Update customer contacts
+     *
+     * @param CustomerInterface $customer
+     * @param array $contacts
+     * @return mixed
+     */
+    public function update(CustomerInterface $customer, Array $contacts)
+    {
+        $contacts = $this->sanitizeContacts($contacts, $customer);
+
+        // remove himself if it exist in its contacts
+        $index = array_search($customer->getUsername(), $contacts);
+        if ($index !== false) {
+            unset($contacts[$index]);
+        }
+
+        // retrieve all contacts for this customer
+        $dbContacts = $customer->getContacts();
+
+        $response = $this->removeContacts($dbContacts, $contacts, $customer);
+        $contacts = $response["contacts"];
+        $deleted = $response["deleted"];
+        $unmodified = $response["unmodified"];
+        $unmodifiedContactInfo = $response["unmodifiedContactInfo"];
+
+        $response = $this->createContacts($contacts, $customer);
+        $created = $response["created"];
+        $contacts = $response["contacts"];
 
         // compute non presents
         $nonPresent = array_values(array_diff($contacts, array_merge($created, $deleted, $unmodified)));
@@ -86,7 +172,7 @@ class CustomerContacts
         return [
             'created' => $created,
             'deleted' => $deleted,
-            'unmodified' => $unmodified,
+            'unmodified' => $unmodifiedContactInfo,
             'nonPresent' => $nonPresent
         ];
     }
