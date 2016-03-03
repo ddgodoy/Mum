@@ -52,14 +52,16 @@ class CustomersController extends FOSRestController implements ClassResourceInte
      */
     public function postAction(Request $request)
     {
-        $customer = new Customer();
-        $customerForm = $this->createForm(new CustomerType(), $customer);
+        $customerForm = $this->createForm(new CustomerType());
 
         $customerForm->handleRequest($request);
 
         if ($customerForm->isValid()) {
+            $customer = new Customer();
+            $countryCode = $customerForm->get('countryCode')->getData();
+            $phoneNumber = $customerForm->get('phoneNumber')->getData();
             $registrationHandler = $this->get('mum.customer.registration');
-            $response = $registrationHandler->register($customer);
+            $response = $registrationHandler->register($customer, $countryCode, $phoneNumber);
             return new CustomerRegistration($response['customer'], $response['attempt']);
         }
 

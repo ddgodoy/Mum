@@ -17,6 +17,17 @@ use Hateoas\Configuration\Annotation as Hateoas;
 class Customer extends CustomerBase
 {
     /**
+     * @var string
+     */
+    protected $countryCode;
+
+    /**
+     * @var string
+     */
+    protected $phoneNumber;
+
+
+    /**
      * @var array
      */
     protected $accessTokens;
@@ -60,6 +71,46 @@ class Customer extends CustomerBase
         $this->authCodes = new ArrayCollection();
         $this->refreshTokens = new ArrayCollection();
         $this->devices = new ArrayCollection();
+    }
+
+    /**
+     * Set country code
+     *
+     * @param string $countryCode
+     */
+    public function setCountryCode($countryCode)
+    {
+        $this->countryCode = $countryCode;
+    }
+
+    /**
+     * Get country code
+     *
+     * @return string
+     */
+    public function getCountryCode()
+    {
+        return $this->countryCode;
+    }
+
+    /**
+     * Set phone number
+     *
+     * @param string $phoneNumber
+     */
+    public function setPhoneNumber($phoneNumber)
+    {
+        $this->phoneNumber = $phoneNumber;
+    }
+
+    /**
+     * Get phone number
+     *
+     * @return string
+     */
+    public function getPhoneNumber()
+    {
+        return $this->phoneNumber;
     }
 
     /**

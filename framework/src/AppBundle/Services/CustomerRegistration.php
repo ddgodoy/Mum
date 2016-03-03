@@ -2,7 +2,6 @@
 
 namespace AppBundle\Services;
 
-use AppBundle\Entity\Customer;
 use AppBundle\Entity\RegistrationAttempt;
 use Customer\Customer\CustomerInterface;
 use Customer\Registration\RegistrationAttemptInterface;
@@ -42,15 +41,32 @@ class CustomerRegistration
      * Register new customer
      *
      * @param CustomerInterface $customer
+     * @param string $countryCode
+     * @param string $phoneNumber
      * @return mixed
      */
-    public function register(CustomerInterface $customer)
+    public function register(CustomerInterface $customer, $countryCode, $phoneNumber)
     {
+        if (substr($countryCode, 0, 1) === '+') {
+            $countryCode = substr($countryCode, 1);
+        }
+
+        if (substr($phoneNumber, 0, 1) === '0') {
+            $phoneNumber = substr($phoneNumber, 1);
+        }
+
+        $username = sprintf("%s%s", $countryCode, $phoneNumber);
+
         // try to find an already registered customer
-        $customers = $this->em->getRepository('AppBundle:Customer')->findByUsername($customer->getUsername());
+        $customers = $this->em->getRepository('AppBundle:Customer')->findByUsername($username);
         // if the user is already registered use it
         if (count($customers)) {
             $customer = $customers[0];
+        } else {
+            // setup base data
+            $customer->setUsername($username);
+            $customer->setCountryCode($countryCode);
+            $customer->setPhoneNumber($phoneNumber);
         }
 
         // perform business registration

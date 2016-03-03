@@ -8,6 +8,12 @@ AppBundle\Entity\Customer:
             type: string
             length: 255
     fields:
+        countryCode:
+            type: string
+            length: 255
+        phoneNumber:
+            type: string
+            length: 255
         created:
             type: datetime
             gedmo:
