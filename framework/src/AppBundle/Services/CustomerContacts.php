@@ -40,6 +40,7 @@ class CustomerContacts
     private function removeContacts(Collection $dbContacts, Array $contacts, CustomerInterface $customer)
     {
         $deleted = [];
+        $deletedContactInfo = [];
         $unmodified = [];
         $unmodifiedContactInfo = [];
 
@@ -55,7 +56,8 @@ class CustomerContacts
                 }
             } else {
                 $customer->removeContact($contact);
-                $deleted[] = [
+                $deleted[] = $contact->getUsername();
+                $deletedContactInfo[] = [
                     'id' => $contact->getId(),
                     'username' => $contact->getUsername()
                 ];
@@ -64,6 +66,7 @@ class CustomerContacts
 
         return [
             "deleted" => $deleted,
+            "deletedContactInfo" => $deletedContactInfo,
             "unmodified" => $unmodified,
             "unmodifiedContactInfo" => $unmodifiedContactInfo,
             "contacts" => $contacts
@@ -120,9 +123,12 @@ class CustomerContacts
         $dbContacts = $this->em->getRepository('AppBundle:Customer')->getListByUsername($contacts);
 
         $created = [];
+        $createdContactInfo = [];
+
         foreach ($dbContacts as $contact) {
             $customer->addContact($contact);
-            $created[] = [
+            $created[] = $contact->getUsername();
+            $createdContactInfo[] = [
                 'id' => $contact->getId(),
                 'username' => $contact->getUsername()
             ];
@@ -132,6 +138,7 @@ class CustomerContacts
 
         return [
             "created" => $created,
+            "createdContactInfo" => $createdContactInfo,
             "contacts" => $contacts
         ];
     }
@@ -159,19 +166,23 @@ class CustomerContacts
         $response = $this->removeContacts($dbContacts, $contacts, $customer);
         $contacts = $response["contacts"];
         $deleted = $response["deleted"];
+        $deletedContactInfo = $response["deletedContactInfo"];
         $unmodified = $response["unmodified"];
         $unmodifiedContactInfo = $response["unmodifiedContactInfo"];
 
         $response = $this->createContacts($contacts, $customer);
         $created = $response["created"];
+        $createdContactInfo = $response["createdContactInfo"];
         $contacts = $response["contacts"];
 
         // compute non presents
-        $nonPresent = array_values(array_diff($contacts, array_merge($created, $deleted, $unmodified)));
+        $merge = array_merge($created, $deleted, $unmodified);
+        $diff = array_diff($contacts, $merge);
+        $nonPresent = array_values($diff);
 
         return [
-            'created' => $created,
-            'deleted' => $deleted,
+            'created' => $createdContactInfo,
+            'deleted' => $deletedContactInfo,
             'unmodified' => $unmodifiedContactInfo,
             'nonPresent' => $nonPresent
         ];
