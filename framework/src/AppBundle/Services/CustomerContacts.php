@@ -74,44 +74,6 @@ class CustomerContacts
     }
 
     /**
-     * Format phone numbers to prepare for db match
-     *
-     * @param array $contacts
-     * @param CustomerInterface $customer
-     * @return array
-     */
-    private function sanitizeContacts(Array $contacts, CustomerInterface $customer)
-    {
-        foreach ($contacts as &$contact) {
-            // if the phone number don't starts with (+) or (00) elsewhere is international
-            if (substr($contact, 0, 1) !== '+' && substr($contact, 0, 2) !== '00') {
-                // if ti has (0) as first digit remove it
-                if (substr($contact, 0, 1) === '0') {
-                    $contact = substr($contact, 1);
-                }
-
-                // add customer international code to it
-                $contact = sprintf("%s%s", $customer->getCountryCode(), $contact);
-            } else {
-                if (substr($contact, 0, 1) === '+') {
-                    $contact = substr($contact, 1);
-                }
-
-                if (substr($contact, 0, 2) === '00') {
-                    $contact = substr($contact, 2);
-                }
-            }
-
-            $chars = [' ', '-', '+', '(', ')'];
-            foreach ($chars as $char) {
-                $contact = str_replace($char, '', $contact);
-            }
-        }
-
-        return $contacts;
-    }
-
-    /**
      * Save new contacts
      *
      * @param array $contacts
@@ -152,8 +114,6 @@ class CustomerContacts
      */
     public function update(CustomerInterface $customer, Array $contacts)
     {
-        $contacts = $this->sanitizeContacts($contacts, $customer);
-
         // remove himself if it exist in its contacts
         $index = array_search($customer->getUsername(), $contacts);
         if ($index !== false) {
