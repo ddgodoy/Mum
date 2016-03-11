@@ -60,7 +60,7 @@ class DevicesController extends FOSRestController implements ClassResourceInterf
                 return new DeviceRegistration($response['customer'], $response['device']);
             }
 
-            throw new HttpException(500, 'Customer has a device registered');
+            throw new HttpException(500, 'Customer has this device registered');
         }
 
         return $deviceForm->getErrors();
