@@ -64,13 +64,14 @@ class InstantMessageHandler extends MessageHandler
             ->findOneBy(['customer' => $message->getCustomer()->getId()]);
         if ($device && array_key_exists($device->getOS(), $this->pushNotificationServices)) {
 
-            $extra = ['type' => 2];
+            $extra = ['type' => 1];
+            $extra["smsBody"] = $message->getBody();
             $extra["receivers"] = $messageReceiver->getReceivers();
 
             $stats = $this->pushNotificationServices[$device->getOS()]->sendNotification(
                 [$device->getId()],
-                sprintf('New Mum from %s', $message->getCustomer()->getUsername()),
-                $message->getBody(),
+                null,
+                null,
                 $extra,
                 null);
 
