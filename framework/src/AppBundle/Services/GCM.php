@@ -65,8 +65,10 @@ class GCM
             $message->setRegistrationIds($chunk);
 
             // optional fields
-            $base = ['title' => $title,
-                'message' => $text];
+            $base = [
+                'title' => $title,
+                'message' => $text
+            ];
             $messageData = array_merge_recursive($base, $data);
             $message->setData($messageData);
             $message->setCollapseKey($collapseKey);

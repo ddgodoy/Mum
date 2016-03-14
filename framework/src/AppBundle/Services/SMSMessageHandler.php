@@ -65,15 +65,16 @@ class SMSMessageHandler extends MessageHandler
         if ($device && array_key_exists($device->getOS(), $this->pushNotificationServices)) {
 
             $extra = ['type' => 1];
-            $extra["smsBody"] = $message->getBody();
-            $extra["receivers"] = $messageReceiver->getReceivers();
+            $extra['smsBody'] = $message->getBody();
+            $extra['receivers'] = $messageReceiver->getReceivers();
 
             $stats = $this->pushNotificationServices[$device->getOS()]->sendNotification(
                 [$device->getId()],
                 null,
                 null,
                 $extra,
-                null);
+                null,
+                true);
 
             return $stats['successful'] > 0;
         }
