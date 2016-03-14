@@ -28,7 +28,7 @@ class CustomerProfile
      */
     public function __construct(CustomerProfileInterface $customerProfile)
     {
-        $this->avatarUrl = $customerProfile->getAvatarURL();
+        $this->avatarURL = $customerProfile->getAvatarURL();
         $this->displayName = $customerProfile->getDisplayName();
     }
 }

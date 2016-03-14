@@ -173,7 +173,7 @@ class CustomersController extends FOSRestController implements ClassResourceInte
      *
      * @param Customer $customer
      * @param Request $request
-     * @return string|\Symfony\Component\Form\FormErrorIterator
+     * @return CustomerProfileResponse|\Symfony\Component\Form\FormErrorIterator
      * @throws HttpException
      *
      * @Security("has_role('ROLE_USER')")
