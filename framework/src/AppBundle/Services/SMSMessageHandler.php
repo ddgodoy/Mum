@@ -4,7 +4,6 @@ namespace AppBundle\Services;
 
 use AppBundle\Entity\SMSMessage;
 use Customer\Customer\CustomerInterface;
-use Doctrine\ORM\EntityManager;
 use Message\Message\MessageDependantInterface;
 use Message\Message\MessageHandler;
 use Message\Message\MessageInterface;
@@ -20,25 +19,18 @@ class SMSMessageHandler extends MessageHandler
 {
 
     /**
-     * @var array
+     * @var Twilio
      */
-    private $pushNotificationServices = array();
+    private $twilio;
 
     /**
-     * @var EntityManager
-     */
-    private $em;
-
-    /**
-     * EmailMessageHandler constructor.
+     * SMSMessageHandler constructor.
      *
-     * @param array $pushNotificationServices
-     * @param EntityManager $em
+     * @param Twilio $twilio
      */
-    public function __construct(array $pushNotificationServices, EntityManager $em)
+    public function __construct(Twilio $twilio)
     {
-        $this->pushNotificationServices = $pushNotificationServices;
-        $this->em = $em;
+        $this->twilio = $twilio;
     }
 
     /**
@@ -60,25 +52,13 @@ class SMSMessageHandler extends MessageHandler
                             MessageDependantInterface $messageDependant,
                             ScheduledMessageInterface $scheduledMessage = null)
     {
-        $device = $this->em->getRepository('AppBundle:Device')
-            ->findOneBy(['customer' => $message->getCustomer()->getId()]);
-        if ($device && array_key_exists($device->getOS(), $this->pushNotificationServices)) {
+        $message = sprintf($message->getBody());
 
-            $extra = ['type' => 1];
-            $extra['smsBody'] = $message->getBody();
-            $extra['receivers'] = $messageReceiver->getReceivers();
-
-            $stats = $this->pushNotificationServices[$device->getOS()]->sendNotification(
-                [$device->getId()],
-                null,
-                null,
-                $extra,
-                null,
-                true);
-
-            return $stats['successful'] > 0;
+        foreach ($messageReceiver->getReceivers() as $receiver) {
+            $to = sprintf('+%s', $receiver);
+            $this->twilio->sendToNumber($message, $to);
         }
 
-        return false;
+        return true;
     }
 }

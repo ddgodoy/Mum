@@ -82,9 +82,7 @@ services:
     mum.message.handler.sms:
         class: AppBundle\Services\SMSMessageHandler
         arguments:
-            "pushNotificationServices":
-                "Android": "@mum.push_notification.gcm"
-            "em": "@doctrine.orm.entity_manager"
+            "twilio": "@mum.twilio"
 
     mum.message.handler.instant:
         class: AppBundle\Services\InstantMessageHandler
