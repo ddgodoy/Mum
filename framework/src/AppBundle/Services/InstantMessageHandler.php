@@ -60,25 +60,30 @@ class InstantMessageHandler extends MessageHandler
                             MessageDependantInterface $messageDependant,
                             ScheduledMessageInterface $scheduledMessage = null)
     {
-        $device = $this->em->getRepository('AppBundle:Device')
-            ->findOneBy(['customer' => $message->getCustomer()->getId()]);
-        if ($device && array_key_exists($device->getOS(), $this->pushNotificationServices)) {
+        $receivers = $messageReceiver->getReceivers();
+        foreach ($receivers as $receiver) {
+            $device = $this->em->getRepository('AppBundle:Device')
+                ->findOneBy(['customer' => $receiver]);
+            if ($device && array_key_exists($device->getOS(), $this->pushNotificationServices)) {
 
-            $extra = ['type' => 2];
-            $extra['receivers'] = $messageReceiver->getReceivers();
-            $title = sprintf('New Mum from %s', $message->getCustomer()->getUsername());
-            $body = $message->getBody();
+                $extra = ['type' => 2];
+                $extra['receivers'] = $receivers;
+                $title = sprintf('New Mum from %s', $message->getCustomer()->getUsername());
+                $body = $message->getBody();
 
-            $stats = $this->pushNotificationServices[$device->getOS()]->sendNotification(
-                [$device->getId()],
-                $title,
-                $body,
-                $extra,
-                null);
+                $stats = $this->pushNotificationServices[$device->getOS()]->sendNotification(
+                    [$device->getId()],
+                    $title,
+                    $body,
+                    $extra,
+                    null);
 
-            return $stats['successful'] > 0;
+                if ($stats['successful'] <= 0) {
+                    return false;
+                }
+            }
+
+            return true;
         }
-
-        return false;
     }
 }

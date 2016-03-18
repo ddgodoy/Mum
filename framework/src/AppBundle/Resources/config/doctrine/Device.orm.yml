@@ -1,6 +1,7 @@
 AppBundle\Entity\Device:
     type: entity
     table: device
+    repositoryClass: AppBundle\EntityRepository\DeviceRepository
     id:
         id:
             id: true
