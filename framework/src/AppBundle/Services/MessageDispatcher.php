@@ -124,14 +124,14 @@ class MessageDispatcher extends BaseMessageDispatcher
         $messageDependantHandler = $this->getMessageHandler($serviceHandlerName);
         // store the message
         $objects = $this->store($customer, $messageDependantHandler, $data);
-        $this->logger->log(Logger::DEBUG, sprintf("Message stored"));
+        $this->logger->debug(sprintf("Message stored"));
         // deliver the message
         $delivered = $this->deliver($objects['message'],
             $objects['messageReceivers'],
             $objects['messageDependant'],
             $objects['scheduledMessage'],
             $messageDependantHandler);
-        $this->logger->log(Logger::DEBUG, sprintf("Message delivered: %s", ($delivered ? "true" : "false")));
+        $this->logger->debug(sprintf("Message delivered: %s", ($delivered ? "true" : "false")));
         // save all changes
         $this->em->persist($objects['message']);
         $this->em->persist($objects['messageReceivers']);

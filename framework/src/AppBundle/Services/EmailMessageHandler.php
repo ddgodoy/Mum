@@ -9,6 +9,7 @@ use Message\Message\MessageDependantInterface;
 use Message\Message\MessageHandler;
 use Message\Message\MessageInterface;
 use Message\Message\MessageReceiverInterface;
+use Monolog\Logger;
 use Scheduler\Scheduler\ScheduledMessageInterface;
 
 /**
@@ -29,15 +30,22 @@ class EmailMessageHandler extends MessageHandler
     private $em;
 
     /**
+     * @var Logger
+     */
+    private $logger;
+
+    /**
      * EmailMessageHandler constructor.
      *
      * @param \Swift_Mailer $mailer
      * @param EntityManager $em
+     * @param Logger $logger
      */
-    public function __construct(\Swift_Mailer $mailer, EntityManager $em)
+    public function __construct(\Swift_Mailer $mailer, EntityManager $em, Logger $logger)
     {
         $this->mailer = $mailer;
         $this->em = $em;
+        $this->logger = $logger;
     }
 
     /**
@@ -74,6 +82,7 @@ class EmailMessageHandler extends MessageHandler
         }
 
         $response = $this->mailer->send($swiftMessage);
+        $this->logger->debug(sprintf("Email sent to %s: %s", join(", ", $messageReceiver->getReceivers()), $response !== 0 ? "true" : "false"));
 
         return $response !== 0;
     }

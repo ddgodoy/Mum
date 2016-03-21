@@ -8,6 +8,7 @@ use Message\Message\MessageDependantInterface;
 use Message\Message\MessageHandler;
 use Message\Message\MessageInterface;
 use Message\Message\MessageReceiverInterface;
+use Monolog\Logger;
 use Scheduler\Scheduler\ScheduledMessageInterface;
 
 /**
@@ -24,13 +25,20 @@ class SMSMessageHandler extends MessageHandler
     private $twilio;
 
     /**
+     * @var Logger
+     */
+    private $logger;
+
+    /**
      * SMSMessageHandler constructor.
      *
      * @param Twilio $twilio
+     * @param Logger $logger
      */
-    public function __construct(Twilio $twilio)
+    public function __construct(Twilio $twilio, Logger $logger)
     {
         $this->twilio = $twilio;
+        $this->logger = $logger;
     }
 
     /**

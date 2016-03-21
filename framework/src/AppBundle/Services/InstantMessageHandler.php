@@ -9,6 +9,7 @@ use Message\Message\MessageDependantInterface;
 use Message\Message\MessageHandler;
 use Message\Message\MessageInterface;
 use Message\Message\MessageReceiverInterface;
+use Monolog\Logger;
 use Scheduler\Scheduler\ScheduledMessageInterface;
 
 /**
@@ -30,15 +31,22 @@ class InstantMessageHandler extends MessageHandler
     private $em;
 
     /**
+     * @var Logger
+     */
+    private $logger;
+
+    /**
      * EmailMessageHandler constructor.
      *
      * @param array $pushNotificationServices
      * @param EntityManager $em
+     * @param Logger $logger
      */
-    public function __construct(array $pushNotificationServices, EntityManager $em)
+    public function __construct(array $pushNotificationServices, EntityManager $em, Logger $logger)
     {
         $this->pushNotificationServices = $pushNotificationServices;
         $this->em = $em;
+        $this->logger = $logger;
     }
 
     /**
@@ -65,7 +73,6 @@ class InstantMessageHandler extends MessageHandler
             $device = $this->em->getRepository('AppBundle:Device')
                 ->findOneBy(['customer' => $receiver]);
             if ($device && array_key_exists($device->getOS(), $this->pushNotificationServices)) {
-
                 $extra = ['type' => 2];
                 $extra['receivers'] = $receivers;
                 $title = sprintf('New Mum from %s', $message->getCustomer()->getUsername());
@@ -77,6 +84,8 @@ class InstantMessageHandler extends MessageHandler
                     $body,
                     $extra,
                     null);
+
+                $this->logger->debug(sprintf("Instant Message sent to  %s: %s", $device->getId(), $stats['successful'] <= 0 ? "false" : "true"));
 
                 if ($stats['successful'] <= 0) {
                     return false;
