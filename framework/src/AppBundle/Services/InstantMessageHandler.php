@@ -85,9 +85,13 @@ class InstantMessageHandler extends MessageHandler
                     $extra,
                     null);
 
-                $this->logger->debug(sprintf("Instant Message sent to  %s: %s", $device->getId(), $stats['successful'] <= 0 ? "false" : "true"));
+                $delivered = !($stats['successful'] <= 0);
+                $logMessage = sprintf("Instant Message sent to %s: %s",
+                    $device->getId(),
+                    $delivered ? "true" : "false");
+                $this->logger->debug($logMessage);
 
-                if ($stats['successful'] <= 0) {
+                if (!$delivered) {
                     return false;
                 }
             } else {
