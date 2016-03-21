@@ -71,7 +71,7 @@ class InstantMessageHandler extends MessageHandler
         $receivers = $messageReceiver->getReceivers();
         foreach ($receivers as $receiver) {
             $device = $this->em->getRepository('AppBundle:Device')
-                ->findOneBy(['customer' => $receiver]);
+                ->getByCustomer($receiver);
             if ($device && array_key_exists($device->getOS(), $this->pushNotificationServices)) {
                 $extra = ['type' => 2];
                 $extra['receivers'] = $receivers;
