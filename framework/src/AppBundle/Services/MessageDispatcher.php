@@ -37,7 +37,7 @@ class MessageDispatcher extends BaseMessageDispatcher
     /**
      * MessageDispatcher constructor.
      *
-     * @param array messageTypes
+     * @param array $messageTypes
      * @param ContainerInterface $serviceContainer
      */
     public function __construct(Array $messageTypes, ContainerInterface $serviceContainer)

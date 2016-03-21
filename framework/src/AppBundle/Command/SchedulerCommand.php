@@ -36,32 +36,38 @@ class SchedulerCommand extends ContainerAwareCommand
     }
 
     /**
+     * Print timestamp
+     *
+     * @return string
+     */
+    private function getTimestamp()
+    {
+        return "<info>" . date_format(new \DateTime(), "[Y-m-d H:i:s]") . "</info>";
+    }
+
+    /**
      * Dispatch the messages
      *
      * @param OutputInterface $output
      * @param boolean $print
+     * @return integer
      */
     private function dispatch(OutputInterface $output, $print = false)
     {
         $container = $this->getContainer();
         $messageDispatcher = $container->get('mum.message.dispatcher');
         $stats = $messageDispatcher->dispatch();
+        $total = array_sum(array_values($stats));
         if ($print) {
             $text = $this->getTimestamp();
-            $total = 0;
             foreach ($stats as $statName => $value) {
                 $text .= " <info>" . $value . "</info> " . $statName . " message ";
-                $total += $value;
             }
             $text .= "for a total of <info>" . $total . "</info> messages delivered";
 
             $output->writeln($text);
         }
-    }
-
-    private function getTimestamp()
-    {
-        return "<info>" . date_format(new \DateTime(), "[Y-m-d H:i:s]") . "</info>";
+        return $total;
     }
 
     /**
@@ -77,7 +83,12 @@ class SchedulerCommand extends ContainerAwareCommand
         if ($input->getOption('daemon')) {
             $output->writeln("Scheduler started as a daemon");
             while (true) {
-                $this->dispatch($output, $input->getOption('output'));
+                $total = $this->dispatch($output, $input->getOption('output'));
+                if (intval($total) === 0) {
+                    $sleep = 60;
+                    $output->writeln(sprintf("<info>No action performed. Sleeping for %s seconds</info>", $sleep));
+                    sleep($sleep);
+                }
             }
         } else {
             $output->writeln($startingText);
