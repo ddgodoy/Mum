@@ -8,6 +8,7 @@ use AppBundle\Entity\ScheduledMessage;
 use Customer\Customer\CustomerInterface;
 use Doctrine\ORM\EntityManager;
 use Message\Message\MessageHandlerInterface;
+use Monolog\Logger;
 use Scheduler\Scheduler\MessageDispatcher as BaseMessageDispatcher;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -20,7 +21,7 @@ class MessageDispatcher extends BaseMessageDispatcher
 {
 
     /**
-     * @var Array
+     * @var array
      */
     private $messageTypes;
 
@@ -35,6 +36,11 @@ class MessageDispatcher extends BaseMessageDispatcher
     private $em;
 
     /**
+     * @var Logger
+     */
+    private $logger;
+
+    /**
      * MessageDispatcher constructor.
      *
      * @param array $messageTypes
@@ -45,6 +51,7 @@ class MessageDispatcher extends BaseMessageDispatcher
         $this->messageTypes = $messageTypes;
         $this->serviceContainer = $serviceContainer;
         $this->em = $this->serviceContainer->get('doctrine.orm.entity_manager');
+        $this->logger = $this->serviceContainer->get('logger');
     }
 
     /**
@@ -117,12 +124,14 @@ class MessageDispatcher extends BaseMessageDispatcher
         $messageDependantHandler = $this->getMessageHandler($serviceHandlerName);
         // store the message
         $objects = $this->store($customer, $messageDependantHandler, $data);
+        $this->logger->log(Logger::DEBUG, sprintf("Message stored"));
         // deliver the message
         $delivered = $this->deliver($objects['message'],
             $objects['messageReceivers'],
             $objects['messageDependant'],
             $objects['scheduledMessage'],
             $messageDependantHandler);
+        $this->logger->log(Logger::DEBUG, sprintf("Message delivered: %s", ($delivered ? "true" : "false")));
         // save all changes
         $this->em->persist($objects['message']);
         $this->em->persist($objects['messageReceivers']);
