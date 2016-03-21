@@ -70,31 +70,33 @@ class InstantMessageHandler extends MessageHandler
     {
         $receivers = $messageReceiver->getReceivers();
         foreach ($receivers as $receiver) {
-            $device = $this->em->getRepository('AppBundle:Device')
+            $devices = $this->em->getRepository('AppBundle:Device')
                 ->getByCustomer($receiver);
-            if ($device && array_key_exists($device->getOS(), $this->pushNotificationServices)) {
-                $extra = ['type' => 2];
-                $extra['receivers'] = $receivers;
-                $title = sprintf('New Mum from %s', $message->getCustomer()->getUsername());
-                $body = $message->getBody();
+            if (count($devices)) {
+                foreach ($devices as $device) {
+                    if ($device && array_key_exists($device->getOS(), $this->pushNotificationServices)) {
+                        $extra = ['type' => 2];
+                        $extra['receivers'] = $receivers;
+                        $title = sprintf('New Mum from %s', $message->getCustomer()->getUsername());
+                        $body = $message->getBody();
 
-                $stats = $this->pushNotificationServices[$device->getOS()]->sendNotification(
-                    [$device->getId()],
-                    $title,
-                    $body,
-                    $extra,
-                    null);
+                        $stats = $this->pushNotificationServices[$device->getOS()]->sendNotification(
+                            [$device->getId()],
+                            $title,
+                            $body,
+                            $extra,
+                            null);
 
-                $delivered = !($stats['successful'] <= 0);
-                $logMessage = sprintf("Instant Message sent to %s: %s",
-                    $device->getId(),
-                    $delivered ? "true" : "false");
-                $this->logger->debug($logMessage);
-
-                if (!$delivered) {
-                    return false;
+                        $delivered = !($stats['successful'] <= 0);
+                        $logMessage = sprintf("Instant Message sent to %s: %s",
+                            $device->getId(),
+                            $delivered ? "true" : "false");
+                        $this->logger->debug($logMessage);
+                    }
                 }
             } else {
+                $this->logger->debug("Instant Message don't delivered since 0 registered device");
+
                 return false;
             }
 

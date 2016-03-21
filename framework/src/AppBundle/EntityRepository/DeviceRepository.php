@@ -27,6 +27,6 @@ class DeviceRepository extends EntityRepository
             ->where('c.username = :customer')
             ->setParameter(':customer', $customer);
 
-        return $qb->getQuery()->getSingleResult();
+        return $qb->getQuery()->getResult();
     }
 }
