@@ -90,6 +90,8 @@ class InstantMessageHandler extends MessageHandler
                 if ($stats['successful'] <= 0) {
                     return false;
                 }
+            } else {
+                return false;
             }
 
             return true;
