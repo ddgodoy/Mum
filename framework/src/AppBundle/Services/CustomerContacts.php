@@ -130,6 +130,8 @@ class CustomerContacts
         $unmodified = $response["unmodified"];
         $unmodifiedContactInfo = $response["unmodifiedContactInfo"];
 
+        print_r($contacts);
+        die("here");
         $response = $this->createContacts($contacts, $customer);
         $created = $response["created"];
         $createdContactInfo = $response["createdContactInfo"];
