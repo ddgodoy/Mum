@@ -21,6 +21,8 @@ class MessageType extends AbstractType
     {
         $builder
             ->add('body', 'text')
+            ->add('fileData', 'text', array('mapped' => false))
+            ->add('fileMimeType', 'text', array('mapped' => false))    
             ->add('receivers', 'text')
             ->add('at', 'datetime', [
                 'widget' => 'single_text',

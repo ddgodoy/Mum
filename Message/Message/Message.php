@@ -25,6 +25,12 @@ class Message implements MessageInterface
      * @var string
      */
     protected $body;
+    
+    /**
+     *
+     * @var string
+     */
+    protected $attachment;
 
     /**
      * Message constructor.
@@ -77,5 +83,21 @@ class Message implements MessageInterface
     public function getBody()
     {
         return $this->body;
+    }
+    
+    /**
+     * @inheritdoc
+     */
+    public function setAttachment($attachment)
+    {
+        $this->attachment = $attachment;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAttachment()
+    {
+        return $this->attachment;
     }
 }

@@ -45,4 +45,18 @@ interface MessageInterface
      * @return string
      */
     public function getBody();
+    
+    /**
+     * Set the Message attachment
+     *
+     * @param string $attachment
+     */
+    public function setAttachment($attachment);
+
+    /**
+     * Get the Message attachment
+     *
+     * @return string
+     */
+    public function getAttachment();
 }

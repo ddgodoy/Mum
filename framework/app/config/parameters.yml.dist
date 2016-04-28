@@ -27,6 +27,10 @@ parameters:
     customer_avatar_base_path: uploads/customer/avatar/
     customer_avatar_base_url: http://127.0.0.1/
 
+    # upload file store
+    customer_file_base_path: uploads/customer/file/
+    customer_file_base_url: http://127.0.0.1/
+
     # push notifications
     gcm_token: AIzaSyAYMBe-aISN1Jvbi_Q4cAY-YkUxR-hMgqg
     gcm_package_name: 'com.thinkandcloud.mum'

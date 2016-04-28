@@ -67,6 +67,7 @@ class MessageDispatcher extends BaseMessageDispatcher
         // create message
         $message = new Message();
         $message->setBody($data['message']['body']);
+        $message->setAttachment($data['message']['attachment']);
         $message->setCustomer($customer);
 
         // create message receiver

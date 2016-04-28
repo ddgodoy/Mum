@@ -9,6 +9,10 @@ AppBundle\Entity\Message:
     fields:
         body:
             type: text
+        attachment:
+            type: string
+            length: 255
+            nullable: true    
         created:
             type: datetime
             gedmo:
