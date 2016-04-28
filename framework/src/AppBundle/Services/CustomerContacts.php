@@ -51,6 +51,10 @@ class CustomerContacts
                     'id' => $contact->getId(),
                     'username' => $contact->getUsername()
                 ];
+                echo $contact->getUsername().PHP_EOL;
+                print_r($contacts).PHP_EOL;
+                echo array_search($contact->getUsername(), $contacts).PHP_EOL;
+                die("here");
                 while ($index = array_search($contact->getUsername(), $contacts)) {
                     unset($contacts[$index]);
                 }
@@ -130,8 +134,6 @@ class CustomerContacts
         $unmodified = $response["unmodified"];
         $unmodifiedContactInfo = $response["unmodifiedContactInfo"];
 
-        print_r($contacts);
-        die("here");
         $response = $this->createContacts($contacts, $customer);
         $created = $response["created"];
         $createdContactInfo = $response["createdContactInfo"];
