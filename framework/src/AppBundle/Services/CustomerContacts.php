@@ -51,12 +51,8 @@ class CustomerContacts
                     'id' => $contact->getId(),
                     'username' => $contact->getUsername()
                 ];
-                echo $contact->getUsername().PHP_EOL;
-                print_r($contacts).PHP_EOL;
-                echo array_search($contact->getUsername(), $contacts).PHP_EOL;
                 $index = array_search($contact->getUsername(), $contacts);
                 while ($index !== false) {
-                    echo "deleting: ".$contacts[$index].PHP_EOL;
                     unset($contacts[$index]);
                     $index = array_search($contact->getUsername(), $contacts);
                 }
@@ -69,7 +65,7 @@ class CustomerContacts
                 ];
             }
         }
-        die("here");
+        
         return [
             "deleted" => $deleted,
             "deletedContactInfo" => $deletedContactInfo,
