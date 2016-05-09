@@ -67,6 +67,7 @@ class MessageDispatcher extends BaseMessageDispatcher
         // create message
         $message = new Message();
         $message->setBody($data['message']['body']);
+        $message->setAttachment($data['message']['attachment']);
         $message->setCustomer($customer);
 
         // create message receiver
@@ -167,13 +168,16 @@ class MessageDispatcher extends BaseMessageDispatcher
 
             for ($i = 0; $i < count($scheduledMessages); $i += 4) {
                 // deliver the message
-                $delivered = $this->deliver($scheduledMessages[$i + 1],
-                    $scheduledMessages[$i + 2],
-                    $scheduledMessages[$i + 3],
-                    $scheduledMessages[$i],
-                    $messageDependantHandler);
-                if ($delivered) {
-                    $stats[$messageType] += 1;
+                try {
+                    $delivered = $this->deliver($scheduledMessages[$i + 1],
+                        $scheduledMessages[$i + 2],
+                        $scheduledMessages[$i + 3],
+                        $scheduledMessages[$i],
+                        $messageDependantHandler);
+                    if ($delivered) {
+                        $stats[$messageType] += 1;
+                    }
+                } catch (\Exception $exception) {
                 }
             }
         }
