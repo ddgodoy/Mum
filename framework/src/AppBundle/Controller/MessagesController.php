@@ -32,6 +32,7 @@ class MessagesController extends FOSRestController implements ClassResourceInter
      */
     private function collectMessageDataFromForm(Form $form)
     {
+        $body = $form->get('message')->get('body')->getData();
         $at = $form->get('message')->get('at')->getData();
         $now = new \DateTime('now');
         if ($at && $at < $now) {
@@ -46,7 +47,7 @@ class MessagesController extends FOSRestController implements ClassResourceInter
         $fileData = $form->get('message')->get('fileData')->getData();
         $fileMimeType = $form->get('message')->get('fileMimeType')->getData();                
         
-        if($fileData != null && $fileMimeType != null){
+        if($fileData != null && $fileMimeType != null) {
             
             $mimeType = array('jpg', 'jpeg', 'doc', 'excel', 'pdf');
             if (!in_array($fileMimeType, $mimeType)) {
@@ -55,12 +56,17 @@ class MessagesController extends FOSRestController implements ClassResourceInter
             
             $fileHandler = $this->get('mum.customer.files');
             $attachment = $fileHandler->upload($fileData, $fileMimeType);
+
+            if($body == null || $body == ""){
+                $body = $attachment;
+            }
+
         }else{
             $attachment = null;
         }
 
         return [
-            'body' => $form->get('message')->get('body')->getData(),
+            'body' => $body,
             'attachment' => $attachment,
             'at' => $form->get('message')->get('at')->getData(),
             'receivers' => $receivers
