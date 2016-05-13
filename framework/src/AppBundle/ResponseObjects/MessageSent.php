@@ -17,6 +17,11 @@ class MessageSent
     public $message;
 
     /**
+     * @var string
+     */
+    public $attachment;
+
+    /**
      * @var boolean
      */
     public $delivered;
@@ -30,6 +35,7 @@ class MessageSent
     public function __construct(MessageInterface $message, $delivered)
     {
         $this->message = $message->getId();
+        $this->attachment = $message->getAttachment();
         $this->delivered = $delivered;
     }
 }
