@@ -55,8 +55,12 @@ class InstantMessageHandler extends MessageHandler
      */
     public function store(CustomerInterface $customer, MessageInterface &$message, Array $data)
     {
-        $room = new Room($data["room"]);
-        $this->em->persist($room);
+        $room = $this->em->getRepository("AppBundle:Room")->find($data["room"]);
+
+        if (!$room) {
+            $room = new Room($data["room"]);
+            $this->em->persist($room);
+        }
 
         $instantMessage = new InstantMessage($room);
         $instantMessage->setMessage($message);
