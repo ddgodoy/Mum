@@ -103,7 +103,7 @@ class MessagesController extends FOSRestController implements ClassResourceInter
     {
         $messageDispatcher = $this->get('mum.message.dispatcher');
         $response = $messageDispatcher->handleMessage($this->getUser(), $data, $serviceHandlerName);
-        return new MessageSent($response['message'], $response['delivered']);
+        return new MessageSent($response['message'], $response['sent']);
     }
 
     /**
