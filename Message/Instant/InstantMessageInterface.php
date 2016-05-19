@@ -14,7 +14,7 @@ interface InstantMessageInterface extends MessageDependantInterface
     /**
      * Gets the instant chat room id
      *
-     * @return mixed
+     * @return RoomInterface
      */
     public function getRoom();
 }

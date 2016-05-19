@@ -4,9 +4,7 @@ AppBundle\Entity\InstantMessage:
     repositoryClass: AppBundle\EntityRepository\InstantMessageRepository
     id:
         room:
-            id: true
-            type: string
-            length: 255
+            associationKey: true
         customer:
             associationKey: true
         message:
@@ -26,6 +24,12 @@ AppBundle\Entity\InstantMessage:
             type: datetime
             nullable: true
     manyToOne:
+        room:
+            targetEntity: Room
+            joinColumn:
+                name: room
+                referencedColumnName: id
+            cascade: ["persist", "merge"]
         customer:
             targetEntity: Customer
             joinColumn:

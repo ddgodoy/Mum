@@ -3,17 +3,13 @@
 namespace spec\Message\Instant;
 
 use Customer\Customer\Customer;
+use Message\Instant\Room;
 use Message\Message\Message;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
 class InstantMessageSpec extends ObjectBehavior
 {
-    public function it_is_initializable()
-    {
-        $this->shouldHaveType('Message\Instant\InstantMessage');
-    }
-
     public function it_implement_email_message_interface()
     {
         $this->shouldHaveType('Message\Instant\InstantMessageInterface');
@@ -21,7 +17,8 @@ class InstantMessageSpec extends ObjectBehavior
 
     public function it_construct_with_uniqid()
     {
-        $room = uniqid();
+        $id = uniqid();
+        $room = new Room($id);
         $this->beConstructedWith($room);
         $this->getRoom()->shouldBe($room);
     }

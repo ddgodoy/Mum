@@ -87,7 +87,8 @@ class MessagesController extends FOSRestController implements ClassResourceInter
     private function collectInstantMessageDataFromForm(Form $form)
     {
         return [
-            'message' => $this->collectMessageDataFromForm($form)
+            'message' => $this->collectMessageDataFromForm($form),
+            'room' => $form->get('room')->getData()
         ];
     }
 

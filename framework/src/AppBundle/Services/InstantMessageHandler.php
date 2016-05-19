@@ -3,6 +3,7 @@
 namespace AppBundle\Services;
 
 use AppBundle\Entity\InstantMessage;
+use AppBundle\Entity\Room;
 use Customer\Customer\CustomerInterface;
 use Doctrine\ORM\EntityManager;
 use Message\Message\MessageDependantInterface;
@@ -54,7 +55,10 @@ class InstantMessageHandler extends MessageHandler
      */
     public function store(CustomerInterface $customer, MessageInterface &$message, Array $data)
     {
-        $instantMessage = new InstantMessage();
+        $room = new Room($data["room"]);
+        $this->em->persist($room);
+
+        $instantMessage = new InstantMessage($room);
         $instantMessage->setMessage($message);
         $instantMessage->setCustomer($customer);
         return $instantMessage;
