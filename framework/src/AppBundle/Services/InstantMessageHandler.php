@@ -52,7 +52,7 @@ class InstantMessageHandler extends MessageHandler
     /**
      * @inheritdoc
      */
-    public function store(CustomerInterface $customer, MessageInterface $message, Array $data)
+    public function store(CustomerInterface $customer, MessageInterface &$message, Array $data)
     {
         $instantMessage = new InstantMessage();
         $instantMessage->setMessage($message);
