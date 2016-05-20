@@ -254,7 +254,7 @@ class MessagesController extends FOSRestController implements ClassResourceInter
      *  }
      * )
      */
-    public function getAction(Request $request)
+    public function getInstantMessagesAction(Request $request)
     {
         $customer = $this->getUser();
         $notReceived = (bool)$request->query->get('not_received', false);
@@ -263,5 +263,49 @@ class MessagesController extends FOSRestController implements ClassResourceInter
             ->getRepository('AppBundle:InstantMessage')
             ->findAllByReceived($customer, $notReceived);
         return new Messages($messages);
+    }
+
+    /**
+     * Update instant message received status
+     *
+     * @return Messages
+     *
+     * @Security("has_role('ROLE_USER')")
+     *
+     * @FOSRestBundleAnnotations\Route("/messages/instant/{message}/received")
+     *
+     * @ApiDoc(
+     *  section="Message",
+     *  description="Update instant messages received",
+     *  requirements={
+     *      {
+     *          "name"="message",
+     *          "dataType"="string",
+     *          "requirement"="*",
+     *          "description"="message id"
+     *      }
+     *  },
+     *  statusCodes={
+     *         200="Returned when successful"
+     *  },
+     *  tags={
+     *   "stable" = "#4A7023",
+     *   "v1" = "#ff0000"
+     *  }
+     * )
+     */
+    public function putInstantMessagesReceivedAction($message)
+    {
+        $message = $this->getDoctrine()
+            ->getManager()
+            ->getRepository('AppBundle:InstantMessage')
+            ->findOneBy([
+                'customer' => $this->getUser()->getId(),
+                'message' => $message
+            ]);
+        $message->setReceived(true);
+        $this->getDoctrine()
+            ->getManager()
+            ->flush();
     }
 }
