@@ -21,19 +21,27 @@ class InstantMessageSpec extends ObjectBehavior
         $room = new Room($id);
         $this->beConstructedWith($room);
         $this->getRoom()->shouldBe($room);
+        $this->getReceived()->shouldBe(false);
     }
 
-    public function it_should_get_given_customer()
+    public function it_should_set_and_customer()
     {
         $customer = new Customer();
         $this->setCustomer($customer);
         $this->getCustomer()->shouldBe($customer);
     }
 
-    public function it_should_get_given_message()
+    public function it_should_get_message()
     {
         $message = new Message();
         $this->setMessage($message);
         $this->getMessage()->shouldBe($message);
+    }
+
+    public function it_should_set_and_get_received()
+    {
+        $received = true;
+        $this->setReceived($received);
+        $this->getReceived()->shouldBe($received);
     }
 }

@@ -17,6 +17,11 @@ class InstantMessage implements CustomerDependantInterface,
     InstantMessageInterface
 {
     /**
+     * @var bool
+     */
+    protected $received;
+
+    /**
      * @var RoomInterface
      */
     protected $room;
@@ -39,6 +44,23 @@ class InstantMessage implements CustomerDependantInterface,
     public function __construct(RoomInterface $room = null)
     {
         $this->room = $room;
+        $this->received = false;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getReceived()
+    {
+        return $this->received;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setReceived($received)
+    {
+        $this->received = $received;
     }
 
     /**

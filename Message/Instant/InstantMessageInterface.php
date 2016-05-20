@@ -17,4 +17,18 @@ interface InstantMessageInterface extends MessageDependantInterface
      * @return RoomInterface
      */
     public function getRoom();
+
+    /**
+     * Gets received
+     *
+     * @return bool
+     */
+    public function getReceived();
+
+    /**
+     * Set received
+     *
+     * @param bool $received
+     */
+    public function setReceived($received);
 }
