@@ -3,6 +3,8 @@
 namespace AppBundle\Entity;
 
 use Message\Message\Message as BaseMessage;
+use Message\Message\MessageReceiverInterface;
+use Scheduler\Scheduler\ScheduledMessageInterface;
 
 /**
  * Class Message
@@ -11,6 +13,16 @@ use Message\Message\Message as BaseMessage;
  */
 class Message extends BaseMessage
 {
+    /**
+     * @var MessageReceiverInterface
+     */
+    protected $receiver;
+
+    /**
+     * @var ScheduledMessageInterface
+     */
+    protected $schedule;
+
     /**
      * @var \DateTime
      */

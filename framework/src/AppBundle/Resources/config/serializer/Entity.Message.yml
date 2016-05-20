@@ -1,2 +1,7 @@
 AppBundle\Entity\Message:
     exclusion_policy: ALL
+    properties:
+        receiver:
+            expose: true
+        schedule:
+            expose: true
