@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Form\EmailMessageType;
 use AppBundle\Form\InstantMessageType;
 use AppBundle\Form\SMSMessageType;
+use AppBundle\ResponseObjects\Messages;
 use AppBundle\ResponseObjects\MessageSent;
 use FOS\RestBundle\Controller\Annotations as FOSRestBundleAnnotations;
 use FOS\RestBundle\Controller\FOSRestController;
@@ -221,5 +222,46 @@ class MessagesController extends FOSRestController implements ClassResourceInter
         }
 
         return $instantMessageForm->getErrors();
+    }
+
+    /**
+     * Response with the customer contacts that has {customer} for id
+     *
+     * @param Request $request
+     * @return Messages
+     *
+     * @Security("has_role('ROLE_USER')")
+     *
+     * @FOSRestBundleAnnotations\Route("/messages/instant")
+     *
+     * @ApiDoc(
+     *  section="Message",
+     *  description="Get a customer instant messages",
+     *  parameters={
+     *     {
+     *          "name"="not_received",
+     *          "dataType"="boolean",
+     *          "required"=true,
+     *          "description"="if message was received"
+     *      }
+     *  },
+     *  statusCodes={
+     *         200="Returned when successful"
+     *  },
+     *  tags={
+     *   "stable" = "#4A7023",
+     *   "v1" = "#ff0000"
+     *  }
+     * )
+     */
+    public function getAction(Request $request)
+    {
+        $customer = $this->getUser();
+        $notReceived = (bool)$request->query->get('not_received', false);
+        $messages = $this->getDoctrine()
+            ->getManager()
+            ->getRepository('AppBundle:InstantMessage')
+            ->findAllByReceived($customer, $notReceived);
+        return new Messages($messages);
     }
 }

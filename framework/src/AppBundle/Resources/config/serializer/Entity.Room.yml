@@ -1,0 +1,2 @@
+AppBundle\Entity\Room:
+    exclusion_policy: ALL

@@ -1,0 +1,2 @@
+AppBundle\Entity\Message:
+    exclusion_policy: ALL
