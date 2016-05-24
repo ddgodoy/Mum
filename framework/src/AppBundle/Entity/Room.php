@@ -2,27 +2,15 @@
 
 namespace AppBundle\Entity;
 
-use Message\Message\Message as BaseMessage;
-use Message\Message\MessageReceiverInterface;
-use Scheduler\Scheduler\ScheduledMessageInterface;
+use Message\Instant\Room as BaseRoom;
 
 /**
- * Class Message
+ * Class Room
  *
  * @package AppBundle\Entity
  */
-class Message extends BaseMessage
+class Room extends BaseRoom
 {
-    /**
-     * @var MessageReceiverInterface
-     */
-    protected $receiver;
-
-    /**
-     * @var ScheduledMessageInterface
-     */
-    protected $schedule;
-
     /**
      * @var \DateTime
      */

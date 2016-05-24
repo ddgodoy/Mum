@@ -143,7 +143,7 @@ class MessageDispatcher extends BaseMessageDispatcher
         $this->em->flush();
         return [
             'message' => $objects['message'],
-            'delivered' => $delivered
+            'sent' => $delivered
         ];
     }
 

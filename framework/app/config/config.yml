@@ -68,6 +68,23 @@ swiftmailer:
 sensio_framework_extra:
     request: { converters: true }
 
+jms_serializer:
+    metadata:
+        auto_detection: true
+        directories:
+            AppBundle:
+                namespace_prefix: "AppBundle"
+                path: "@AppBundle/Resources/config/serializer"
+            Customer:
+                namespace_prefix: "Customer"
+                path: "@AppBundle/Resources/config/serializer"
+            Message:
+                namespace_prefix: "Message"
+                path: "@AppBundle/Resources/config/serializer"
+            FOSUserBundle:
+                namespace_prefix: "FOS\\UserBundle"
+                path: "@AppBundle/Resources/config/serializer"
+
 fos_rest:
     disable_csrf_role: ROLE_API
     param_fetcher_listener: true

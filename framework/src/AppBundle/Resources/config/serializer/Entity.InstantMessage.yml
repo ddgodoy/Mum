@@ -1,0 +1,2 @@
+AppBundle\Entity\InstantMessage:
+    exclusion_policy: ALL

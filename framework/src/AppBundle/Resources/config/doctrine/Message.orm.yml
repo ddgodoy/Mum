@@ -33,6 +33,15 @@ AppBundle\Entity\Message:
                 name: customer
                 referencedColumnName: id
             cascade: ["persist", "merge"]
+    oneToOne:
+        receiver:
+            targetEntity: MessageReceiver
+            mappedBy: message
+            cascade: ["persist", "merge"]
+        schedule:
+            targetEntity: ScheduledMessage
+            mappedBy: message
+            cascade: ["persist", "merge"]
     lifecycleCallbacks: {  }
     gedmo:
         soft_deleteable:

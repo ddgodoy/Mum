@@ -19,23 +19,23 @@ class MessageSent
     /**
      * @var string
      */
-    public $attachment;
-
+     public $attachment;
+    
     /**
      * @var boolean
      */
-    public $delivered;
+    public $sent;
 
     /**
      * MessageSent constructor.
      *
      * @param MessageInterface $message
-     * @param boolean $delivered
+     * @param boolean $sent
      */
-    public function __construct(MessageInterface $message, $delivered)
+    public function __construct(MessageInterface $message, $sent)
     {
         $this->message = $message->getId();
         $this->attachment = $message->getAttachment();
-        $this->delivered = $delivered;
+        $this->sent = $sent;
     }
 }

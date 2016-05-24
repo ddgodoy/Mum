@@ -4,15 +4,11 @@ namespace AppBundle\Entity;
 
 use Customer\Customer\Customer as CustomerBase;
 use Doctrine\Common\Collections\ArrayCollection;
-use Hateoas\Configuration\Annotation as Hateoas;
 
 /**
  * Customer ORM Entity
  *
  * @package AppBundle\Entity
- *
- * @Hateoas\Relation("self", href = @Hateoas\Route("get_customers", parameters = { "customer" = "expr(object.getId())" }))
- * @Hateoas\Relation("customers", href = @Hateoas\Route("cget_customers"))))
  */
 class Customer extends CustomerBase
 {

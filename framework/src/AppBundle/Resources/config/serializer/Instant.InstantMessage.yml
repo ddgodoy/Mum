@@ -1,0 +1,11 @@
+Message\Instant\InstantMessage:
+    exclusion_policy: ALL
+    properties:
+        room:
+            expose: true
+        customer:
+            expose: true
+        message:
+            expose: true
+        received:
+            expose: true
