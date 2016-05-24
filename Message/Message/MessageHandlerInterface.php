@@ -15,7 +15,7 @@ interface MessageHandlerInterface
      * @param array $data
      * @return MessageDependantInterface
      */
-    public function store(CustomerInterface $customer, MessageInterface $message, Array $data);
+    public function store(CustomerInterface $customer, MessageInterface &$message, Array $data);
 
     /**
      * Pre Deliver the Message

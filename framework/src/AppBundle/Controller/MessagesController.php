@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Form\EmailMessageType;
 use AppBundle\Form\InstantMessageType;
 use AppBundle\Form\SMSMessageType;
+use AppBundle\ResponseObjects\Messages;
 use AppBundle\ResponseObjects\MessageSent;
 use FOS\RestBundle\Controller\Annotations as FOSRestBundleAnnotations;
 use FOS\RestBundle\Controller\FOSRestController;
@@ -104,7 +105,8 @@ class MessagesController extends FOSRestController implements ClassResourceInter
     private function collectInstantMessageDataFromForm(Form $form)
     {
         return [
-            'message' => $this->collectMessageDataFromForm($form)
+            'message' => $this->collectMessageDataFromForm($form),
+            'room' => $form->get('room')->getData()
         ];
     }
 
@@ -119,7 +121,7 @@ class MessagesController extends FOSRestController implements ClassResourceInter
     {
         $messageDispatcher = $this->get('mum.message.dispatcher');
         $response = $messageDispatcher->handleMessage($this->getUser(), $data, $serviceHandlerName);
-        return new MessageSent($response['message'], $response['delivered']);
+        return new MessageSent($response['message'], $response['sent']);
     }
 
     /**
@@ -237,5 +239,90 @@ class MessagesController extends FOSRestController implements ClassResourceInter
         }
 
         return $instantMessageForm->getErrors();
+    }
+
+    /**
+     * Response with the customer contacts that has {customer} for id
+     *
+     * @param Request $request
+     * @return Messages
+     *
+     * @Security("has_role('ROLE_USER')")
+     *
+     * @FOSRestBundleAnnotations\Route("/messages/instant")
+     *
+     * @ApiDoc(
+     *  section="Message",
+     *  description="Get a customer instant messages",
+     *  parameters={
+     *     {
+     *          "name"="not_received",
+     *          "dataType"="boolean",
+     *          "required"=true,
+     *          "description"="if message was received"
+     *      }
+     *  },
+     *  statusCodes={
+     *         200="Returned when successful"
+     *  },
+     *  tags={
+     *   "stable" = "#4A7023",
+     *   "v1" = "#ff0000"
+     *  }
+     * )
+     */
+    public function getInstantMessagesAction(Request $request)
+    {
+        $customer = $this->getUser();
+        $notReceived = (bool)$request->query->get('not_received', false);
+        $messages = $this->getDoctrine()
+            ->getManager()
+            ->getRepository('AppBundle:InstantMessage')
+            ->findAllByReceived($customer, $notReceived);
+        return new Messages($messages);
+    }
+
+    /**
+     * Update instant message received status
+     *
+     * @return Messages
+     *
+     * @Security("has_role('ROLE_USER')")
+     *
+     * @FOSRestBundleAnnotations\Route("/messages/instant/{message}/received")
+     *
+     * @ApiDoc(
+     *  section="Message",
+     *  description="Update instant messages received",
+     *  requirements={
+     *      {
+     *          "name"="message",
+     *          "dataType"="string",
+     *          "requirement"="*",
+     *          "description"="message id"
+     *      }
+     *  },
+     *  statusCodes={
+     *         200="Returned when successful"
+     *  },
+     *  tags={
+     *   "stable" = "#4A7023",
+     *   "v1" = "#ff0000"
+     *  }
+     * )
+     */
+    public function putInstantMessagesReceivedAction($message)
+    {
+        $message = $this->getDoctrine()
+            ->getManager()
+            ->getRepository('AppBundle:InstantMessage')
+            ->findOneBy([
+                'customer' => $this->getUser()->getId(),
+                'message' => $message
+            ]);
+        $message->setReceived(true);
+        $this->getDoctrine()
+            ->getManager()
+            ->flush();
     }
 }

@@ -4,6 +4,11 @@ namespace AppBundle\Entity;
 
 use Customer\Customer\CustomerInterface;
 
+/**
+ * Class Device
+ * 
+ * @package AppBundle\Entity
+ */
 class Device
 {
     /**

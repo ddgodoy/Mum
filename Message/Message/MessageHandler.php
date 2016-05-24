@@ -20,7 +20,7 @@ class MessageHandler implements MessageHandlerInterface
     /**
      * @inheritdoc
      */
-    public function store(CustomerInterface $customer, MessageInterface $message, Array $data)
+    public function store(CustomerInterface $customer, MessageInterface &$message, Array $data)
     {
     }
 

@@ -44,8 +44,11 @@ class SMSMessageHandler extends MessageHandler
     /**
      * @inheritdoc
      */
-    public function store(CustomerInterface $customer, MessageInterface $message, Array $data)
+    public function store(CustomerInterface $customer, MessageInterface &$message, Array $data)
     {
+        $name = ($customer->getProfile()) ? $customer->getProfile()->getDisplayName() : $customer->getUsername();
+        $message->setBody(sprintf("%s: %s", $name, $message->getBody()));
+
         $smsMessage = new SMSMessage();
         $smsMessage->setMessage($message);
         $smsMessage->setCustomer($customer);

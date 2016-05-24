@@ -143,7 +143,7 @@ class MessageDispatcher extends BaseMessageDispatcher
         $this->em->flush();
         return [
             'message' => $objects['message'],
-            'delivered' => $delivered
+            'sent' => $delivered
         ];
     }
 
@@ -168,13 +168,16 @@ class MessageDispatcher extends BaseMessageDispatcher
 
             for ($i = 0; $i < count($scheduledMessages); $i += 4) {
                 // deliver the message
-                $delivered = $this->deliver($scheduledMessages[$i + 1],
-                    $scheduledMessages[$i + 2],
-                    $scheduledMessages[$i + 3],
-                    $scheduledMessages[$i],
-                    $messageDependantHandler);
-                if ($delivered) {
-                    $stats[$messageType] += 1;
+                try {
+                    $delivered = $this->deliver($scheduledMessages[$i + 1],
+                        $scheduledMessages[$i + 2],
+                        $scheduledMessages[$i + 3],
+                        $scheduledMessages[$i],
+                        $messageDependantHandler);
+                    if ($delivered) {
+                        $stats[$messageType] += 1;
+                    }
+                } catch (\Exception $exception) {
                 }
             }
         }
