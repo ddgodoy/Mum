@@ -88,7 +88,7 @@ class InstantMessageHandler extends MessageHandler
                         $extra['messageRoomId'] = $messageDependant->getRoom()->getId();
                         $extra['receivers'] = $receivers;
                         $extra['sender'] = $message->getCustomer()->getUsername();
-                        $title = sprintf('New Mum from %s', $message->getCustomer()->getUsername());
+                        $title = sprintf('Nuevo Mum de %s', $message->getCustomer()->getUsername());
                         $body = $message->getBody();
 
                         $stats = $this->pushNotificationServices[$device->getOS()]->sendNotification(
