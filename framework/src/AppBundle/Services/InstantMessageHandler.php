@@ -84,7 +84,6 @@ class InstantMessageHandler extends MessageHandler
                 foreach ($devices as $device) {
                     if ($device && array_key_exists($device->getOS(), $this->pushNotificationServices)) {
                         $extra = ['type' => 2];
-                        $extra['messageId'] = get_class($message);
                         $extra['receivers'] = $receivers;
                         $extra['sender'] = $message->getCustomer()->getUsername();
                         $title = sprintf('New Mum from %s', $message->getCustomer()->getUsername());
