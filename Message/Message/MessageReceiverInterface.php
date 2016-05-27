@@ -59,4 +59,18 @@ interface MessageReceiverInterface
      * @return array
      */
     public function getReceivers();
+
+    /**
+     * Gets received
+     *
+     * @return bool
+     */
+    public function getReceived();
+
+    /**
+     * Set received
+     *
+     * @param CustomerInterface $customer
+     */
+    public function addReceived(CustomerInterface $customer);
 }

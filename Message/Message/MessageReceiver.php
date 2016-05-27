@@ -32,6 +32,11 @@ class MessageReceiver implements MessageReceiverInterface
     protected $receivers;
 
     /**
+     * @var array
+     */
+    protected $received;
+
+    /**
      * MessageReceiver constructor.
      *
      * @param null $id
@@ -98,5 +103,21 @@ class MessageReceiver implements MessageReceiverInterface
     public function getReceivers()
     {
         return $this->receivers;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getReceived()
+    {
+        return $this->received;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function addReceived(CustomerInterface $customer)
+    {
+        $this->received[$customer->getId()] = $customer->getId();
     }
 }

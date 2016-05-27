@@ -46,4 +46,11 @@ class MessageReceiverSpec extends ObjectBehavior
         $this->setReceivers($receivers);
         $this->getReceivers()->shouldBe($receivers);
     }
+
+    public function it_should_add_and_get_received()
+    {
+        $received = new Customer();
+        $this->addReceived($received);
+        $this->getReceived()->shouldBe(array($received->getId() => $received->getId()));
+    }
 }
