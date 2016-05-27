@@ -44,25 +44,25 @@ class MessagesController extends FOSRestController implements ClassResourceInter
         if (!is_array($receivers)) {
             throw new HttpException(500, 'Receivers are wrong formatted');
         }
-        
+
         $fileData = $form->get('message')->get('fileData')->getData();
-        $fileMimeType = $form->get('message')->get('fileMimeType')->getData();                
-        
-        if($fileData != null && $fileMimeType != null) {
-            
+        $fileMimeType = $form->get('message')->get('fileMimeType')->getData();
+
+        if ($fileData != null && $fileMimeType != null) {
+
             $mimeType = array('jpg', 'jpeg', 'doc', 'excel', 'pdf');
             if (!in_array($fileMimeType, $mimeType)) {
                 throw new HttpException(500, 'File Mime Type must be: jpg, jpeg, doc, excel or pdf');
             }
-            
+
             $fileHandler = $this->get('mum.customer.files');
             $attachment = $fileHandler->upload($fileData, $fileMimeType);
 
-            if($body == null || $body == ""){
+            if ($body == null || $body == "") {
                 $body = $attachment;
             }
 
-        }else{
+        } else {
             $attachment = null;
         }
 
@@ -283,7 +283,7 @@ class MessagesController extends FOSRestController implements ClassResourceInter
         $notReceived = (bool)$request->query->get('not_received', false);
         $messages = $this->getDoctrine()
             ->getManager()
-            ->getRepository('AppBundle:InstantMessage')
+            ->getRepository('AppBundle:MessageReceiver')
             ->findAllByReceived($customer, $notReceived);
         return new Messages($messages);
     }
@@ -291,6 +291,7 @@ class MessagesController extends FOSRestController implements ClassResourceInter
     /**
      * Update instant message received status
      *
+     * @param $message
      * @return Messages
      *
      * @Security("has_role('ROLE_USER')")
@@ -319,16 +320,13 @@ class MessagesController extends FOSRestController implements ClassResourceInter
      */
     public function putInstantMessagesReceivedAction($message)
     {
-        $message = $this->getDoctrine()
-            ->getManager()
-            ->getRepository('AppBundle:InstantMessage')
+        $em = $this->getDoctrine()
+            ->getManager();
+        $message = $em->getRepository('AppBundle:MessageReceiver')
             ->findOneBy([
-                'customer' => $this->getUser()->getId(),
                 'message' => $message
             ]);
-        $message->setReceived(true);
-        $this->getDoctrine()
-            ->getManager()
-            ->flush();
+        $message->addReceived($this->getUser());
+        $em->flush();
     }
 }

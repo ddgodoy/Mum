@@ -17,11 +17,21 @@ class Messages
 
     /**
      * Messages constructor.
-     * 
+     *
      * @param array $messages
      */
     public function __construct(array $messages)
     {
-        $this->messages = $messages;
+        $response = [];
+        for ($i = 0; $i < count($messages); $i += 2) {
+            $response[] = [
+                "customer" => $messages[$i]->getCustomer(),
+                "room" => $messages[$i]->getRoom(),
+                "message" => $messages[$i]->getMessage(),
+                "receivers" => $messages[$i + 1]->getReceivers(),
+                "received" => $messages[$i + 1]->getReceived()
+            ];
+        }
+        $this->messages = $response;
     }
 }

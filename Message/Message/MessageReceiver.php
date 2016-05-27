@@ -118,6 +118,6 @@ class MessageReceiver implements MessageReceiverInterface
      */
     public function addReceived(CustomerInterface $customer)
     {
-        $this->received[$customer->getId()] = $customer->getId();
+        $this->received[$customer->getId()] = true;
     }
 }

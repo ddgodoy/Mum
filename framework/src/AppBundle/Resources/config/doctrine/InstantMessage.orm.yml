@@ -10,11 +10,6 @@ AppBundle\Entity\InstantMessage:
         message:
             associationKey: true
     fields:
-        received:
-            type: boolean
-            nullable: false
-            options:
-                default: false
         created:
             type: datetime
             gedmo:

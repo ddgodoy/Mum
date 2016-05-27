@@ -1,0 +1,2 @@
+AppBundle\Entity\MessageReceiver:
+    exclusion_policy: ALL

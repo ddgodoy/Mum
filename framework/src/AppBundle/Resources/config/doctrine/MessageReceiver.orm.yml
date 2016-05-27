@@ -1,6 +1,7 @@
 AppBundle\Entity\MessageReceiver:
     type: entity
     table: message_receiver
+    repositoryClass: AppBundle\EntityRepository\MessageReceiverRepository
     id:
         id:
             id: true
@@ -12,6 +13,8 @@ AppBundle\Entity\MessageReceiver:
             associationKey: true
     fields:
         receivers:
+            type: json_array
+        received:
             type: json_array
         created:
             type: datetime

@@ -1,0 +1,7 @@
+Message\Message\MessageReceiver:
+    exclusion_policy: ALL
+    properties:
+        receivers:
+            expose: true
+        received:
+            expose: true
