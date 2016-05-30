@@ -28,7 +28,7 @@ class MessageReceiverRepository extends EntityRepository
             $query->andWhere('r.received NOT LIKE :received');
         }
 
-        return $query->setParameter('received', sprintf("%%%s%%", json_encode([$customer->getId() => true])))
+        return $query->setParameter('received', sprintf("%%\"%s\":true%%", $customer->getId()))
             ->getQuery()
             ->getResult();
     }
