@@ -328,5 +328,7 @@ class MessagesController extends FOSRestController implements ClassResourceInter
             ]);
         $message->addReceived($this->getUser());
         $em->flush();
+
+        return ["successful" => true];
     }
 }
