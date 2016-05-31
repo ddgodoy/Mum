@@ -14,9 +14,9 @@ AppBundle\Entity\MessageReceiver:
     fields:
         receivers:
             type: json_array
-            nullable: true
         received:
             type: json_array
+            nullable: true
         created:
             type: datetime
             gedmo:
