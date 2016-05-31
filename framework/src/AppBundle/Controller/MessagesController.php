@@ -262,7 +262,7 @@ class MessagesController extends FOSRestController implements ClassResourceInter
      *  description="Get a customer instant messages",
      *  parameters={
      *     {
-     *          "name"="not_received",
+     *          "name"="received",
      *          "dataType"="boolean",
      *          "required"=true,
      *          "description"="if message was received"
@@ -280,7 +280,7 @@ class MessagesController extends FOSRestController implements ClassResourceInter
     public function getInstantMessagesAction(Request $request)
     {
         $customer = $this->getUser();
-        $notReceived = (bool)$request->query->get('not_received', false);
+        $notReceived = (bool)$request->query->get('received', false);
         $messages = $this->getDoctrine()
             ->getManager()
             ->getRepository('AppBundle:MessageReceiver')

@@ -20,7 +20,8 @@ class MessageReceiverRepository extends EntityRepository
             ->from('AppBundle:InstantMessage', 'i')
             ->from('AppBundle:MessageReceiver', 'r')
             ->innerJoin('i.message', 'm')
-            ->where('i.message = r.message');
+            ->where('i.message = r.message')
+            ->andWhere('r.receivers LIKE :receivers');
 
         if ($received) {
             $query->andWhere('r.received LIKE :received');
@@ -29,6 +30,7 @@ class MessageReceiverRepository extends EntityRepository
         }
 
         return $query->setParameter('received', sprintf("%%\"%s\":true%%", $customer->getId()))
+            ->setParameter('receivers', sprintf("%%\"%s\"%%", $customer->getUsername()))
             ->getQuery()
             ->getResult();
     }
