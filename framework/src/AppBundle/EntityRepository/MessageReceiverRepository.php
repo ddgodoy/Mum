@@ -14,8 +14,7 @@ class MessageReceiverRepository extends EntityRepository
 {
     public function findAllByReceived(CustomerInterface $customer, $received = false)
     {
-        $exp = $this->getEntityManager()
-            ->createQueryBuilder();
+        $exp = $this->getEntityManager()->getExpressionBuilder();
         $query = $this->getEntityManager()
             ->createQueryBuilder()
             ->select('i, m, r')
