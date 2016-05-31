@@ -26,7 +26,7 @@ class MessageReceiverRepository extends EntityRepository
             ->andWhere('r.receivers LIKE :receivers');
 
         if ($received) {
-            $query->andWhere($exp->orX('r.received LIKE :received', 'r.received IS NOT NULL'));
+            $query->andWhere($exp->andX('r.received LIKE :received', 'r.received IS NOT NULL'));
         } else {
             $query->andWhere($exp->orX('r.received NOT LIKE :received', 'r.received IS NULL'));
         }
