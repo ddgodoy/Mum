@@ -88,7 +88,7 @@ class InstantMessageHandler extends MessageHandler
                         $extra['messageRoomId'] = $messageDependant->getRoom()->getId();
                         $extra['receivers'] = $receivers;
                         $extra['sender'] = $message->getCustomer()->getUsername();
-                        $extra['attachment'] = $message->getAttachment();
+                        $extra['attachment'] = ($message->getAttachment())? $message->getAttachment() : false;
                         $title = sprintf('Nuevo Mum de %s', $message->getCustomer()->getUsername());
                         $body = $message->getBody();
 
