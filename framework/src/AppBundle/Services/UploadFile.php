@@ -98,8 +98,8 @@ class UploadFile
                         break;
                 }
 
-                //$fileFullURL = sprintf('%s%s', $this->fileBaseURL, $fileFullPath);
-                return $thumbFullUrl;
+                $fileFullURL = sprintf('%s%s', $this->fileBaseURL, $thumbFullUrl);
+                return $fileFullURL;
             } else {
                 return false;
             }
