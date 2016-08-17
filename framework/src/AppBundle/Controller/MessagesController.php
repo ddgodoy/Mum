@@ -50,9 +50,9 @@ class MessagesController extends FOSRestController implements ClassResourceInter
 
         if ($fileData != null && $fileMimeType != null) {
 
-            $mimeType = array('jpg', 'jpeg', 'doc', 'excel', 'pdf');
+            $mimeType = array('jpg', 'jpeg', 'doc', 'xls', 'xlsx','pdf');
             if (!in_array($fileMimeType, $mimeType)) {
-                throw new HttpException(500, 'File Mime Type must be: jpg, jpeg, doc, excel or pdf');
+                throw new HttpException(500, 'File Mime Type must be: jpg, jpeg, doc, xls, xlsx or pdf');
             }
 
             $fileHandler = $this->get('mum.customer.files');

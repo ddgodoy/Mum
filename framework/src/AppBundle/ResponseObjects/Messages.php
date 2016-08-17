@@ -29,7 +29,8 @@ class Messages
                 "room" => $messages[$i]->getRoom(),
                 "message" => $messages[$i]->getMessage(),
                 "receivers" => $messages[$i + 1]->getReceivers(),
-                "received" => $messages[$i + 1]->getReceived()
+                "received" => $messages[$i + 1]->getReceived(),
+                "attachment" => ($messages[$i]->getMessage()->getAttachment())? $messages[$i]->getMessage()->getAttachment() : false
             ];
         }
         $this->messages = $response;

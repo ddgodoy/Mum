@@ -67,7 +67,8 @@ class GCM
             // optional fields
             $base = [
                 'title' => $title,
-                'message' => $text
+                'message' => $text,
+                'content-available' => 1
             ];
             $messageData = array_merge_recursive($base, $data);
             $message->setData($messageData);
