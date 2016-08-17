@@ -5,6 +5,8 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Choice;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * Class DeviceType
@@ -23,7 +25,15 @@ class DeviceType extends AbstractType
             ->add('token', 'text', [
                 'mapped' => false
             ])
-            ->add('os', 'text');
+            ->add('os', 'text', array(
+                'constraints' => array(
+                    new NotBlank(),
+                    new Choice(array(
+                        'choices' => array('Android', 'IOS'),
+                        'message' => 'Invalid OS.'
+                    ))
+                )
+            ));
     }
 
     /**

@@ -34,3 +34,7 @@ parameters:
     # push notifications
     gcm_token: AIzaSyAYMBe-aISN1Jvbi_Q4cAY-YkUxR-hMgqg
     gcm_package_name: 'com.thinkandcloud.mum'
+    apn_app_id: com.mumapp.mum
+    apn_pem_path: app/config/push-certificate.pem
+    apn_sandbox: 0
+    apn_pass_phrase: mum

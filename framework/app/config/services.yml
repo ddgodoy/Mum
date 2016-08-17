@@ -67,11 +67,15 @@ services:
         class: AppBundle\Services\UploadFile
         arguments:
             - "%customer_file_base_path%"
-            - "%customer_file_base_url%"            
+            - "%customer_file_base_url%"
 
     mum.push_notification.gcm:
         class: AppBundle\Services\GCM
         arguments: [%gcm_token%, %gcm_package_name%]
+
+    mum.push_notification.apn:
+        class: AppBundle\Services\APN
+        arguments: [%apn_app_id%, %apn_pem_path%, %apn_sandbox%, %apn_pass_phrase%]
 
     mum.message.dispatcher:
         class: AppBundle\Services\MessageDispatcher

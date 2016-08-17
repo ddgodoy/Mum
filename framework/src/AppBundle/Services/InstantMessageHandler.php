@@ -91,12 +91,24 @@ class InstantMessageHandler extends MessageHandler
                         $title = sprintf('Nuevo Mum de %s', $message->getCustomer()->getUsername());
                         $body = $message->getBody();
 
-                        $stats = $this->pushNotificationServices[$device->getOS()]->sendNotification(
-                            [$device->getId()],
-                            $title,
-                            $body,
-                            $extra,
-                            null);
+                        switch ($device->getOS()) {
+                            case 'Android': {
+                                $stats = $this->pushNotificationServices[$device->getOS()]->sendNotification(
+                                    [$device->getId()],
+                                    $title,
+                                    $body,
+                                    $extra,
+                                    null);
+                                break;
+                            }
+                            case 'IOS': {
+                                $stats = $this->pushNotificationServices[$device->getOS()]->sendNotification(
+                                    [$device->getId()],
+                                    $title,
+                                    'com.mumapp.mum',
+                                    'bingbong.aiff');
+                            }
+                        }
 
                         $delivered = !($stats['successful'] <= 0);
                         $logMessage = sprintf("Instant Message sent to %s: %s",
