@@ -5,6 +5,8 @@ namespace AppBundle\Controller;
 use AppBundle\Form\CustomerContactsType;
 use AppBundle\ResponseObjects\CustomerContacts;
 use AppBundle\ResponseObjects\CustomerContactsUpdateStats;
+use AppBundle\Entity\Customer;
+use AppBundle\ResponseObjects\CustomerProfile;
 use FOS\RestBundle\Controller\Annotations as FOSRestBundleAnnotations;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Routing\ClassResourceInterface;
@@ -93,5 +95,35 @@ class ContactsController extends FOSRestController implements ClassResourceInter
     {
         $customer = $this->getUser();
         return new CustomerContacts($customer->getContacts()->getValues());
+    }
+
+    /**
+     * Response with the customer contacts that has {customerProfile} for id
+     *
+     * @return CustomerProfile
+     *
+     * @Security("has_role('ROLE_USER')")
+     *
+     * @FOSRestBundleAnnotations\Route("/customers/me/contactsProfile")
+     *
+     * @ApiDoc(
+     *  section="Contacts",
+     *  description="Get a customer profile contacts",
+     *  statusCodes={
+     *         200="Returned when successful"
+     *  },
+     *  tags={
+     *   "stable" = "#4A7023",
+     *   "v1" = "#ff0000"
+     *  }
+     * )
+     */
+    public function getContactUsersAction(){
+
+        $em = $this->getDoctrine()->getManager();
+        $customerProfile = $em->getRepository('AppBundle:CustomerProfile')->findAll();
+
+        return $customerProfile;
+
     }
 }
