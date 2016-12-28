@@ -2,7 +2,14 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Message;
+use AppBundle\Entity\MessageReceiver;
+use AppBundle\Entity\EmailMessage;
+use AppBundle\Entity\InstantMessage;
+use AppBundle\Entity\ScheduledMessage;
+use AppBundle\Entity\SMSMessage;
 use AppBundle\Form\EmailMessageType;
+use AppBundle\Form\MessageType;
 use AppBundle\Form\InstantMessageType;
 use AppBundle\Form\SMSMessageType;
 use AppBundle\ResponseObjects\Messages;
@@ -12,6 +19,7 @@ use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Routing\ClassResourceInterface;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -36,9 +44,9 @@ class MessagesController extends FOSRestController implements ClassResourceInter
         $body = $form->get('message')->get('body')->getData();
         $at = $form->get('message')->get('at')->getData();
         $now = new \DateTime('now');
-        if ($at && $at < $now) {
-            throw new HttpException(500, 'Scheduled Message needs to be some where in the future');
-        }
+//        if ($at && $at < $now) {
+//            throw new HttpException(500, 'Scheduled Message needs to be some where in the future');
+//        }
 
         $receivers = json_decode($form->get('message')->get('receivers')->getData(), true);
         if (!is_array($receivers)) {
@@ -331,4 +339,46 @@ class MessagesController extends FOSRestController implements ClassResourceInter
 
         return ["successful" => true];
     }
+
+    /**
+     * Delete schedule message
+     *
+     * @param ScheduledMessage $scheduledMessage
+     *
+     * @return response
+     *
+     * @FOSRestBundleAnnotations\Route("/messages/{message}/delete")
+     *
+     * @ApiDoc(
+     *  section="Message",
+     *  description="Delete schedule message",
+     *  requirements={
+     *      {
+     *          "name"="message",
+     *          "dataType"="string",
+     *          "requirement"="*",
+     *          "description"="message id"
+     *      }
+     *  },
+     *  statusCodes={
+     *         200="Returned when successful"
+     *  },
+     *  tags={
+     *   "stable" = "#4A7023",
+     *   "v1" = "#ff0000"
+     *  }
+     * )
+     */
+    public function deleteAction(ScheduledMessage $scheduledMessage){
+        try{
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($scheduledMessage);
+            $em->flush();
+            return ['status' => true ];
+        }
+        catch (Exception $e){
+            throw new HttpException(400, "Bad Request");
+        }
+    }
+
 }
