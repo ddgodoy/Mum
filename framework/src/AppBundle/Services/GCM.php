@@ -79,6 +79,7 @@ class GCM
             $message->setDryRun($dry);
 
             $response = $this->client->send($message);
+            //echo "<pre>";print_r($response);echo "</pre>";die('resultados');
             $stats["successful"] += $response->getSuccessCount();
             $stats["failed"] += $response->getFailureCount();
         }
